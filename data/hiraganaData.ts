@@ -58,14 +58,14 @@ export const hiraganaSections: HiraganaSection[] = [
       { id: "ko", kana: "こ", romaji: "ko"  },
 
       { id: "sa", kana: "さ", romaji: "sa" },
-      { id: "shi", kana: "し", romaji: "shi" },
+      { id: "si", kana: "し", romaji: "si" },
       { id: "su", kana: "す", romaji: "su"},
       { id: "se", kana: "せ", romaji: "se" },
       { id: "so", kana: "そ", romaji: "so" },
 
       { id: "ta", kana: "た", romaji: "ta" },
-      { id: "chi", kana: "ち", romaji: "chi" },
-      { id: "tsu", kana: "つ", romaji: "tsu" },
+      { id: "ti", kana: "ち", romaji: "ti" },
+      { id: "tu", kana: "つ", romaji: "tu" },
       { id: "te", kana: "て", romaji: "te"},
       { id: "to", kana: "と", romaji: "to"},
 
@@ -77,7 +77,7 @@ export const hiraganaSections: HiraganaSection[] = [
 
       { id: "ha", kana: "は", romaji: "ha" },
       { id: "hi", kana: "ひ", romaji: "hi" },
-      { id: "fu", kana: "ふ", romaji: "fu"},
+      { id: "hu", kana: "ふ", romaji: "hu"},
       { id: "he", kana: "へ", romaji: "he"},
       { id: "ho", kana: "ほ", romaji: "ho"},
 
@@ -124,14 +124,14 @@ export const hiraganaSections: HiraganaSection[] = [
       { id: "go", kana: "ご", romaji: "go" },
 
       { id: "za", kana: "ざ", romaji: "za" },
-      { id: "ji", kana: "じ", romaji: "ji" },
+      { id: "zi", kana: "じ", romaji: "zi" },
       { id: "zu", kana: "ず", romaji: "zu" },
       { id: "ze", kana: "ぜ", romaji: "ze" },
       { id: "zo", kana: "ぞ", romaji: "zo" },
 
       { id: "da", kana: "だ", romaji: "da" },
-      { id: "dji", kana: "ぢ", romaji: "ji" },
-      { id: "dzu", kana: "づ", romaji: "zu" },
+      { id: "di", kana: "ぢ", romaji: "di" },
+      { id: "du", kana: "づ", romaji: "du" },
       { id: "de", kana: "で", romaji: "de" },
       { id: "do", kana: "ど", romaji: "do" },
 
@@ -166,21 +166,21 @@ export const hiraganaSections: HiraganaSection[] = [
  
   null,
  null,
-  { id: "sha", kana: "しゃ", romaji: "sha" },
-  { id: "shu", kana: "しゅ", romaji: "shu" },
-  { id: "sho", kana: "しょ", romaji: "sho" },
+  { id: "sya", kana: "しゃ", romaji: "sya" },
+  { id: "syu", kana: "しゅ", romaji: "syu" },
+  { id: "syo", kana: "しょ", romaji: "syo" },
   null,
  
  null,
-  { id: "ja", kana: "じゃ", romaji: "ja" },
-  { id: "ju", kana: "じゅ", romaji: "ju" },
-  { id: "jo", kana: "じょ", romaji: "jo" },
+  { id: "zya", kana: "じゃ", romaji: "zya" },
+  { id: "zyu", kana: "じゅ", romaji: "zyu" },
+  { id: "zyo", kana: "じょ", romaji: "zyo" },
   null,
  
 null,
-  { id: "cha", kana: "ちゃ", romaji: "cha" },
-  { id: "chu", kana: "ちゅ", romaji: "chu" },
-  { id: "cho", kana: "ちょ", romaji: "cho" },
+  { id: "cya", kana: "ちゃ", romaji: "cya" },
+  { id: "cyu", kana: "ちゅ", romaji: "cyu" },
+  { id: "cyo", kana: "ちょ", romaji: "cyo" },
   null,
   
 null,
