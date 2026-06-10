@@ -11,6 +11,10 @@ export type HiraganaItem={
     // kana 是真正显示出来的平假名
   // 例如 "あ"
   kana:string;
+
+  // romaji /ˈroʊmədʒi/ = 罗马字。
+  // 比如 あ = a, きゃ = kya。
+  romaji: string;
   
    // audioSrc 是音频地址
   // ? 表示这个属性可以没有
@@ -24,85 +28,147 @@ export type HiraganaItem={
 
 };
 
-// hiraganaRows 是一个二维数组
-// 二维数组 = array inside array
-// 第一层是“行”，第二层是“这一行里的格子”
-export const hiraganaRows: (HiraganaItem | null)[][]=[
-    [
-    { id: "a", kana: "あ", audioSrc: "/audio/a.mp3" },
-    { id: "i", kana: "い", audioSrc: "/audio/i.mp3" },
-    { id: "u", kana: "う", audioSrc: "/audio/u.mp3" },
-    { id: "e", kana: "え", audioSrc: "/audio/e.mp3" },
-    { id: "o", kana: "お", audioSrc: "/audio/o.mp3" },
-  ],
-    [
-    { id: "ka", kana: "か" },
-    { id: "ki", kana: "き" },
-    { id: "ku", kana: "く" },
-    { id: "ke", kana: "け" },
-    { id: "ko", kana: "こ" },
-  ],
-  [
-    { id: "sa", kana: "さ" },
-    { id: "shi", kana: "し" },
-    { id: "su", kana: "す" },
-    { id: "se", kana: "せ" },
-    { id: "so", kana: "そ" },
-  ],
-  [
-    { id: "ta", kana: "た" },
-    { id: "chi", kana: "ち" },
-    { id: "tsu", kana: "つ" },
-    { id: "te", kana: "て" },
-    { id: "to", kana: "と" },
-  ],
-  [
-    { id: "na", kana: "な" },
-    { id: "ni", kana: "に" },
-    { id: "nu", kana: "ぬ" },
-    { id: "ne", kana: "ね" },
-    { id: "no", kana: "の" },
-  ],
-  [
-    { id: "ha", kana: "は" },
-    { id: "hi", kana: "ひ" },
-    { id: "fu", kana: "ふ" },
-    { id: "he", kana: "へ" },
-    { id: "ho", kana: "ほ" },
-  ],
-  [
-    { id: "ma", kana: "ま" },
-    { id: "mi", kana: "み" },
-    { id: "mu", kana: "む" },
-    { id: "me", kana: "め" },
-    { id: "mo", kana: "も" },
-  ],
-  [
-    { id: "ya", kana: "や" },
-    null,
-    { id: "yu", kana: "ゆ" },
-    null,
-    { id: "yo", kana: "よ" },
-  ],
-  [
-    { id: "ra", kana: "ら" },
-    { id: "ri", kana: "り" },
-    { id: "ru", kana: "る" },
-    { id: "re", kana: "れ" },
-    { id: "ro", kana: "ろ" },
-  ],
-  [
-    { id: "wa", kana: "わ" },
-    null,
-    null,
-    null,
-    { id: "wo", kana: "を" },
-  ],
-  [
-    { id: "n", kana: "ん" },
-    null,
-    null,
-    null,
-    null,
-  ],
+export type HiraganaSection = {
+  // 每一组的英文名字，比如 Basic Hiragana。
+  title: string;
+
+  // 简短解释，页面上可以显示，也可以以后再用。
+  description: string;
+
+  // 这一组里面有哪些假名。
+  items: HiraganaItem[];
+};
+
+export const hiraganaSections: HiraganaSection[] = [
+  {
+    title: "Basic Hiragana",
+    description: "The basic hiragana sounds.",
+    items: [
+      { id: "a", kana: "あ", romaji: "a", audioSrc: "/audio/a.mp3" },
+      { id: "i", kana: "い", romaji: "i", audioSrc: "/audio/i.mp3" },
+      { id: "u", kana: "う", romaji: "u", audioSrc: "/audio/u.mp3" },
+      { id: "e", kana: "え", romaji: "e", audioSrc: "/audio/e.mp3" },
+      { id: "o", kana: "お", romaji: "o", audioSrc: "/audio/o.mp3" },
+
+      { id: "ka", kana: "か", romaji: "ka" },
+      { id: "ki", kana: "き", romaji: "ki" },
+      { id: "ku", kana: "く", romaji: "ku"},
+      { id: "ke", kana: "け", romaji: "ke"},
+      { id: "ko", kana: "こ", romaji: "ko"  },
+
+      { id: "sa", kana: "さ", romaji: "sa" },
+      { id: "shi", kana: "し", romaji: "shi" },
+      { id: "su", kana: "す", romaji: "su"},
+      { id: "se", kana: "せ", romaji: "se" },
+      { id: "so", kana: "そ", romaji: "so" },
+
+      { id: "ta", kana: "た", romaji: "ta" },
+      { id: "chi", kana: "ち", romaji: "chi" },
+      { id: "tsu", kana: "つ", romaji: "tsu" },
+      { id: "te", kana: "て", romaji: "te"},
+      { id: "to", kana: "と", romaji: "to"},
+
+      { id: "na", kana: "な", romaji: "na" },
+      { id: "ni", kana: "に", romaji: "ni"},
+      { id: "nu", kana: "ぬ", romaji: "nu" },
+      { id: "ne", kana: "ね", romaji: "ne"},
+      { id: "no", kana: "の", romaji: "no" },
+
+      { id: "ha", kana: "は", romaji: "ha" },
+      { id: "hi", kana: "ひ", romaji: "hi" },
+      { id: "fu", kana: "ふ", romaji: "fu"},
+      { id: "he", kana: "へ", romaji: "he"},
+      { id: "ho", kana: "ほ", romaji: "ho"},
+
+      { id: "ma", kana: "ま", romaji: "ma" },
+      { id: "mi", kana: "み", romaji: "mi"},
+      { id: "mu", kana: "む", romaji: "mu" },
+      { id: "me", kana: "め", romaji: "me" },
+      { id: "mo", kana: "も", romaji: "mo" },
+
+      { id: "ya", kana: "や", romaji: "ya" },
+      { id: "yu", kana: "ゆ", romaji: "yu"},
+      { id: "yo", kana: "よ", romaji: "yo" },
+
+      { id: "ra", kana: "ら", romaji: "ra"},
+      { id: "ri", kana: "り", romaji: "ri"},
+      { id: "ru", kana: "る", romaji: "ru"},
+      { id: "re", kana: "れ", romaji: "re" },
+      { id: "ro", kana: "ろ", romaji: "ro" },
+
+      { id: "wa", kana: "わ", romaji: "wa"},
+      { id: "wo", kana: "を", romaji: "wo" },
+      { id: "n", kana: "ん", romaji: "n"},
+    ],
+  },
+
+  {
+    title: "Dakuten / Han-dakuten",
+    description: "Sounds with dakuten or han-dakuten marks.",
+    items: [
+      { id: "ga", kana: "が", romaji: "ga" },
+      { id: "gi", kana: "ぎ", romaji: "gi" },
+      { id: "gu", kana: "ぐ", romaji: "gu" },
+      { id: "ge", kana: "げ", romaji: "ge"},
+      { id: "go", kana: "ご", romaji: "go" },
+
+      { id: "za", kana: "ざ", romaji: "za" },
+      { id: "ji", kana: "じ", romaji: "ji" },
+      { id: "zu", kana: "ず", romaji: "zu" },
+      { id: "ze", kana: "ぜ", romaji: "ze" },
+      { id: "zo", kana: "ぞ", romaji: "zo" },
+
+      { id: "da", kana: "だ", romaji: "da" },
+      { id: "dji", kana: "ぢ", romaji: "ji" },
+      { id: "dzu", kana: "づ", romaji: "zu" },
+      { id: "de", kana: "で", romaji: "de" },
+      { id: "do", kana: "ど", romaji: "do" },
+
+      { id: "ba", kana: "ば", romaji: "ba" },
+      { id: "bi", kana: "び", romaji: "bi"},
+      { id: "bu", kana: "ぶ", romaji: "bu"},
+      { id: "be", kana: "べ", romaji: "be" },
+      { id: "bo", kana: "ぼ", romaji: "bo"},
+
+      { id: "pa", kana: "ぱ", romaji: "pa"},
+      { id: "pi", kana: "ぴ", romaji: "pi"},
+      { id: "pu", kana: "ぷ", romaji: "pu"},
+      { id: "pe", kana: "ぺ", romaji: "pe"},
+      { id: "po", kana: "ぽ", romaji: "po" },
+    ],
+  },
+
+  {
+    title: "Combination",
+    description: "Small ゃ, ゅ, ょ combined sounds.",
+    items: [
+      { id: "kya", kana: "きゃ", romaji: "kya" },
+      { id: "kyu", kana: "きゅ", romaji: "kyu"},
+      { id: "kyo", kana: "きょ", romaji: "kyo" },
+
+      { id: "sha", kana: "しゃ", romaji: "sha" },
+      { id: "shu", kana: "しゅ", romaji: "shu"},
+      { id: "sho", kana: "しょ", romaji: "sho" },
+
+      { id: "cha", kana: "ちゃ", romaji: "cha"},
+      { id: "chu", kana: "ちゅ", romaji: "chu"},
+      { id: "cho", kana: "ちょ", romaji: "cho"},
+
+      { id: "nya", kana: "にゃ", romaji: "nya"},
+      { id: "nyu", kana: "にゅ", romaji: "nyu" },
+      { id: "nyo", kana: "にょ", romaji: "nyo" },
+
+      { id: "hya", kana: "ひゃ", romaji: "hya"},
+      { id: "hyu", kana: "ひゅ", romaji: "hyu" },
+      { id: "hyo", kana: "ひょ", romaji: "hyo"},
+
+      { id: "mya", kana: "みゃ", romaji: "mya" },
+      { id: "myu", kana: "みゅ", romaji: "myu"},
+      { id: "myo", kana: "みょ", romaji: "myo"},
+
+      { id: "rya", kana: "りゃ", romaji: "rya"},
+      { id: "ryu", kana: "りゅ", romaji: "ryu" },
+      { id: "ryo", kana: "りょ", romaji: "ryo"},
+    ],
+  },
 ];
