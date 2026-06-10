@@ -10,8 +10,8 @@ export default function Home() {
         Link 的意思是“链接”
         href="/kana" 的意思是：点击后去 /kana 页面
       */}
-      <Link href="/kana">
-      <button>选项A.救救TA【只有这一个选项^^】</button>
+      <Link href="/intro">
+      <button>从最基础开始！看看日文系统</button>
       </Link>
     </main>
   );
