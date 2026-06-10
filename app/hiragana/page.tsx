@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 // 导入 Hiragana 数据。
-import { hiraganaRows, type HiraganaItem } from "@/data/hiraganaData";
+import { hiraganaSections, type HiraganaItem } from "@/data/hiraganaData";
 
 // Mode 是我们自己定义的类型。
 // 它表示当前页面模式只能是这两个值之一：
@@ -233,6 +233,7 @@ export default function HiraganaPage(){
             flex:1,
             padding:"36px 28px",
             overflowX:"auto",
+            overflowY:"auto",
         }}>
                 {/* 页面标题区 */}
 <div style={{
@@ -278,85 +279,134 @@ export default function HiraganaPage(){
             五十音表外层。
             minWidth 保证表格不会在小屏幕被挤坏。
           */}
-          <div style={{
-            minWidth:"680px",
-            maxWidth:"980px",
-            margin:"0 auto",
-          }}>
+          <div
+  style={{
+    minWidth: "680px",
+    maxWidth: "980px",
+    margin: "0 auto",
+  }}
+>
+  {/* 
+    现在数据不是 hiraganaRows，而是 hiraganaSections。
+    hiraganaSections 是三个大区块：
+    1. Basic Hiragana
+    2. Dakuten / Han-dakuten
+    3. Combination
+  */}
+  {hiraganaSections.map((section) => (
+    <div
+      key={section.title}
+      style={{
+        marginBottom: "42px",
+      }}
+    >
+      {/* 每个区块的标题，比如 Basic Hiragana */}
+      <h2
+        style={{
+          fontSize: "24px",
+          color: "#2f2435",
+          margin: "0 0 6px",
+        }}
+      >
+        {section.title}
+      </h2>
+
+      {/* 每个区块的小解释 */}
+      <p
+        style={{
+          color: "#7a6f7d",
+          margin: "0 0 18px",
+        }}
+      >
+        {section.description}
+      </p>
+
+      {/* 
+        这一块是真正的假名 grid。
+        现在每个 section 里面都有自己的 items。
+        items 里可能有 null，null 用来占标准五十音表里的空格子。
+      */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(5, 1fr)",
+          gap: "18px",
+        }}
+      >
+        {section.items.map((item, index) => {
+            // 如果 item 是 null，说明这是一个故意留空的格子。
+// 比如 や 行：や  空  ゆ  空  よ。
+// 这个空 div 不显示内容，但会占住 grid 的位置。
+if (item === null) {
+  return (
+    <div
+      key={`empty-${section.title}-${index}`}
+      style={{
+        minHeight: "110px",
+      }}
+    />
+  );
+}
+
+          // 判断这个假名是不是刚刚被点过。
+          const isSelected = selectedId === item.id;
+
+          return (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => handleKanaClick(item)}
+              style={{
+                minHeight: "110px",
+                borderRadius: "26px",
+                border: isSelected
+                  ? "2px solid #d85b9f"
+                  : "1px solid transparent",
+                backgroundColor: isSelected
+                  ? "#fff0f6"
+                  : "rgba(255,255,255,0.65)",
+                boxShadow: isSelected
+                  ? "0 12px 24px rgba(216, 91, 159, 0.18)"
+                  : "0 8px 18px rgba(80, 60, 90, 0.06)",
+                cursor: "pointer",
+              }}
+            >
               {/* 
-              grid 是真正的表格布局。
-              5 列，对应 a i u e o 的五列位置。
-            */}
-            <div style={{
-                display:"grid",
-                gridTemplateColumns:"repeat(5,1fr)",
-                gap:"18px",
-            }}>
-                {hiraganaRows.map((row, rowIndex)=>
-                row.map((item, cellIndex)=>{
-                     // 如果这个位置是 null，就显示空格子。
-                      if (item === null) {
-                    return (
-                      <div
-                        key={`empty-${rowIndex}-${cellIndex}`}
-                        style={{
-                          minHeight: "110px",
-                        }}
-                       /> 
-                );}
-                 // 判断这个假名是不是刚刚被点过。
-                 const isSelected = selectedId === item.id;
-                 return (
-                    <button key={item.id}
-                    type="button"
-                    onClick={()=>handleKanaClick(item)}
-                    style={{minHeight:"110px",
-                        borderRadius:"26px",
-                        border: isSelected
-                        ?"2px solid #d85b9f"
-                        :"1px solid transparent",
-                        backgroundColor: isSelected
-                        ?"#fff0f6"
-                        :"rgba(255,255,255,0.65)",
-                         boxShadow: isSelected
-                          ? "0 12px 24px rgba(216, 91, 159, 0.18)"
-                          : "0 8px 18px rgba(80, 60, 90, 0.06)",
-                           cursor: "pointer",
-                    }}>
-                        {/* 
-                        现在先显示电脑字体的假名。
-                        未来你自己画完之后，可以在这里改成 <img>。!!!!!
-                      */}
-                      {item.imageSrc ?(
-                         // 如果未来这个假名有 imageSrc，就显示你画的图片。
-                          <img
-                          src={item.imageSrc}
-                          alt={item.kana}
-                          style={{
-                            width: "72px",
-                            height: "72px",
-                            objectFit: "contain",
-                          }}
-                        />
-                      ) : (
-                        // 现在没有图片时，就先显示文字假名。
-                        <span
-                          style={{
-                            fontSize: "54px",
-                            color: "#174a7c",
-                            lineHeight: "1",
-                            fontWeight: "500",
-                          }}
-                        >
-                          {item.kana}
-                        </span>
-                      )}
-                    </button>
-                 );
-                })
-            )}
-            </div>
-          </div>
+                现在先显示电脑字体的假名。
+                未来你自己画完之后，可以在这里改成 <img>。
+              */}
+              {item.imageSrc ? (
+                // 如果未来这个假名有 imageSrc，就显示你画的图片。
+                <img
+                  src={item.imageSrc}
+                  alt={item.kana}
+                  style={{
+                    width: "72px",
+                    height: "72px",
+                    objectFit: "contain",
+                  }}
+                />
+              ) : (
+                // 现在没有图片时，就先显示文字假名。
+                <span
+                  style={{
+                    fontSize: "54px",
+                    color: "#174a7c",
+                    lineHeight: "1",
+                    fontWeight: "500",
+                  }}
+                >
+                  {item.kana}
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  ))}
+</div>
+          
         </section>
       </div>
      </main>

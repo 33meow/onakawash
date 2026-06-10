@@ -36,7 +36,8 @@ export type HiraganaSection = {
   description: string;
 
   // 这一组里面有哪些假名。
-  items: HiraganaItem[];
+  // null 表示这个格子故意空着，用来保持标准五十音表的位置。
+  items: (HiraganaItem | null)[];
 };
 
 export const hiraganaSections: HiraganaSection[] = [
@@ -87,7 +88,9 @@ export const hiraganaSections: HiraganaSection[] = [
       { id: "mo", kana: "も", romaji: "mo" },
 
       { id: "ya", kana: "や", romaji: "ya" },
+      null,
       { id: "yu", kana: "ゆ", romaji: "yu"},
+      null,
       { id: "yo", kana: "よ", romaji: "yo" },
 
       { id: "ra", kana: "ら", romaji: "ra"},
@@ -97,8 +100,16 @@ export const hiraganaSections: HiraganaSection[] = [
       { id: "ro", kana: "ろ", romaji: "ro" },
 
       { id: "wa", kana: "わ", romaji: "wa"},
+      null,
+      null,
+      null,
       { id: "wo", kana: "を", romaji: "wo" },
+     
       { id: "n", kana: "ん", romaji: "n"},
+       null,
+      null,
+      null,
+      null,
     ],
   },
 
@@ -142,33 +153,71 @@ export const hiraganaSections: HiraganaSection[] = [
     title: "Combination",
     description: "Small ゃ, ゅ, ょ combined sounds.",
     items: [
-      { id: "kya", kana: "きゃ", romaji: "kya" },
-      { id: "kyu", kana: "きゅ", romaji: "kyu"},
-      { id: "kyo", kana: "きょ", romaji: "kyo" },
+  { id: "kya", kana: "きゃ", romaji: "kya" },
+  { id: "kyu", kana: "きゅ", romaji: "kyu" },
+  { id: "kyo", kana: "きょ", romaji: "kyo" },
+  null,
+  null,
 
-      { id: "sha", kana: "しゃ", romaji: "sha" },
-      { id: "shu", kana: "しゅ", romaji: "shu"},
-      { id: "sho", kana: "しょ", romaji: "sho" },
+  { id: "gya", kana: "ぎゃ", romaji: "gya" },
+  { id: "gyu", kana: "ぎゅ", romaji: "gyu" },
+  { id: "gyo", kana: "ぎょ", romaji: "gyo" },
+  null,
+  null,
 
-      { id: "cha", kana: "ちゃ", romaji: "cha"},
-      { id: "chu", kana: "ちゅ", romaji: "chu"},
-      { id: "cho", kana: "ちょ", romaji: "cho"},
+  { id: "sha", kana: "しゃ", romaji: "sha" },
+  { id: "shu", kana: "しゅ", romaji: "shu" },
+  { id: "sho", kana: "しょ", romaji: "sho" },
+  null,
+  null,
 
-      { id: "nya", kana: "にゃ", romaji: "nya"},
-      { id: "nyu", kana: "にゅ", romaji: "nyu" },
-      { id: "nyo", kana: "にょ", romaji: "nyo" },
+  { id: "ja", kana: "じゃ", romaji: "ja" },
+  { id: "ju", kana: "じゅ", romaji: "ju" },
+  { id: "jo", kana: "じょ", romaji: "jo" },
+  null,
+  null,
 
-      { id: "hya", kana: "ひゃ", romaji: "hya"},
-      { id: "hyu", kana: "ひゅ", romaji: "hyu" },
-      { id: "hyo", kana: "ひょ", romaji: "hyo"},
+  { id: "cha", kana: "ちゃ", romaji: "cha" },
+  { id: "chu", kana: "ちゅ", romaji: "chu" },
+  { id: "cho", kana: "ちょ", romaji: "cho" },
+  null,
+  null,
 
-      { id: "mya", kana: "みゃ", romaji: "mya" },
-      { id: "myu", kana: "みゅ", romaji: "myu"},
-      { id: "myo", kana: "みょ", romaji: "myo"},
+  { id: "nya", kana: "にゃ", romaji: "nya" },
+  { id: "nyu", kana: "にゅ", romaji: "nyu" },
+  { id: "nyo", kana: "にょ", romaji: "nyo" },
+  null,
+  null,
 
-      { id: "rya", kana: "りゃ", romaji: "rya"},
-      { id: "ryu", kana: "りゅ", romaji: "ryu" },
-      { id: "ryo", kana: "りょ", romaji: "ryo"},
-    ],
+  { id: "hya", kana: "ひゃ", romaji: "hya" },
+  { id: "hyu", kana: "ひゅ", romaji: "hyu" },
+  { id: "hyo", kana: "ひょ", romaji: "hyo" },
+  null,
+  null,
+
+  { id: "bya", kana: "びゃ", romaji: "bya" },
+  { id: "byu", kana: "びゅ", romaji: "byu" },
+  { id: "byo", kana: "びょ", romaji: "byo" },
+  null,
+  null,
+
+  { id: "pya", kana: "ぴゃ", romaji: "pya" },
+  { id: "pyu", kana: "ぴゅ", romaji: "pyu" },
+  { id: "pyo", kana: "ぴょ", romaji: "pyo" },
+  null,
+  null,
+
+  { id: "mya", kana: "みゃ", romaji: "mya" },
+  { id: "myu", kana: "みゅ", romaji: "myu" },
+  { id: "myo", kana: "みょ", romaji: "myo" },
+  null,
+  null,
+
+  { id: "rya", kana: "りゃ", romaji: "rya" },
+  { id: "ryu", kana: "りゅ", romaji: "ryu" },
+  { id: "ryo", kana: "りょ", romaji: "ryo" },
+  null,
+  null,
+],
   },
 ];
