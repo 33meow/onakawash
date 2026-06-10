@@ -4,7 +4,7 @@
 
 // useState = React 用来记住页面状态的工具
 import { useState } from "react";
-
+import Link from "next/link";
 import { kanaData } from "@/data/kanaData";
 
 //React component（组件）
@@ -35,6 +35,9 @@ export default function KanaPage() {
 
   return (
     <main>
+      <Link href="/">
+  ← 回到首页（Back home）
+</Link>
       <h1>现在开始记忆あ行</h1>
 
       {/* 这里显示五个 kana 按钮 */}
