@@ -153,71 +153,72 @@ export const hiraganaSections: HiraganaSection[] = [
     title: "Combination",
     description: "Small ゃ, ゅ, ょ combined sounds.",
     items: [
+       null,
   { id: "kya", kana: "きゃ", romaji: "kya" },
   { id: "kyu", kana: "きゅ", romaji: "kyu" },
   { id: "kyo", kana: "きょ", romaji: "kyo" },
+ 
   null,
-  null,
-
+ null,
   { id: "gya", kana: "ぎゃ", romaji: "gya" },
   { id: "gyu", kana: "ぎゅ", romaji: "gyu" },
   { id: "gyo", kana: "ぎょ", romaji: "gyo" },
+ 
   null,
-  null,
-
+ null,
   { id: "sha", kana: "しゃ", romaji: "sha" },
   { id: "shu", kana: "しゅ", romaji: "shu" },
   { id: "sho", kana: "しょ", romaji: "sho" },
   null,
-  null,
-
+ 
+ null,
   { id: "ja", kana: "じゃ", romaji: "ja" },
   { id: "ju", kana: "じゅ", romaji: "ju" },
   { id: "jo", kana: "じょ", romaji: "jo" },
   null,
-  null,
-
+ 
+null,
   { id: "cha", kana: "ちゃ", romaji: "cha" },
   { id: "chu", kana: "ちゅ", romaji: "chu" },
   { id: "cho", kana: "ちょ", romaji: "cho" },
   null,
-  null,
-
+  
+null,
   { id: "nya", kana: "にゃ", romaji: "nya" },
   { id: "nyu", kana: "にゅ", romaji: "nyu" },
   { id: "nyo", kana: "にょ", romaji: "nyo" },
   null,
-  null,
-
+  
+null,
   { id: "hya", kana: "ひゃ", romaji: "hya" },
   { id: "hyu", kana: "ひゅ", romaji: "hyu" },
   { id: "hyo", kana: "ひょ", romaji: "hyo" },
   null,
-  null,
-
+  
+ null,
   { id: "bya", kana: "びゃ", romaji: "bya" },
   { id: "byu", kana: "びゅ", romaji: "byu" },
   { id: "byo", kana: "びょ", romaji: "byo" },
   null,
-  null,
-
+ 
+ null,
   { id: "pya", kana: "ぴゃ", romaji: "pya" },
   { id: "pyu", kana: "ぴゅ", romaji: "pyu" },
   { id: "pyo", kana: "ぴょ", romaji: "pyo" },
   null,
-  null,
+ 
+ null,
 
   { id: "mya", kana: "みゃ", romaji: "mya" },
   { id: "myu", kana: "みゅ", romaji: "myu" },
   { id: "myo", kana: "みょ", romaji: "myo" },
   null,
-  null,
-
+   null,
   { id: "rya", kana: "りゃ", romaji: "rya" },
   { id: "ryu", kana: "りゅ", romaji: "ryu" },
   { id: "ryo", kana: "りょ", romaji: "ryo" },
   null,
-  null,
+
 ],
   },
 ];
