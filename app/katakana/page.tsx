@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 // 导入 Hiragana 数据。
-import { hiraganaSections, type HiraganaItem } from "@/data/hiraganaData";
+import { katakanaSections, type KatakanaItem } from "@/data/katakanaData";
 
 // Mode 是我们自己定义的类型。
 // 它表示当前页面模式只能是这两个值之一：
@@ -22,7 +22,7 @@ import { hiraganaSections, type HiraganaItem } from "@/data/hiraganaData";
 // "detail" = 详情模式
 type Mode = "sound" | "detail";
 
-export default function HiraganaPage(){
+export default function KatakanaPage(){
      // router.push("/xxx") 可以让页面跳到某个地址。
      const router = useRouter();
      // mode 记录当前模式。
@@ -33,7 +33,7 @@ export default function HiraganaPage(){
   const [selectedId, setSelectedId] = useState<string | null>(null);
    // playAudio 是播放音频的函数。
   // 参数 item 就是用户点击的那个假名。
-  function playAudio(item: HiraganaItem){
+  function playAudio(item: KatakanaItem){
     // 记录用户点了哪个假名。
     setSelectedId(item.id);
 
@@ -55,7 +55,7 @@ export default function HiraganaPage(){
   }
   // handleKanaClick 是点击假名时执行的总函数。
   // 它会根据当前 mode 决定行为。
-  function handleKanaClick(item: HiraganaItem){
+  function handleKanaClick(item: KatakanaItem){
      // 如果当前是声音模式：
     // 点假名只播放声音，不跳转。
     if (mode === "sound"){
@@ -66,7 +66,7 @@ export default function HiraganaPage(){
     // 点假名跳转到详情页。
     // 例如 あ 的 id 是 a，所以跳到 /hiragana/a。
     if (mode === "detail"){
-        router.push(`/hiragana/${item.id}`);
+        router.push(`/katakana/${item.id}`);
     }
   }
   return(
@@ -161,7 +161,7 @@ export default function HiraganaPage(){
             如果你不想现在出现 404，也可以先把 href 改成 "#"。
           */}
           <Link
-            href="/katakana"
+            href="hiragana"
             style={{
               display: "block",
               padding: "12px 14px",
@@ -174,7 +174,7 @@ export default function HiraganaPage(){
               marginBottom: "12px",
             }}
           >
-            ア Katakana
+            あ Hiragana
           </Link>
              {/* 跳到 intro 页面 */}
           <Link
@@ -253,7 +253,7 @@ export default function HiraganaPage(){
                 margin: "0 0 14px",
               }}
             >
-              Hiragana only
+              Katakana only
             </p>
             <h1
               style={{
@@ -262,7 +262,7 @@ export default function HiraganaPage(){
                 margin: "0 0 10px",
               }}
             >
-              平仮名
+              片仮名
             </h1>
              <p
               style={{
@@ -293,7 +293,7 @@ export default function HiraganaPage(){
     2. Dakuten / Han-dakuten
     3. Combination
   */}
-  {hiraganaSections.map((section) => (
+  {katakanaSections.map((section) => (
     <div
       key={section.title}
       style={{
