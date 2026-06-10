@@ -11,7 +11,8 @@ import { useRouter } from "next/navigation";
 
 // useState 是 React 用来记录页面状态的工具
 // 这里用来记录“用户刚刚点了哪个假名”
-import { useState } from "react";
+// 这里我们用 useRef 保存“当前正在播放的 audio”。
+import { useRef, useState } from "react";
 
 // 导入 Hiragana 数据。
 import { hiraganaSections, type HiraganaItem } from "@/data/hiraganaData";
@@ -31,6 +32,10 @@ export default function HiraganaPage(){
   // selectedId 记录刚刚被用户点过的假名。
   // 这个不是必须功能，但可以用来给被点过的假名加一点高亮。
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  // currentAudioRef 用来保存“当前正在播放的音频”。
+// 一开始没有音频在播放，所以是 null。
+// HTMLAudioElement 是浏览器里的音频对象类型。
+const currentAudioRef = useRef<HTMLAudioElement | null>(null);
    // playAudio 是播放音频的函数。
   // 参数 item 就是用户点击的那个假名。
   function playAudio(item: HiraganaItem){
@@ -44,14 +49,27 @@ export default function HiraganaPage(){
         alert("这个假名的音频还没有添加。Audio is not added yet.")
         return;
     }
-     // 创建音频对象。
-    // item.audioSrc 例如：/audio/a.mp3
-    const audio = new Audio(item.audioSrc);
-    // 播放音频。
-    // catch 用来处理播放失败，比如文件路径写错。
-    audio.play().catch(() =>{
-        alert("音频播放失败。请检查 audio 文件路径");
-    });
+    // 如果之前已经有音频在播放，就先停掉它。
+// pause() = 暂停播放。
+// currentTime = 0 表示把旧音频进度拉回开头。
+if (currentAudioRef.current) {
+  currentAudioRef.current.pause();
+  currentAudioRef.current.currentTime = 0;
+}
+
+// 创建新的音频对象。
+// item.audioSrc 例如：/audio/a.mp3
+const audio = new Audio(item.audioSrc);
+
+// 把新的音频存进 currentAudioRef。
+// 这样下一次点击别的假名时，我们就能找到它并停止它。
+currentAudioRef.current = audio;
+
+// 播放音频。
+// catch 用来处理播放失败，比如文件路径写错。
+audio.play().catch(() => {
+  alert("音频播放失败。请检查 audio 文件路径");
+});
   }
   // handleKanaClick 是点击假名时执行的总函数。
   // 它会根据当前 mode 决定行为。
