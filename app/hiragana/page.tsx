@@ -92,6 +92,16 @@ export default function HiraganaPage(){
           - 跳转页面：用 Link
         */}<aside style={{
             width:"180px",
+            //左边高度等于整个屏幕
+            height:"100vh",
+            //滚动时贴住，不跟着右边跑
+            position:"sticky",
+            //固定在距离顶部 0 的位置。
+            top:0,
+            //左边不要被右边挤窄。
+            flexShrink:0,
+            //左边内容太多时，左边自己能滚动。
+            overflowY:"auto",
             padding:"28px 18px",
             backgroundColor:"rgba(255,255,255,0.78)",
             borderRight:"1px solid rgba(243,182,208,0.7)",

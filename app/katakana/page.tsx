@@ -92,6 +92,10 @@ export default function KatakanaPage(){
           - 跳转页面：用 Link
         */}<aside style={{
             width:"180px",
+            height:"100vh",
+            position:"sticky",
+            top:0,
+            flexShrink:"auto",
             padding:"28px 18px",
             backgroundColor:"rgba(255,255,255,0.78)",
             borderRight:"1px solid rgba(243,182,208,0.7)",
