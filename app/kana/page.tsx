@@ -35,7 +35,18 @@ export default function KanaPage() {
 
   return (
     <main>
-      <Link href="/">
+      <Link href="/"
+       style={{
+    display: "inline-block",
+    padding: "10px 16px",
+    borderRadius: "999px",
+    backgroundColor: "#fff0f6",
+    color: "#7a2e5d",
+    textDecoration: "none",
+    border: "1px solid #f3b6d0",
+    marginBottom: "20px",
+    fontWeight: "600",
+  }}>
   ← 回到首页（Back home）
 </Link>
       <h1>现在开始记忆あ行</h1>
