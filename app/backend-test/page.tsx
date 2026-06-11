@@ -3,19 +3,23 @@
 import { useEffect, useState } from "react";
 
 //这是 TypeScript 类型，不是 React 本身。
-{/*
-    Java 后端返回：{"kana":"あ","romaji":"a"}
-    前端 TypeScript 接住：type Kana = {
-                                       kana: string;
-                                       romaji: string;
-                                    };
-    */} 
-type Kana = {
-    id: string;
-  kana: string;
-  romaji: string;
-  audio: string;
-};
+// Java 后端现在返回的是 KanaSection[]
+// 每个 section 里面有 items
+
+
+type KanaItem ={
+    id:string;
+    kana:string;
+    romaji:string;
+    audioSrc:string;
+    imageSrc:string | null;
+}
+
+type KanaSection = {
+    title:string;
+    description:string;
+    items:KanaItem [];
+}
 
 //定义一个 React 页面组件
 //export default 是让 Next.js 能找到这个页面。
@@ -26,7 +30,7 @@ export default function BackendTestPage() {
     //react特点：只要 state 变了，页面会自动重新显示。
     //为什么一开始是空？
     //因为页面刚打开时，前端还没来得及问后端拿数据。
-  const [kanaList, setKanaList] = useState<Kana[]>([]);
+  const [sections, setSections] = useState<KanaSection[]>([]);
 //1. 页面打开
 //2. useEffect 运行
 //3. fetch 去访问 http://localhost:8080/kana-list
@@ -35,10 +39,10 @@ export default function BackendTestPage() {
 //6. setKanaList(data) 把数据放进 state
 //7. React 自动重新渲染页面
   useEffect(() => {
-    fetch("http://localhost:8080/kana-list")
+    fetch("http://localhost:8080/hiragana")
       .then((res) => res.json())
       .then((data) => {
-        setKanaList(data);
+        setSections(data);
       });
   }, []);
 // return 页面内容;
@@ -56,15 +60,22 @@ export default function BackendTestPage() {
     <main style={{ padding: "40px" }}>
       <h1>Backend Test</h1>
 
-      {kanaList.map((item) => (
-        <div key={item.id} style={{ fontSize: "32px", marginBottom: "12px" }}>
-          {item.kana} - {item.romaji}
-          <br />
-          <span style={{ fontSize: "16px"
-           }}>
-          audio:{item.audio}</span>
-        </div>
+      {sections.map((section) => (
+        <section key={section.title} style={{ marginBottom: "32px"}}>
+            <h2>{section.title}</h2>
+            <p>{section.description}</p>
+          
+          {section.items.map((item) => (
+            <div key={item.id} style={{ fontSize:"32px",marginBottom:"12px"}}> 
+            {item.kana}-{item.romaji}
+            <br />
+            <span style={{ fontSize:"16px"}}>
+                audio:{item.audioSrc}
+            </span>
+            </div>
       ))}
+    </section>
+  ))}
     </main>
   );
 }
