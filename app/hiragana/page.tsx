@@ -12,10 +12,31 @@ import { useRouter } from "next/navigation";
 // useState 是 React 用来记录页面状态的工具
 // 这里用来记录“用户刚刚点了哪个假名”
 // 这里我们用 useRef 保存“当前正在播放的 audio”。
-import { useRef, useState } from "react";
+//import { useRef, useState } from "react";
 
 // 导入 Hiragana 数据。
-import { hiraganaSections, type HiraganaItem } from "@/data/hiraganaData";
+//import { hiraganaSections, type HiraganaItem } from "@/data/hiraganaData";
+
+//把数据来源从前端的data变成后端得KanaService
+import {useEffect, useRef, useState} from "react";
+
+//然后你原来函数里的 HiraganaItem 全部改成 KanaItem。
+type KanaItem ={
+    id:string;
+    kana:string;
+    romaji:string;
+    audioSrc:string;
+    imageSrc:string | null;
+  };
+
+  type KanaSection = {
+    title:string;
+    description:string;
+    items:(KanaItem | null)[];
+  };  
+
+
+
 
 // Mode 是我们自己定义的类型。
 // 它表示当前页面模式只能是这两个值之一：
@@ -32,13 +53,49 @@ export default function HiraganaPage(){
   // selectedId 记录刚刚被用户点过的假名。
   // 这个不是必须功能，但可以用来给被点过的假名加一点高亮。
   const [selectedId, setSelectedId] = useState<string | null>(null);
+
+
+// sections 用来保存从后端拿到的 Hiragana 数据。
+// 一开始是空数组，因为页面刚打开时还没来得及 fetch。
+//创建一个盒子，叫 sections。
+//一开始盒子是空的 []。
+//等后端数据来了，用 setSections(data) 把数据放进去。
+const [sections, setSections] = useState<KanaSection[]>([]);
+
+
   // currentAudioRef 用来保存“当前正在播放的音频”。
 // 一开始没有音频在播放，所以是 null。
 // HTMLAudioElement 是浏览器里的音频对象类型。
 const currentAudioRef = useRef<HTMLAudioElement | null>(null);
+//页面第一次打开后，自动做一次里面的事情。
+//去后端拿数据
+//拿到了就塞进 sections
+//页面重新显示。
+useEffect(() => {
+  async function fetchHiraganaSections() {
+    try {
+      //前端去访问这个网址，后端 Spring Boot 里对应的 Controller 会处理这个请求，返回数据。
+      const res = await fetch("http://localhost:8080/hiragana");
+//if出错的话跳到catch，catch里 alert 一下。
+      if (!res.ok) {
+        //主动制造一个错误，然后跳到 catch。这个不是给用户看的，主要是给程序看的。
+        throw new Error("Failed to fetch hiragana sections");
+      }
+
+      const data: KanaSection[] = await res.json();
+      //把刚刚拿到的数据放进 sections 这个盒子里。
+      setSections(data);
+    } catch (error) {
+      console.error(error);
+      alert("后端数据加载失败。请检查 Spring Boot 是否启动。");
+    }
+  }
+
+  fetchHiraganaSections();
+}, []);
    // playAudio 是播放音频的函数。
   // 参数 item 就是用户点击的那个假名。
-  function playAudio(item: HiraganaItem){
+  function playAudio(item: KanaItem){
     // 记录用户点了哪个假名。
     setSelectedId(item.id);
 
@@ -73,7 +130,7 @@ audio.play().catch(() => {
   }
   // handleKanaClick 是点击假名时执行的总函数。
   // 它会根据当前 mode 决定行为。
-  function handleKanaClick(item: HiraganaItem){
+  function handleKanaClick(item: KanaItem){
      // 如果当前是声音模式：
     // 点假名只播放声音，不跳转。
     if (mode === "sound"){
@@ -321,7 +378,8 @@ audio.play().catch(() => {
     2. Dakuten / Han-dakuten
     3. Combination
   */}
-  {hiraganaSections.map((section) => (
+  {/*sections.map = 把数据画到页面上*/}
+  {sections.map((section) => (
     <div
       key={section.title}
       style={{
@@ -357,8 +415,11 @@ audio.play().catch(() => {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(5, 1fr)",
+          gridTemplateColumns: section.title.includes("Combination")
+            ? "repeat(3, 180px)"
+            : "repeat(5, 180px)",
           gap: "18px",
+          justifyContent: "center",
         }}
       >
         {section.items.map((item, index) => {
