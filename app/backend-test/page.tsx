@@ -11,8 +11,10 @@ import { useEffect, useState } from "react";
                                     };
     */} 
 type Kana = {
+    id: string;
   kana: string;
   romaji: string;
+  audio: string;
 };
 
 //定义一个 React 页面组件
@@ -55,8 +57,12 @@ export default function BackendTestPage() {
       <h1>Backend Test</h1>
 
       {kanaList.map((item) => (
-        <div key={item.romaji} style={{ fontSize: "32px", marginBottom: "12px" }}>
+        <div key={item.id} style={{ fontSize: "32px", marginBottom: "12px" }}>
           {item.kana} - {item.romaji}
+          <br />
+          <span style={{ fontSize: "16px"
+           }}>
+          audio:{item.audio}</span>
         </div>
       ))}
     </main>
