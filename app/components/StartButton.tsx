@@ -17,7 +17,7 @@ export default function StartButton({ text }: StartButtonProps) {
       aria-label={text}
       style={{
         position: "absolute",
-        right: "50%",
+        right: "45%",
         bottom: "0.1%",
         display: "block",
         width: "20%",

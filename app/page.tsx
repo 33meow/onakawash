@@ -79,7 +79,7 @@ export default function Home() {
           fontWeight:"700",
           fontSize:"14px",
           margin:"0 0 18px",
-        }}>japanese learning starts here kkkk</p>
+        }}>{t.home.title}</p>
          {/* 
           h1 是首页主标题。
           一个页面通常只放一个最重要的 h1。
@@ -105,7 +105,7 @@ export default function Home() {
     }}
   />
 
-  <StartButton text ={t.start}/>
+ <StartButton text="" />
 
 </div>
         {/* 
@@ -117,7 +117,7 @@ export default function Home() {
           color:"#65576b",
           maxWidth:"620px",
           margin:"0 auto 28px",
-        }}>ONAKAWASH</p>
+        }}>{t.home.entryHint}</p>
            {/* 
           这一段是简短介绍。
           让用户知道点按钮后会发生什么。
@@ -127,7 +127,7 @@ export default function Home() {
           color:"#7a6f7d",
           maxWidth:"560px",
           margin:"0 auto 32px",
-        }}>我是一款学习日语可以获得金币购买海绵为小狗宝宝洗肚子</p>
+        }}>{t.home.description}</p>
     
       
        {/* 
@@ -142,7 +142,7 @@ export default function Home() {
           marginTop:"24px",
           fontSize:"14px",
           color:"#9a8fa0",
-        }}> Start from Hiragana あ・い・う・え・お</p>
+        }}>{t.home.start}</p>
           </section>
     <style>{`
   .spongeButton:hover .spongeNormal {
