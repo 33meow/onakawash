@@ -259,7 +259,7 @@ audio.play().catch(() => {
               marginBottom: "12px",
             }}
           >
-            ア Katakana
+            アKatakana
           </Link>
              {/* 跳到 intro 页面 */}
           <Link

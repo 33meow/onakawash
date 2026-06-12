@@ -1,7 +1,41 @@
+//因为 useState 只能在 client component 里面用。（三语言系统）
+"use client";
 // Link 是 Next.js 提供的跳转组件
 // 它的作用像 <a> 标签，但更适合 Next.js 页面跳转
 import Link from "next/link";
+//副作用。这里感觉像“页面打开后偷偷做一件事”。
+import { useEffect, useState } from "react";
+import { messages, type Language } from "./messages";
+import LanguageSwitcher from "./components/LanguageSwitcher";
 export default function Home() {
+  // language 保存当前选择的语言
+  // 默认是中文 zh
+  const [language, setLanguage] = useState<Language>("zh");
+   // 页面第一次打开时，从浏览器的小抽屉 localStorage 里读取语言
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem("language");
+
+    // 防止 localStorage 里面存了奇怪的值
+    // 只有 zh / en / ko 才允许使用
+    if (
+      savedLanguage === "zh" ||
+      savedLanguage === "en" ||
+      savedLanguage === "ko"
+    ) {
+      setLanguage(savedLanguage);
+    }
+  }, []);
+
+  // language 每次变化时，把新语言存进 localStorage
+  useEffect(() => {
+    localStorage.setItem("language", language);
+  }, [language]);
+
+  // t 是当前语言对应的文字包
+  // language 是 zh，t 就是 messages.zh
+  // language 是 en，t 就是 messages.en
+  // language 是 ko，t 就是 messages.ko
+  const t = messages[language];
   return (
     //main是整个网页最外边的容器（or网页的背景）
     <main
@@ -16,7 +50,14 @@ export default function Home() {
         padding:"32px 20px",
         background:"#f6f2e8",
         fontFamily:"Arial, sans-serif",
-      }}>  {/* 
+      }}> 
+      {/*主页把 language 交给 LanguageSwitcher
+主页把 setLanguage 也交给 LanguageSwitcher*/}
+      <LanguageSwitcher language={language} setLanguage={setLanguage} />
+
+    
+
+       {/* 
         这个 section 是首页的主卡片。
         它把标题、介绍文字、按钮都包起来。
         这样首页就不会散在左上角，而是变成一个整齐的中心区域。
@@ -69,6 +110,7 @@ export default function Home() {
   <Link
   href="/intro"
   className="spongeButton"
+  aria-label={t.start}
   style={{
     position: "absolute",
     right: "50%",
@@ -76,12 +118,14 @@ export default function Home() {
     display: "block",
     width: "20%",
     minWidth: "90px",
+    textDecoration: "none",
   }}
 >
   <img
     className="spongeNormal"
     src="/images/buttons/sponge-normal.png"
-    alt="Start"
+    alt=""
+    aria-hidden="true"
     style={{
       width: "100%",
       height: "auto",
@@ -92,13 +136,32 @@ export default function Home() {
   <img
     className="spongeHover"
     src="/images/buttons/sponge-hover.png"
-    alt="Start hover"
+    alt=""
+    aria-hidden="true"
     style={{
       width: "100%",
       height: "auto",
       display: "none",
     }}
   />
+
+  {/* 这一层文字盖在海绵图片上 */}
+  <span
+    style={{
+      position: "absolute",
+      inset: 0,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      fontSize: "clamp(14px, 2vw, 24px)",
+      fontWeight: "bold",
+      color: "#5b3a42",
+      pointerEvents: "none",
+      whiteSpace: "nowrap",
+    }}
+  >
+    {t.start}
+  </span>
 </Link>
 </div>
         {/* 
