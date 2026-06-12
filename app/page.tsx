@@ -1,8 +1,6 @@
 //因为 useState 只能在 client component 里面用。（三语言系统）
 "use client";
-// Link 是 Next.js 提供的跳转组件
-// 它的作用像 <a> 标签，但更适合 Next.js 页面跳转
-import Link from "next/link";
+import StartButton from "./components/StartButton";
 //副作用。这里感觉像“页面打开后偷偷做一件事”。
 import { useEffect, useState } from "react";
 import { messages, type Language } from "./messages";
@@ -107,62 +105,8 @@ export default function Home() {
     }}
   />
 
-  <Link
-  href="/intro"
-  className="spongeButton"
-  aria-label={t.start}
-  style={{
-    position: "absolute",
-    right: "50%",
-    bottom: "0.1%",
-    display: "block",
-    width: "20%",
-    minWidth: "90px",
-    textDecoration: "none",
-  }}
->
-  <img
-    className="spongeNormal"
-    src="/images/buttons/sponge-normal.png"
-    alt=""
-    aria-hidden="true"
-    style={{
-      width: "100%",
-      height: "auto",
-      display: "block",
-    }}
-  />
+  <StartButton text ={t.start}/>
 
-  <img
-    className="spongeHover"
-    src="/images/buttons/sponge-hover.png"
-    alt=""
-    aria-hidden="true"
-    style={{
-      width: "100%",
-      height: "auto",
-      display: "none",
-    }}
-  />
-
-  {/* 这一层文字盖在海绵图片上 */}
-  <span
-    style={{
-      position: "absolute",
-      inset: 0,
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      fontSize: "clamp(14px, 2vw, 24px)",
-      fontWeight: "bold",
-      color: "#5b3a42",
-      pointerEvents: "none",
-      whiteSpace: "nowrap",
-    }}
-  >
-    {t.start}
-  </span>
-</Link>
 </div>
         {/* 
           副标题 / slogan。
