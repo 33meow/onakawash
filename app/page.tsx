@@ -71,7 +71,7 @@ export default function Home() {
   className="spongeButton"
   style={{
     position: "absolute",
-    left: "0.1%",
+    right: "50%",
     bottom: "0.1%",
     display: "block",
     width: "20%",
