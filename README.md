@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# onakawash
 
-## Getting Started
+Language: [English](./README.md) | [中文](./README.zh-CN.md)
 
-First, run the development server:
+## Project Introduction
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+onakawash is a Japanese kana learning website for beginners.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This project currently mainly includes Hiragana, Katakana, audio playback, a multilingual homepage, and data connection between the frontend and the Spring Boot backend.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The project is still under development.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Current Features
 
-## Learn More
+* Custom visual design homepage
+* Chinese / English / Korean language switcher
+* Hiragana learning page
+* Katakana learning page
+* Click a kana to play audio
+* Stop the previous audio when a new kana is clicked
+* Frontend connected with Spring Boot backend
+* Data organized by basic sounds, dakuten/handakuten sounds, and combination sounds
 
-To learn more about Next.js, take a look at the following resources:
+## Tech Stack and Creative Tools
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Frontend
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* Next.js
+* React
+* TypeScript
+* CSS
 
-## Deploy on Vercel
+### Backend
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* Java
+* Spring Boot
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Creative Tools
+
+* Procreate: used for original illustrations and UI visual assets
+* 123APPS Online Voice Recorder: used for creating custom kana audio materials
+
+### Tools
+
+* VS Code
+* IntelliJ IDEA
+* Git
+* GitHub
+
+## Project Status
+
+This project is still under development.
+
+Current focus:
+
+* Improving the kana learning pages
+* Adding more audio files
+* Optimizing the frontend and backend data structure
+* Improving the interface design with original illustrations
+
+## AI Assistance Statement
+
+This project is led in design, organization, and development by Ma Yiyuan (Yvonne Buttercup), with AI assistance for part of the learning, explanation, debugging, and code structure organization.
+
+## Author
+
+Created by Yvonne Buttercup.
