@@ -3,6 +3,7 @@
 // 这些都需要在浏览器端运行
 "use client";
 
+import {messages, type Language} from "../messages";
 import Link from "next/link";
 
 // useRouter 用来在函数里控制跳转。
@@ -18,7 +19,7 @@ import { useRouter } from "next/navigation";
 //import { hiraganaSections, type HiraganaItem } from "@/data/hiraganaData";
 
 //把数据来源从前端的data变成后端得KanaService
-import {useEffect, useRef, useState} from "react";
+import {useEffect,useMemo, useRef, useState} from "react";
 
 //然后你原来函数里的 HiraganaItem 全部改成 KanaItem。
 type KanaItem ={
@@ -67,6 +68,20 @@ const [sections, setSections] = useState<KanaSection[]>([]);
 // 一开始没有音频在播放，所以是 null。
 // HTMLAudioElement 是浏览器里的音频对象类型。
 const currentAudioRef = useRef<HTMLAudioElement | null>(null);
+
+const [language, setLanguage] = useState<Language>("zh");
+const t = useMemo(() => messages[language], [language]);
+useEffect(() => {
+  const savedLanguage = localStorage.getItem("language");
+
+  if (
+    savedLanguage === "zh" ||
+    savedLanguage === "en" ||
+    savedLanguage === "ko"
+  ) {
+    setLanguage(savedLanguage);
+  }
+}, []);
 //页面第一次打开后，自动做一次里面的事情。
 //去后端拿数据
 //拿到了就塞进 sections
@@ -188,7 +203,7 @@ audio.play().catch(() => {
                     color:"#b83280",
                     fontWeight:"800",
                     margin:"0 0 18px",
-                }}>模式转化Mode</p>
+                }}>{t.kanaPage.modeTitle}</p>
                   {/* 
             声音模式按钮。
             它不是跳转页面，所以用 button。
@@ -210,7 +225,7 @@ audio.play().catch(() => {
              marginBottom:"12px",
              textAlign:"left",
 
-          }}>🔊 声音</button>
+          }}>🔊 {t.kanaPage.soundMode}</button>
           
           {/* 
             详情模式按钮。
@@ -237,8 +252,9 @@ audio.play().catch(() => {
               textAlign: "left",
             }}
           >
-            📖 详情
+            📖 {t.kanaPage.detailMode}
           </button>
+          
   {/* 
             Katakana 入口。
             这是页面跳转，所以用 Link。
@@ -259,7 +275,7 @@ audio.play().catch(() => {
               marginBottom: "12px",
             }}
           >
-            アKatakana
+            ア {t.kanaPage.switchToKatakana}
           </Link>
              {/* 跳到 intro 页面 */}
           <Link
@@ -276,7 +292,7 @@ audio.play().catch(() => {
               marginBottom: "12px",
             }}
           >
-            🗺️ Intro
+            🗺️ {t.kanaPage.intro}
           </Link>
   {/* 跳回首页 */}
           <Link
@@ -292,7 +308,7 @@ audio.play().catch(() => {
               textDecoration: "none",
             }}
           >
-            🏠 Home
+            🏠 {t.kanaPage.home}
           </Link>
            {/* 
             当前模式提示。
@@ -306,7 +322,8 @@ audio.play().catch(() => {
               lineHeight: "1.5",
             }}
           >
-            Current: {mode === "sound" ? "sound mode" : "detail mode"}
+           {t.kanaPage.currentMode}:{" "}
+{mode === "sound" ? t.kanaPage.soundModeLabel : t.kanaPage.detailModeLabel}
           </p>
         </aside>
           {/* 
@@ -338,7 +355,7 @@ audio.play().catch(() => {
                 margin: "0 0 14px",
               }}
             >
-              Hiragana only
+             {t.kanaPage.hiraganaOnly}
             </p>
             <h1
               style={{
@@ -355,9 +372,7 @@ audio.play().catch(() => {
                 margin: 0,
               }}
             >
-              {mode === "sound"
-                ? "Click any kana to hear the sound."
-                : "Click any kana to open its detail page."}
+              {mode === "sound" ? t.kanaPage.clickHint : t.kanaPage.detailHint}
             </p>
 </div>
   {/* 
