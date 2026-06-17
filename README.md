@@ -121,12 +121,26 @@ Current focus:
 
 ## Roadmap
 
-* User registration and login
-* Learning data and user data integration
-* Learning progress tracking
-* Kana detail pages
-* More original illustrations and audio materials
-* Online deployment
+- [x] v0.1 — Kana Data Flow
+  - Load Hiragana and Katakana data from the H2 database
+  - Return grouped kana sections through Spring Boot APIs
+  - Render kana tables in the Next.js frontend
+
+- [ ] v0.2 — Practice Mode
+  - Add quiz-based kana practice
+  - Support Hiragana and Katakana practice
+  - Check user answers on the frontend
+
+- [ ] v0.3 — Learning Records
+  - Save practice results to the backend
+  - Store correctness and response time
+
+- [ ] v0.4 — Learning Analytics
+  - Show accuracy, weak kana, and practice history
+
+- [ ] v1.0 — Public Demo
+  - Deploy frontend and backend
+  - Add documentation, screenshots, and architecture notes
 
 ## AI Assistance Statement
 
