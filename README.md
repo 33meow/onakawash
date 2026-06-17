@@ -30,6 +30,11 @@ The backend is maintained in a separate Spring Boot repository.
 * Frontend connected with Spring Boot backend
 * Hiragana and Katakana pages load kana data from backend APIs
 * Data organized by basic sounds, dakuten/handakuten sounds, and combination sounds
+* Hiragana and Katakana practice pages
+* Practice entry links from the kana learning pages
+* 10-question multiple-choice practice sessions
+* Immediate answer feedback, locked options, score, and accuracy summary
+* Multilingual UI text for kana pages and practice pages
 
 ## Kana Data Flow
 
@@ -45,6 +50,14 @@ Current page data flow:
 Kana content, audio paths, image paths, section groups, and display order should be maintained in the backend `data.sql` file.
 
 Frontend kana pages receive grouped JSON data from the Spring Boot backend and render it in the browser.
+
+## Practice Mode
+
+v0.2 adds a basic practice mode for Hiragana and Katakana.
+
+Each practice session contains 10 questions. Each question shows one kana character and four romaji text options. After the user answers, the options are locked and the page shows immediate feedback. At the end of the session, the page shows the final score and accuracy.
+
+Practice data is loaded from the existing backend kana APIs. Practice records are not saved to the backend in v0.2. Learning records and progress tracking are planned for v0.3 and later.
 
 ## Tech Stack and Creative Tools
 
@@ -114,10 +127,10 @@ This project is still under development.
 
 Current focus:
 
-* Improving the kana learning pages
-* Adding more audio files
-* Optimizing the frontend and backend data structure
-* Improving the interface design with original illustrations
+* Stabilizing v0.2 Practice Mode
+* Testing Hiragana and Katakana practice flows
+* Preparing for v0.3 Learning Records
+* Continuing interface improvements with original illustrations
 
 ## Roadmap
 
@@ -126,10 +139,14 @@ Current focus:
   - Return grouped kana sections through Spring Boot APIs
   - Render kana tables in the Next.js frontend
 
-- [ ] v0.2 — Practice Mode
+- [x] v0.2 — Practice Mode
   - Add quiz-based kana practice
   - Support Hiragana and Katakana practice
-  - Check user answers on the frontend
+  - Add practice entry links from kana pages
+  - Use 10-question sessions with four romaji options per question
+  - Lock answer options after the user answers
+  - Show immediate feedback, score, and accuracy
+  - Keep practice records frontend-only in this version
 
 - [ ] v0.3 — Learning Records
   - Save practice results to the backend
