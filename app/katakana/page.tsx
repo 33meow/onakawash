@@ -11,10 +11,24 @@ import { useRouter } from "next/navigation";
 
 // useState 是 React 用来记录页面状态的工具
 // 这里用来记录“用户刚刚点了哪个假名”
-import { useRef, useState } from "react";
+import { useEffect,useRef, useState } from "react";
 
 // 导入 Hiragana 数据。
-import { katakanaSections, type KatakanaItem } from "@/data/katakanaData";
+//import { katakanaSections, type KatakanaItem } from "@/data/katakanaData";
+
+type KanaItem = {
+  id: string; 
+  kana: string;
+  romaji: string;
+  audioSrc: string;
+  imageSrc: string | null;
+};
+type KanaSection = {
+   title: string;
+   description: string;
+   items: (KanaItem | null)[];
+};
+
 
 // Mode 是我们自己定义的类型。
 // 它表示当前页面模式只能是这两个值之一：
@@ -28,13 +42,42 @@ export default function KatakanaPage(){
      // mode 记录当前模式。
   // 默认是 "sound"，也就是用户一进来先是声音模式。
   const [mode, setMode] = useState<Mode>("sound");
+
   // selectedId 记录刚刚被用户点过的假名。
   // 这个不是必须功能，但可以用来给被点过的假名加一点高亮。
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  //sections：页面当前拥有的 Katakana 分组数据。
+  //setSections：用来更新 sections。
+    const [sections, setSections]=useState<KanaSection[]>([]);
   const currentAudioRef = useRef<HTMLAudioElement | null>(null);
-   // playAudio 是播放音频的函数。
+  //useEffect(..., [])：页面第一次显示时运行一次。
+  useEffect(() => {
+    async function fetchKatakanaSections() {
+      //去 Spring Boot 后端拿 Katakana 数据。
+      try { const res = await fetch("http://localhost:8080/katakana");
+//检查请求是不是成功。
+        if (!res.ok) {
+          throw new Error("Failed to fetch Katakana sections");
+          }
+          //把后端返回的 JSON 转成 JavaScript 数据。
+        const data: KanaSection[] = await res.json();
+        //把数据放进 sections，页面会重新渲染
+        setSections(data);
+      
+      } 
+      //如果后端没启动、接口错了、网络失败，就弹出提示。
+      catch (error) {
+        console.error( error);
+        alert("后端数据加载失败。请检查 Spring Boot 是否启动。")
+      }
+    }
+
+    fetchKatakanaSections();
+  }, []);
+
+  // playAudio 是播放音频的函数。
   // 参数 item 就是用户点击的那个假名。
-  function playAudio(item: KatakanaItem){
+  function playAudio(item: KanaItem) {
     // 记录用户点了哪个假名。
     setSelectedId(item.id);
 
@@ -69,7 +112,7 @@ audio.play().catch(() => {
   }
   // handleKanaClick 是点击假名时执行的总函数。
   // 它会根据当前 mode 决定行为。
-  function handleKanaClick(item: KatakanaItem){
+  function handleKanaClick(item: KanaItem) {
      // 如果当前是声音模式：
     // 点假名只播放声音，不跳转。
     if (mode === "sound"){
@@ -311,7 +354,7 @@ audio.play().catch(() => {
     2. Dakuten / Han-dakuten
     3. Combination
   */}
-  {katakanaSections.map((section) => (
+  {sections.map((section) => (
     <div
       key={section.title}
       style={{
@@ -347,8 +390,11 @@ audio.play().catch(() => {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(5, 1fr)",
+          gridTemplateColumns: section.title.includes("Combination")
+          ? "repeat(3,180px)"
+          :"repeat(5,180px)",
           gap: "18px",
+          justifyContent: "center",
         }}
       >
         {section.items.map((item, index) => {
