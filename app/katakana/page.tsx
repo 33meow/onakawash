@@ -227,6 +227,21 @@ audio.play().catch(() => {
           >
             📖 {t.kanaPage.detailMode}
           </button>
+
+          <Link href="/practice/katakana"
+          style={{
+              display: "block",
+              padding: "12px 14px",
+              borderRadius: "16px",
+              border: "1px solid #dce7f8",
+              backgroundColor: "white",
+              color: "#174a7c",
+              fontWeight: "800",
+              textDecoration: "none",
+              marginBottom: "12px",
+            }}>
+  📝 {t.kanaPage.practice}
+</Link>
   {/* 
             Katakana 入口。
             这是页面跳转，所以用 Link。
