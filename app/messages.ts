@@ -4,7 +4,7 @@
 // en = 英文
 // ko = 韩文
 
-import HiraganaPracticePage from "./practice/hiragana/page";
+
 
 // Language 是我们自己定义的类型
 // 它规定：语言只能是 "zh" / "en" / "ko" 这三个
@@ -36,7 +36,9 @@ loading: "练习数据加载中...",
     loadError: "练习数据加载失败，请检查后端是否启动。",
     noQuestions: "没有可用的练习题。",
     backToHiragana: "返回平假名",
+    backToKatakana: "返回片假名",
     hiraganaTitle: "平假名练习",
+    katakanaTitle:"片假名练习",
     question: "第",
     score: "分数",
     accuracy: "正确率",
@@ -68,7 +70,9 @@ practice: {
   loadError: "Failed to load practice data. Please check whether the backend is running.",
   noQuestions: "No practice questions available.",
   backToHiragana: "Back to Hiragana",
+  backToKatakana: "Back to Katakana",
   hiraganaTitle: "Hiragana Practice",
+  katakanaTitle: "Katakana Practice",
   question: "Question",
   score: "Score",
   accuracy: "Accuracy",
@@ -102,7 +106,9 @@ by:"Yvonne Buttercup 제작",
   loadError: "연습 데이터를 불러오지 못했습니다. 백엔드가 실행 중인지 확인해 주세요.",
   noQuestions: "사용할 수 있는 연습 문제가 없습니다.",
   backToHiragana: "히라가나로 돌아가기",
+  backToKatakana: "가타카나로 돌아가기",
   hiraganaTitle: "히라가나 연습",
+  katakanaTitle: "가타카나 연습",
   question: "문제",
   score: "점수",
   accuracy: "정확도",
