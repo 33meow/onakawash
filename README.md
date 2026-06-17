@@ -28,7 +28,23 @@ The backend is maintained in a separate Spring Boot repository.
 * Click a kana to play audio
 * Stop the previous audio when a new kana is clicked
 * Frontend connected with Spring Boot backend
+* Hiragana and Katakana pages load kana data from backend APIs
 * Data organized by basic sounds, dakuten/handakuten sounds, and combination sounds
+
+## Kana Data Flow
+
+The frontend no longer uses local kana data arrays as the main data source.
+
+Current page data flow:
+
+```text
+/hiragana page  -> fetch http://localhost:8080/hiragana
+/katakana page  -> fetch http://localhost:8080/katakana
+```
+
+Kana content, audio paths, image paths, section groups, and display order should be maintained in the backend `data.sql` file.
+
+Frontend kana pages receive grouped JSON data from the Spring Boot backend and render it in the browser.
 
 ## Tech Stack and Creative Tools
 
@@ -106,7 +122,7 @@ Current focus:
 ## Roadmap
 
 * User registration and login
-* Database integration
+* Learning data and user data integration
 * Learning progress tracking
 * Kana detail pages
 * More original illustrations and audio materials
