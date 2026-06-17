@@ -159,6 +159,7 @@ export default function IntroPage(){
             一个按钮是 Start with Hiragana。
             一个按钮是 Skip。
             目前两个都跳到 /kana。(JUN10.26)
+            已经改成一个跳平假名，一个跳片假名。（JUN17.26）
           */}<div style={{
             // flex 布局适合横向排列按钮
             display:"flex",
@@ -170,7 +171,7 @@ export default function IntroPage(){
               主按钮：Start with Hiragana。
               href="/kana" 表示点击后进入 kana 页面。
             */}
-            <Link href="/kana"
+            <Link href="/hiragana"
             style={{display:"inline-block",
                 padding:"12px 18px",
                 borderRadius:"999px",
@@ -179,12 +180,12 @@ export default function IntroPage(){
                 textDecoration:"none",
                 fontWeight:"700",
             }}>
-                开始学习吧Start with Hiragana
+                看一看Hiragana chart
             </Link>{/* 
-              次按钮：Skip。
-              也跳到 /kana。
+              次按钮：Skip（现在改成跳片假名）。
+              也跳到 /katakana。
               视觉上比主按钮弱一点，表示它是 secondary action。
-            */}<Link href="/kana"
+            */}<Link href="/katakana"
             style={{display:"inline-block",
                 padding:"12px 18px",
                 borderRadius:"999px",
@@ -194,7 +195,7 @@ export default function IntroPage(){
                 fontWeight:"700",
                 border:"1px solid #ead6e4",
             }}>
-                跳过，我已经有初步了解这三个东西 Skip
+                看一看Katakana chart
             </Link>
           </div>
                  </section>

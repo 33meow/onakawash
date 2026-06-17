@@ -130,10 +130,7 @@ export default function Home() {
         }}>{t.home.description}</p>
     
       
-       {/* 
-        Link 的意思是“链接”
-        href="/kana" 的意思是：点击后去 /kana 页面
-      */}
+      
       
            {/* 
           底部小提示。
