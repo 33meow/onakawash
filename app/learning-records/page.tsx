@@ -51,6 +51,7 @@ async function fetchPracticeSessions(){
 }
 //页面第一次打开后，自动执行 fetchPracticeSessions()
 useEffect(() => {
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   fetchPracticeSessions();
 }, []);
 
@@ -58,9 +59,10 @@ async function saveTestPracticeSession() {
      try {setIsSaving(true);
     setStatusMessage("Saving...");
 
+    const testSessionCreatedAt = new Date().toISOString();
     const testPracticeSession ={
          userId: 1,
-    sessionKey: `test-session-${Date.now()}`,
+    sessionKey: `test-session-${testSessionCreatedAt.replace(/[:.]/g, "-")}`,
     practiceType: "HIRAGANA",
     practiceMode: "ROMAJI_CHOICE",
     score: 8,

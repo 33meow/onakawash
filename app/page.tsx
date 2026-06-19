@@ -20,6 +20,7 @@ export default function Home() {
       savedLanguage === "en" ||
       savedLanguage === "ko"
     ) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLanguage(savedLanguage);
     }
   }, []);

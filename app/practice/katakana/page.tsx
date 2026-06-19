@@ -117,6 +117,18 @@ export default function HiraganaPracticePage() {
   const [isLoading, setIsLoading] = useState(true);
 //保存错误信息，刚开始是null。fetch失败时会显示错误信息。
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  //startedAt当前保存的值
+//setStartedAt修改 startedAt 的函数
+  const [startedAt, setStartedAt] = useState<string | null>(null);
+const [finishedAt, setFinishedAt] = useState<string | null>(null);
+//页面记住“现在是不是正在保存学习记录”。
+//一开始是 false，表示没有在保存。
+//用户点保存按钮时变成 true，按钮可以显示Saving... 并且禁用，防止重复点击。
+const [isSavingSession, setIsSavingSession] = useState(false);
+const [saveMessage, setSaveMessage] = useState("");
+//页面记住“这一轮是否已经保存过”。
+//一开始是 false。保存成功后变成 true。这样同一轮练习就不能重复保存很多次。
+const [hasSavedSession, setHasSavedSession] = useState(false);
 //useMemo：根据语言拿当前文字包，先写着，后面会用。
 //只要language没变，t就不变。t依赖language
   const t = useMemo(() => messages[language], [language]);
@@ -132,6 +144,7 @@ export default function HiraganaPracticePage() {
       savedLanguage === "en" ||
       savedLanguage === "ko"
     ) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLanguage(savedLanguage);
     }
   }, []);
@@ -164,6 +177,11 @@ export default function HiraganaPracticePage() {
         const generatedQuestions = createQuestions(items);
 
         setQuestions(generatedQuestions);
+        setStartedAt(new Date().toISOString());
+setFinishedAt(null);
+setSaveMessage("");
+setHasSavedSession(false);
+setIsSavingSession(false);
       } catch (error) {
         console.error(error);
         setErrorMessage(t.practice.loadError);
@@ -204,6 +222,9 @@ export default function HiraganaPracticePage() {
     setSelectedAnswer(null);
     //告诉页面新的题还没答（开锁下一题）
     setIsAnswered(false);
+    if (currentIndex + 1 >= questions.length) {
+  setFinishedAt(new Date().toISOString());
+}
     //记录题号
     setCurrentIndex((index) => index + 1);
   }
@@ -223,7 +244,84 @@ export default function HiraganaPracticePage() {
     setScore(0);
     setSelectedAnswer(null);
     setIsAnswered(false);
+    setStartedAt(new Date().toISOString());
+setFinishedAt(null);
+setSaveMessage("");
+setHasSavedSession(false);
+setIsSavingSession(false);
   }
+
+  //保存当前这一轮 Katakana 练习记录到后端。
+  async function savePracticeSession() {
+
+    //如果这一轮已经保存过，或者正在保存，就直接停。
+  if (hasSavedSession || isSavingSession) {
+    return;
+  }
+
+  //进入保存状态
+  //下面这些代码可能失败，比如后端没开。
+//如果失败，就跳到 catch。
+  try {
+    setIsSavingSession(true);
+    setSaveMessage("Saving learning record...");
+
+    //？？表示如果左边有数据就用左边，如果左边null就用右边
+    const endTime = finishedAt ?? new Date().toISOString();
+    const startTime = startedAt ?? endTime;
+    const sessionKeyTime = endTime.replace(/[:.]/g, "-");
+    const durationSeconds =
+    //Math.max(0, ...)
+     Math.max(
+      0,
+      //四舍五入成整数秒。
+      Math.round(
+        //得到练习花了多少毫秒。
+        (new Date(endTime).getTime() - new Date(startTime).getTime()) / 1000
+      )
+    );
+
+    //这段是在创建一个普通前端对象。
+    //它就是要发给后端的 JSON 原料。
+    const practiceSession = {
+      userId: 1,
+      sessionKey: `katakana-session-${sessionKeyTime}`,
+      practiceType: "KATAKANA",
+      practiceMode: "ROMAJI_CHOICE",
+      //score: score,字段名和变量名一样，可以简写。
+      score,
+      totalQuestions: questions.length,
+      accuracy,
+      startedAt: startTime,
+      finishedAt: endTime,
+      durationSeconds,
+    };
+
+    //POST 给后端
+    const res = await fetch("http://localhost:8080/practice-sessions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      //把前端对象变成 JSON 字符串。
+      body: JSON.stringify(practiceSession),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to save practice session");
+    }
+
+    await res.json();
+    setFinishedAt(endTime);
+    setHasSavedSession(true);
+    setSaveMessage("Learning record saved.");
+  } catch (error) {
+    console.error(error);
+    setSaveMessage("Failed to save learning record.");
+  } finally {
+    setIsSavingSession(false);
+  }
+}
 
   //算三个页面显示的结果
   
@@ -389,7 +487,34 @@ export default function HiraganaPracticePage() {
             >
               {t.practice.accuracy}: {accuracy}%
             </p>
-
+<button
+  type="button"
+  //用户点击这个按钮时，执行 savePracticeSession 这个函数。
+  //把这个函数交给 React。
+//等用户点击时，React 再帮你调用。
+//如果写成onClick={savePracticeSession()}
+//页面一显示，函数立刻执行
+//不是等点击才执行
+  onClick={savePracticeSession}
+  //有一个是true就不能点
+  disabled={isSavingSession || hasSavedSession}
+  style={{
+    padding: "12px 18px",
+    borderRadius: "999px",
+    border: "2px solid #16a34a",
+    backgroundColor: hasSavedSession ? "#dcfce7" : "#f0fdf4",
+    color: "#166534",
+    fontWeight: "800",
+    cursor: isSavingSession || hasSavedSession ? "default" : "pointer",
+    marginRight: "12px",
+  }}
+>
+  {isSavingSession
+    ? "Saving..."
+    : hasSavedSession
+    ? "Saved"
+    : "Save Learning Record"}
+</button>
             <button
               type="button"
               onClick={handleRestart}
@@ -405,6 +530,17 @@ export default function HiraganaPracticePage() {
             >
               {t.practice.tryAgain}
             </button>
+{saveMessage && (
+  <p
+    style={{
+      color: hasSavedSession ? "#15803d" : "#b91c1c",
+      fontWeight: "800",
+      marginTop: "16px",
+    }}
+  >
+    {saveMessage}
+  </p>
+)}
           </div>
         ) : (
           currentQuestion && (

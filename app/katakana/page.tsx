@@ -59,6 +59,7 @@ const t = useMemo(() => messages[language], [language]);
     savedLanguage === "en" ||
     savedLanguage === "ko"
   ) {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLanguage(savedLanguage);
   }
 }, []);
