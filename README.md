@@ -6,7 +6,9 @@ Language: [English](./README.md) | [中文](./README.zh-CN.md)
 
 onakawash is a Japanese kana learning website for beginners.
 
-This project currently mainly includes Hiragana, Katakana, audio playback, a multilingual homepage, and data connection between the frontend and the Spring Boot backend.
+This project currently mainly includes Hiragana, Katakana, audio playback, a multilingual homepage, practice mode, Learning Records, and data connection between the frontend and the Spring Boot backend.
+
+onakawash is also a personal learning and software engineering project. The V0.3 Learning Records architecture was redesigned after studying academic research on learning data and knowledge tracking. The project itself is not a research project, but it reflects an effort to learn from academic literature and apply research-informed design ideas to a real software system.
 
 The project is still under development.
 
@@ -34,6 +36,9 @@ The backend is maintained in a separate Spring Boot repository.
 * Practice entry links from the kana learning pages
 * 10-question multiple-choice practice sessions
 * Immediate answer feedback, locked options, score, and accuracy summary
+* Learning Records page for viewing saved practice session history
+* Practice session results saved to the Spring Boot backend
+* PracticeSession records with score, total questions, accuracy, session timing, and practice metadata
 * Multilingual UI text for kana pages and practice pages
 
 ## Kana Data Flow
@@ -57,7 +62,41 @@ v0.2 adds a basic practice mode for Hiragana and Katakana.
 
 Each practice session contains 10 questions. Each question shows one kana character and four romaji text options. After the user answers, the options are locked and the page shows immediate feedback. At the end of the session, the page shows the final score and accuracy.
 
-Practice data is loaded from the existing backend kana APIs. Practice records are not saved to the backend in v0.2. Learning records and progress tracking are planned for v0.3 and later.
+Practice data is loaded from the existing backend kana APIs. In v0.2, practice records were frontend-only. In v0.3, completed Hiragana and Katakana practice sessions can be saved to the backend as Learning Records.
+
+## Learning Records and Research-Informed Design
+
+V0.3 adds the Learning Records module. This version was directly inspired by studying academic research on learning data and knowledge tracking. The goal was not to copy a paper, but to understand why learning systems record certain data fields and what future analysis those records can support.
+
+The key design idea is:
+
+```text
+Record data today that can support meaningful analysis tomorrow.
+```
+
+The current implementation records one `PracticeSession` per completed practice round. Each record stores the practice type, practice mode, score, total questions, accuracy, start time, finish time, duration, and session key. This is intentionally a round-level record rather than a per-question `AnswerRecord`, keeping V0.3 small while still creating a useful foundation for later analysis.
+
+Learning Records in V0.3 are therefore more than a simple history page. They are the data foundation for:
+
+* V0.4 Progress Analysis
+* V0.5 Adaptive Review
+* Future learning analytics features
+
+During local development, the backend still uses an H2 in-memory database to avoid polluting the project with repeated test records. A persistent database strategy is planned for a later stage.
+
+## Project Evolution
+
+The project has evolved in stages:
+
+```text
+v0.1 Kana Data Flow
+-> v0.2 Practice Mode
+-> v0.3 Learning Records
+```
+
+v0.1 focused on moving kana data out of frontend hardcoded arrays and into the Spring Boot backend. v0.2 added real practice interactions. v0.3 connects those interactions to a backend record system, so completed practice sessions can become structured learning data.
+
+This evolution reflects the project's broader direction: building a personal Japanese learning platform that connects practical software engineering with research-informed thinking about learning records, progress analysis, and future adaptive review.
 
 ## Tech Stack and Creative Tools
 
@@ -127,9 +166,9 @@ This project is still under development.
 
 Current focus:
 
-* Stabilizing v0.2 Practice Mode
-* Testing Hiragana and Katakana practice flows
-* Preparing for v0.3 Learning Records
+* Stabilizing v0.3 Learning Records
+* Testing Hiragana and Katakana practice save flows
+* Preparing for v0.4 Progress Analysis
 * Continuing interface improvements with original illustrations
 
 ## Roadmap
@@ -148,12 +187,20 @@ Current focus:
   - Show immediate feedback, score, and accuracy
   - Keep practice records frontend-only in this version
 
-- [ ] v0.3 — Learning Records
-  - Save practice results to the backend
-  - Store correctness and response time
+- [x] v0.3 — Learning Records
+  - Save Hiragana and Katakana practice results to the backend
+  - Store round-level `PracticeSession` records
+  - Record score, total questions, accuracy, start time, finish time, and duration
+  - Add a Learning Records page for viewing saved practice session history
+  - Use research-informed design thinking to prepare data for future analysis
 
-- [ ] v0.4 — Learning Analytics
-  - Show accuracy, weak kana, and practice history
+- [ ] v0.4 — Progress Analysis
+  - Show accuracy trends, weak kana, and practice history
+  - Build analysis features on top of V0.3 Learning Records
+
+- [ ] v0.5 — Adaptive Review
+  - Use learning record data to support more personalized review flows
+  - Explore future per-question records and knowledge-tracking-inspired analysis
 
 - [ ] v1.0 — Public Demo
   - Deploy frontend and backend
