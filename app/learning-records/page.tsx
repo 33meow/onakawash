@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect,useState } from "react";
 
 //前端先告诉typeScript，后端返回的一条记录大概长什么样
 type PracticeSession = {
@@ -34,7 +34,25 @@ const [statusMessage, setStatusMessage] = useState("");
 const [isSaving, setIsSaving] = useState(false);
 
 
+async function fetchPracticeSessions(){
+    try{
+        //没有写 method，默认就是 GET。
+        const res = await fetch("http://localhost:8080/practice-sessions");
+        if (!res.ok){
+            throw new Error("Failed to fetch practice sessions");
+        }
 
+        const data: PracticeSession[] = await res.json();
+        setRecords(data);
+    }catch(error){
+        console.error(error);
+        setStatusMessage("Failed to load practice sessions.")
+    }
+}
+//页面第一次打开后，自动执行 fetchPracticeSessions()
+useEffect(() => {
+  fetchPracticeSessions();
+}, []);
 
 async function saveTestPracticeSession() {
      try {setIsSaving(true);
@@ -60,9 +78,10 @@ async function saveTestPracticeSession() {
  if (!res.ok) {
       throw new Error("Failed to save practice session");
     }
-    const savedRecord : PracticeSession = await res.json();
-    setRecords([savedRecord]);
-     setStatusMessage("Saved to backend.");}
+    await res.json();
+   
+     setStatusMessage("Saved to backend.");
+    await fetchPracticeSessions();}
      catch (error) {
     console.error(error);
     setStatusMessage("Failed to save practice session.");
