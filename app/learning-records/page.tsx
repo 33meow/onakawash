@@ -25,7 +25,7 @@ type PracticeSession = {
 //在 Next.js 里，app/learning-records/page.tsx 里面必须导出一个默认组件
 export default function LearningRecordsPage(){
   const [language, setLanguage] = useState<Language>("zh");
-  const [hasLoadedLanguage, setHasLoadedLanguage] = useState(false);
+  
   const t = messages[language];
   const locale =
   language === "en"
@@ -55,16 +55,9 @@ useEffect(() => {
   }
 
  
-  setHasLoadedLanguage(true);
+ 
 }, []);
 
-useEffect(() => {
-  if (!hasLoadedLanguage) {
-    return;
-  }
-
-  localStorage.setItem("language", language);
-}, [language, hasLoadedLanguage]);
 
 async function fetchPracticeSessions(){
     try{

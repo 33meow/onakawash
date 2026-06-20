@@ -18,6 +18,16 @@ export default function LanguageSwitcher({
   language,
   setLanguage,
 }: LanguageSwitcherProps) {
+  
+  //点击中文
+//→ 浏览器保存 zh
+//→ 当前页面切换成 zh
+function handleLanguageChange(nextLanguage:Language){
+  //立刻保存到浏览器。
+  localStorage.setItem("language",nextLanguage);
+  setLanguage(nextLanguage);
+}
+
   return (
     <div
       style={{
@@ -30,7 +40,7 @@ export default function LanguageSwitcher({
       }}
     >
       <button
-        onClick={() => setLanguage("zh")}
+        onClick={() => handleLanguageChange("zh")}
         style={{
           fontWeight: language === "zh" ? "bold" : "normal",
         }}
@@ -39,7 +49,7 @@ export default function LanguageSwitcher({
       </button>
 
       <button
-        onClick={() => setLanguage("en")}
+        onClick={() => handleLanguageChange("en")}
         style={{
           fontWeight: language === "en" ? "bold" : "normal",
         }}
@@ -48,7 +58,7 @@ export default function LanguageSwitcher({
       </button>
 
       <button
-        onClick={() => setLanguage("ko")}
+        onClick={() => handleLanguageChange("ko")}
         style={{
           fontWeight: language === "ko" ? "bold" : "normal",
         }}
