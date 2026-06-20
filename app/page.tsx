@@ -10,6 +10,8 @@ export default function Home() {
   // language 保存当前选择的语言
   // 默认是中文 zh
   const [language, setLanguage] = useState<Language>("zh");
+
+  const [hasLoadedLanguage, setHasLoadedLanguage] = useState(false);
    // 页面第一次打开时，从浏览器的小抽屉 localStorage 里读取语言
   useEffect(() => {
     const savedLanguage = localStorage.getItem("language");
@@ -21,15 +23,21 @@ export default function Home() {
       savedLanguage === "en" ||
       savedLanguage === "ko"
     ) {
+    
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setLanguage(savedLanguage);
     }
+
+      setHasLoadedLanguage(true);
   }, []);
 
-  // language 每次变化时，把新语言存进 localStorage
-  useEffect(() => {
-    localStorage.setItem("language", language);
-  }, [language]);
+ useEffect(() => {
+  if (!hasLoadedLanguage) {
+    return;
+  }
+
+  localStorage.setItem("language", language);
+}, [language, hasLoadedLanguage]);
 
   // t 是当前语言对应的文字包
   // language 是 zh，t 就是 messages.zh

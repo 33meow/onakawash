@@ -65,7 +65,20 @@ loading: "练习数据加载中...",
   katakanaOnly: "仅片假名",
   switchToHiragana: "平假名",
   switchToKatakana: "片假名",
-}
+},
+recordsPage: {
+  backHome: "返回主页",
+  title: "学习记录",
+  score: "得分",
+  accuracy: "正确率",
+  startedAt: "开始时间",
+  finishedAt: "结束时间",
+  duration: "练习用时",
+  seconds: "秒",
+  notRecorded: "未记录",
+  noRecords: "还没有练习记录",
+  loadError: "学习记录加载失败，请检查后端是否启动。",
+},
     },
     en:{
          home: {
@@ -117,7 +130,19 @@ kanaPage: {
   katakanaOnly: "Katakana only",
   switchToHiragana: "Hiragana",
   switchToKatakana: "Katakana",
-}
+},recordsPage: {
+  backHome: "Back Home",
+  title: "Learning Records",
+  score: "Score",
+  accuracy: "Accuracy",
+  startedAt: "Started",
+  finishedAt: "Finished",
+  duration: "Duration",
+  seconds: "seconds",
+  notRecorded: "Not recorded",
+  noRecords: "No practice records yet",
+  loadError: "Failed to load learning records. Please check the backend.",
+},
     },
     
     ko:{
@@ -171,6 +196,19 @@ kanaPage: {
   katakanaOnly: "가타카나만",
   switchToHiragana: "히라가나",
   switchToKatakana: "가타카나",
-}
+},
+recordsPage: {
+  backHome: "홈으로 돌아가기",
+  title: "학습 기록",
+  score: "점수",
+  accuracy: "정확도",
+  startedAt: "시작 시간",
+  finishedAt: "종료 시간",
+  duration: "연습 시간",
+  seconds: "초",
+  notRecorded: "기록 없음",
+  noRecords: "아직 연습 기록이 없습니다",
+  loadError: "학습 기록을 불러오지 못했습니다. 백엔드를 확인해 주세요.",
+},
     },
 };

@@ -2,6 +2,8 @@
 
 import { useEffect,useState } from "react";
 import Link from "next/link";
+import {messages,type Language } from "../messages";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 
 //前端先告诉typeScript，后端返回的一条记录大概长什么样
 type PracticeSession = {
@@ -22,6 +24,15 @@ type PracticeSession = {
 //react component
 //在 Next.js 里，app/learning-records/page.tsx 里面必须导出一个默认组件
 export default function LearningRecordsPage(){
+  const [language, setLanguage] = useState<Language>("zh");
+  const [hasLoadedLanguage, setHasLoadedLanguage] = useState(false);
+  const t = messages[language];
+  const locale =
+  language === "en"
+    ? "en-US"
+    : language === "ko"
+      ? "ko-KR"
+      : "zh-CN";
 //保存后端查回来的历史记录列表
 //普通变量页面刷新后不会记住状态，但 useState 会让 React 记住
 //records：当前的练习记录列表
@@ -31,8 +42,29 @@ export default function LearningRecordsPage(){
 const [records, setRecords] = useState<PracticeSession[]>([]);
 //显示“保存成功”或“保存失败”。
 const [statusMessage, setStatusMessage] = useState("");
+useEffect(() => {
+  const savedLanguage = localStorage.getItem("language");
 
+  if (
+    savedLanguage === "zh" ||
+    savedLanguage === "en" ||
+    savedLanguage === "ko"
+  ) {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLanguage(savedLanguage);
+  }
 
+ 
+  setHasLoadedLanguage(true);
+}, []);
+
+useEffect(() => {
+  if (!hasLoadedLanguage) {
+    return;
+  }
+
+  localStorage.setItem("language", language);
+}, [language, hasLoadedLanguage]);
 
 async function fetchPracticeSessions(){
     try{
@@ -60,46 +92,153 @@ useEffect(() => {
     
 
 
-return(<main>
-  <Link href="/">
-  ← 返回主页
+return(<main
+    style={{
+      minHeight: "100vh",
+      padding: "40px 24px",
+      backgroundColor: "#f6f2e8",
+      color: "#3b241c",
+      fontFamily: "Arial, sans-serif",
+    }}
+  >
+  <LanguageSwitcher
+  language={language}
+  setLanguage={setLanguage}
+/><div
+  style={{
+    width: "100%",
+    maxWidth: "1000px",
+    margin: "0 auto",
+  }}
+>
+  <Link
+  href="/"
+  style={{
+    display: "inline-flex",
+    alignItems: "center",
+    minHeight: "44px",
+    padding: "0 18px",
+    borderRadius: "999px",
+    backgroundColor: "#4a2b22",
+    color: "#fff6f8",
+    textDecoration: "none",
+    fontWeight: "700",
+    marginBottom: "24px",
+  }}
+>
+  ← {t.recordsPage.backHome}
 </Link>
- <h1>Learning Records</h1>
+ <h1>{t.recordsPage.title}</h1>
 
      
-      <ul>
+      <ul
+  style={{
+    listStyle: "none",
+    padding: "0",
+    margin: "0",
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+    gap: "18px",
+  }}
+>
   {records.map((record) => (
-   <li key={record.id}>
-  <p>
+  <li
+  key={record.id}
+  style={{
+    padding: "22px",
+    borderRadius: "8px",
+    backgroundColor: "#fffaf8",
+    border: "none",
+    boxShadow: "0 8px 20px rgba(74, 43, 34, 0.08)",
+  }}
+>
+ <p
+  style={{
+    margin: "0 0 18px",
+    color: "#4a2b22",
+    fontSize: "18px",
+    fontWeight: "800",
+  }}
+>
     {record.practiceType} / {record.practiceMode}
   </p>
 
-  <p>
-    得分：{record.score} / {record.totalQuestions}
-  </p>
+ <div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: "16px",
+    padding: "16px 0",
+    marginBottom: "16px",
+    borderTop: "1px solid #ead8d0",
+    borderBottom: "1px solid #ead8d0",
+  }}
+>
+  <div>
+    <span
+      style={{
+        display: "block",
+        marginBottom: "6px",
+        color: "#7b665f",
+        fontSize: "14px",
+      }}
+    >
+      {t.recordsPage.score}
+    </span>
 
-  <p>正确率：{record.accuracy}%</p>
+    <strong style={{ fontSize: "24px" }}>
+      {record.score} / {record.totalQuestions}
+    </strong>
+  </div>
 
-  <p>
-    开始时间：
+  <div>
+    <span
+      style={{
+        display: "block",
+        marginBottom: "6px",
+        color: "#7b665f",
+        fontSize: "14px",
+      }}
+    >
+      {t.recordsPage.accuracy}
+    </span>
+
+    <strong style={{ fontSize: "24px" }}>
+      {record.accuracy}%
+    </strong>
+  </div>
+</div>
+
+<div
+  style={{
+    color: "#6f5a53",
+    fontSize: "14px",
+    lineHeight: "1.6",
+  }}
+>
+  <p style={{ margin: "6px 0" }}>
+    {t.recordsPage.startedAt}：
     {record.startedAt
-      ? new Date(record.startedAt).toLocaleString("zh-CN")
-      : "未记录"}
+      ? new Date(record.startedAt).toLocaleString(locale)
+      : t.recordsPage.notRecorded}
   </p>
 
-  <p>
-    结束时间：
+  <p style={{ margin: "6px 0" }}>
+    {t.recordsPage.finishedAt}：
     {record.finishedAt
-      ? new Date(record.finishedAt).toLocaleString("zh-CN")
-      : "未记录"}
+      ? new Date(record.finishedAt).toLocaleString(locale)
+      : t.recordsPage.notRecorded}
   </p>
 
-  <p>练习用时：{record.durationSeconds} 秒</p>
+  <p style={{ margin: "6px 0" }}>{t.recordsPage.duration}：{record.durationSeconds} {t.recordsPage.seconds}</p>
+
+  </div>
 </li>
   ))}
 </ul>
 
       {statusMessage && <p>{statusMessage}</p>}
+      </div>
 </main>);
 }
 
