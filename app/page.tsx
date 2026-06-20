@@ -5,6 +5,7 @@ import StartButton from "./components/StartButton";
 import { useEffect, useState } from "react";
 import { messages, type Language } from "./messages";
 import LanguageSwitcher from "./components/LanguageSwitcher";
+import Link from "next/link";
 export default function Home() {
   // language 保存当前选择的语言
   // 默认是中文 zh
@@ -132,7 +133,23 @@ export default function Home() {
     
       
       
-      
+      <Link
+  href="/learning-records"
+  style={{
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: "48px",
+    padding: "0 22px",
+    borderRadius: "999px",
+    backgroundColor: "#4a2b22",
+    color: "#fff6f8",
+    textDecoration: "none",
+    fontWeight: "700",
+  }}
+>
+  {t.home.learningRecords}
+</Link>
            {/* 
           底部小提示。
           这不是必须功能，只是让首页更像一个完整产品。

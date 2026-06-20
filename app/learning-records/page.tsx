@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect,useState } from "react";
+import Link from "next/link";
 
 //前端先告诉typeScript，后端返回的一条记录大概长什么样
 type PracticeSession = {
@@ -30,8 +31,7 @@ export default function LearningRecordsPage(){
 const [records, setRecords] = useState<PracticeSession[]>([]);
 //显示“保存成功”或“保存失败”。
 const [statusMessage, setStatusMessage] = useState("");
-//防止用户连续点按钮
-const [isSaving, setIsSaving] = useState(false);
+
 
 
 async function fetchPracticeSessions(){
@@ -55,62 +55,47 @@ useEffect(() => {
   fetchPracticeSessions();
 }, []);
 
-async function saveTestPracticeSession() {
-     try {setIsSaving(true);
-    setStatusMessage("Saving...");
 
-    const testSessionCreatedAt = new Date().toISOString();
-    const testPracticeSession ={
-         userId: 1,
-    sessionKey: `test-session-${testSessionCreatedAt.replace(/[:.]/g, "-")}`,
-    practiceType: "HIRAGANA",
-    practiceMode: "ROMAJI_CHOICE",
-    score: 8,
-    totalQuestions: 10,
-    durationSeconds: 120,
-    };
-
-    const res = await fetch("http://localhost:8080/practice-sessions",{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json",
-        },
-        body:JSON.stringify(testPracticeSession),
-    });
- if (!res.ok) {
-      throw new Error("Failed to save practice session");
-    }
-    await res.json();
-   
-     setStatusMessage("Saved to backend.");
-    await fetchPracticeSessions();}
-     catch (error) {
-    console.error(error);
-    setStatusMessage("Failed to save practice session.");
-  } finally {
-    setIsSaving(false);
-  }
   
     
-}
+
 
 return(<main>
+  <Link href="/">
+  ← 返回主页
+</Link>
  <h1>Learning Records</h1>
 
-     <button
-  type="button"
-  onClick={saveTestPracticeSession}
-  disabled={isSaving}
->
-  {isSaving ? "Saving..." : "Save Test Practice Session"}
-</button>
+     
       <ul>
   {records.map((record) => (
-    //key={record.id}是 React 需要的，用来分辨每一条列表项是谁
-    <li key={record.id}>
-      {record.practiceType} / {record.practiceMode} / {record.score} /{" "}
-      {record.totalQuestions} / {record.accuracy}%
-    </li>
+   <li key={record.id}>
+  <p>
+    {record.practiceType} / {record.practiceMode}
+  </p>
+
+  <p>
+    得分：{record.score} / {record.totalQuestions}
+  </p>
+
+  <p>正确率：{record.accuracy}%</p>
+
+  <p>
+    开始时间：
+    {record.startedAt
+      ? new Date(record.startedAt).toLocaleString("zh-CN")
+      : "未记录"}
+  </p>
+
+  <p>
+    结束时间：
+    {record.finishedAt
+      ? new Date(record.finishedAt).toLocaleString("zh-CN")
+      : "未记录"}
+  </p>
+
+  <p>练习用时：{record.durationSeconds} 秒</p>
+</li>
   ))}
 </ul>
 
