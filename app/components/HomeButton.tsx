@@ -5,6 +5,14 @@ import Image from "next/image";
 export default function HomeButton(){
     return(
         <Link 
+        style={{
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
+  color: "#4a2b22",
+  textDecoration: "none",
+  fontWeight: "700",
+}}
               href="/"
               className="intro-home-link"
               aria-label="回到主页面"
@@ -22,6 +30,7 @@ export default function HomeButton(){
                         height:"144px",
                         objectFit:"contain",
                        }}/>
+                       <span>回到主页面</span>
               </Link>
     );
 }
