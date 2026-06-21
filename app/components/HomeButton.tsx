@@ -14,20 +14,20 @@ export default function HomeButton(){
   fontWeight: "700",
 }}
               href="/"
-              className="intro-home-link"
+              className="intro-nav-item"
               aria-label="回到主页面"
               title="回到主页面">
                 <Image 
                        src="/images/buttons/home.png"
                        alt=""
-                       width={144}
-                       height={144}
+                       width={72}
+                       height={72}
                        priority
-                       className="intro-home-image"
+                       className="intro-nav-image"
                        style={{
                         display:"block",
-                        width:"144px",
-                        height:"144px",
+                        width:"72px",
+                        height:"72px",
                         objectFit:"contain",
                        }}/>
                        <span>回到主页面</span>

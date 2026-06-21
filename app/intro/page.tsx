@@ -19,13 +19,13 @@ export default function IntroPage() {
     >
       
       <style>{`
-        .intro-home-image {
+        .intro-nav-image {
           transform-origin: center;
           transition: transform 180ms ease;
         }
 
-        .intro-home-link:hover .intro-home-image,
-        .intro-home-link:focus-visible .intro-home-image {
+        .intro-nav-item:hover .intro-nav-image,
+        .intro-nav-link:focus-visible .intro-nav-image {
           transform: scale(1.08);
         }
       `}</style>
@@ -46,6 +46,7 @@ export default function IntroPage() {
              {/* 导航入口 2：进入平假名页面 */}
             <Link
                 href="hiragana"
+                className="intro-nav-item"
                 style={{
                   display:"flex",
                   alignItems:"center",
@@ -53,12 +54,14 @@ export default function IntroPage() {
                   color:"#4a2b22",
                   textDecoration:"none",
                   fontWeight:"700",
+                  
                 }}>
                   <Image
+                  className="intro-nav-image"
                       src="/images/buttons/hiragana.png"
                       alt=""
-                      width={64}
-                      height={64}
+                      width={72}
+                      height={72}
                       />
                       <span>看看平假名</span>
                 </Link>
@@ -68,6 +71,7 @@ export default function IntroPage() {
             {/* 导航入口 3：进入片假名页面 */}
 <Link
   href="/katakana"
+  className="intro-nav-item"
   style={{
     display: "flex",
     alignItems: "center",
@@ -78,10 +82,11 @@ export default function IntroPage() {
   }}
 >
   <Image
+  className="intro-nav-image"
     src="/images/buttons/katakana.png"
     alt=""
-    width={64}
-    height={64}
+    width={72}
+    height={72}
   />
 
   <span>看看片假名</span>
@@ -106,8 +111,8 @@ export default function IntroPage() {
   <Image
     src="/images/buttons/kanji.png"
     alt=""
-    width={64}
-    height={64}
+    width={72}
+    height={72}
   />
 
   <span>汉字稍后开放</span>
