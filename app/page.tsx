@@ -21,7 +21,8 @@ export default function Home() {
     if (
       savedLanguage === "zh" ||
       savedLanguage === "en" ||
-      savedLanguage === "ko"
+      savedLanguage === "ko" ||
+      savedLanguage === "vi"
     ) {
     
       // eslint-disable-next-line react-hooks/set-state-in-effect

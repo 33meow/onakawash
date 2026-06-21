@@ -7,8 +7,8 @@
 
 
 // Language 是我们自己定义的类型
-// 它规定：语言只能是 "zh" / "en" / "ko" 这三个
-export type Language = "zh" | "en" | "ko";
+// 它规定：语言只能是 "zh" / "en" / "ko" "vi"这4个
+export type Language = "zh" | "en" | "ko"|"vi";
 
 // messages 是真正的语言包
 // 页面以后不要直接写“进入”
@@ -216,6 +216,79 @@ recordsPage: {
   loadError: "학습 기록을 불러오지 못했습니다. 백엔드를 확인해 주세요.",
   emptyHint: "연습을 완료하면 점수와 연습 시간이 여기에 표시됩니다.",
 startPractice: "연습 시작",
+},
+    },
+
+        vi:{
+        home: {
+  title: "ONAKAWASH",
+  entryHint: "Nhấn vào miếng bọt biển để vào ONAKAWASH!!",
+  description:
+    "Một trang web học tiếng Nhật, nơi bạn kiếm xu, mua bọt biển và rửa bụng cho chú cún.",
+  start:
+    "Có quá nhiều chiếc bụng trên thế giới? Không biết bắt đầu từ đâu? Đừng lo, cứ bắt đầu thôi!",
+  learningRecords: "Xem lịch sử học tập",
+},
+nav: {
+  languageName: "Tiếng Việt",
+  start: "Bắt đầu",
+  settings: "Cài đặt",
+  home: "Trang chủ",
+  hiragana: "Hiragana",
+  katakana: "Katakana",
+  by: "Được tạo bởi Yvonne Buttercup",
+},
+practice: {
+  loading: "Đang tải dữ liệu luyện tập...",
+  loadError:
+    "Không thể tải dữ liệu luyện tập. Vui lòng kiểm tra xem backend có đang chạy hay không.",
+  noQuestions: "Không có câu hỏi luyện tập nào.",
+  backToHiragana: "Quay lại Hiragana",
+  backToKatakana: "Quay lại Katakana",
+  hiraganaTitle: "Luyện tập Hiragana",
+  katakanaTitle: "Luyện tập Katakana",
+  question: "Câu",
+  score: "Điểm",
+  accuracy: "Độ chính xác",
+  complete: "Hoàn thành luyện tập",
+  tryAgain: "Luyện tập lại",
+  correct: "Chính xác!",
+  wrong: "Sai. Đáp án đúng là:",
+  next: "Câu tiếp theo",
+},
+kanaPage: {
+  modeTitle: "Chế độ",
+  soundMode: "Âm thanh",
+  detailMode: "Chi tiết",
+  practice: "Luyện tập",
+  intro: "Giới thiệu",
+  home: "Trang chủ",
+  currentMode: "Chế độ hiện tại",
+  soundModeLabel: "chế độ âm thanh",
+  detailModeLabel: "chế độ chi tiết",
+  clickHint: "Nhấn vào một ký tự kana để nghe phát âm.",
+  detailHint: "Nhấn vào một ký tự kana để mở trang chi tiết.",
+  hiraganaOnly: "Chỉ Hiragana",
+  katakanaOnly: "Chỉ Katakana",
+  switchToHiragana: "Hiragana",
+  switchToKatakana: "Katakana",
+},
+recordsPage: {
+  backHome: "Quay về trang chủ",
+  title: "Lịch sử học tập",
+  score: "Điểm",
+  accuracy: "Độ chính xác",
+  startedAt: "Thời gian bắt đầu",
+  finishedAt: "Thời gian kết thúc",
+  duration: "Thời gian luyện tập",
+  seconds: "giây",
+  notRecorded: "Chưa ghi nhận",
+  noRecords: "Chưa có lịch sử luyện tập",
+  loadError:
+    "Không thể tải lịch sử học tập. Vui lòng kiểm tra backend.",
+  emptyHint:
+    "Hoàn thành một lượt luyện tập để xem điểm số và thời gian của bạn tại đây.",
+  startPractice: "Bắt đầu luyện tập",
 },
     },
 };

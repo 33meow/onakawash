@@ -65,6 +65,15 @@ function handleLanguageChange(nextLanguage:Language){
       >
         한국어
       </button>
+
+    <button
+  onClick={() => handleLanguageChange("vi")}
+  style={{
+    fontWeight: language === "vi" ? "bold" : "normal",
+  }}
+>
+  Tiếng Việt
+</button>
     </div>
   );
 }

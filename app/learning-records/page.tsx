@@ -32,7 +32,9 @@ export default function LearningRecordsPage(){
     ? "en-US"
     : language === "ko"
       ? "ko-KR"
-      : "zh-CN";
+      :language ==="vi"
+      ?"vi-VN"
+      :"zh-CN";
 //保存后端查回来的历史记录列表
 //普通变量页面刷新后不会记住状态，但 useState 会让 React 记住
 //records：当前的练习记录列表
@@ -48,7 +50,8 @@ useEffect(() => {
   if (
     savedLanguage === "zh" ||
     savedLanguage === "en" ||
-    savedLanguage === "ko"
+    savedLanguage === "ko" ||
+    savedLanguage ==="vi"
   ) {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setLanguage(savedLanguage);
