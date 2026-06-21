@@ -81,10 +81,6 @@ useEffect(() => {
 }, []);
 
 
-  
-    
-
-
 return(<main
     style={{
       minHeight: "100vh",
@@ -123,8 +119,44 @@ return(<main
 </Link>
  <h1>{t.recordsPage.title}</h1>
 
-     
-      <ul
+     {records.length === 0?(
+      <section 
+      style={{
+        padding:"48px 24px",
+        textAlign:"center",
+        borderTop:"1px solid #ead8d0",
+        borderBottom:"1px solid #ead8d0",
+      }}>
+        <h2 style={{margin:"0 0 12px"}}>
+          {t.recordsPage.noRecords}
+        </h2>
+        <p 
+            style={{
+              margin:"0 0 24px",
+              color:"#6f5a53",
+              lineHeight:"1.7",
+            }}>
+              {t.recordsPage.emptyHint}
+            </p>
+
+            <Link 
+            href="/hiragana"
+            style={{
+              display:"inline-flex",
+              alignItems:"center",
+              justifyContent:"center",
+              minHeight:"44px",
+              padding:"0 24px",
+              borderRadius:"999px",
+              backgroundColor:"#4a2b22",
+              color:"#fff6f8",
+              textDecoration:"none",
+              fontWeight:"700",
+
+            }}>{t.recordsPage.startPractice}</Link>
+      </section>
+     ):(
+       <ul
   style={{
     listStyle: "none",
     padding: "0",
@@ -229,6 +261,8 @@ return(<main
 </li>
   ))}
 </ul>
+     )}
+     
 
       {statusMessage && <p>{statusMessage}</p>}
       </div>

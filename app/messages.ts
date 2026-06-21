@@ -78,6 +78,8 @@ recordsPage: {
   notRecorded: "未记录",
   noRecords: "还没有练习记录",
   loadError: "学习记录加载失败，请检查后端是否启动。",
+  emptyHint: "完成一轮练习后，你的成绩和用时会出现在这里。",
+startPractice: "开始练习",
 },
     },
     en:{
@@ -130,7 +132,8 @@ kanaPage: {
   katakanaOnly: "Katakana only",
   switchToHiragana: "Hiragana",
   switchToKatakana: "Katakana",
-},recordsPage: {
+},
+recordsPage: {
   backHome: "Back Home",
   title: "Learning Records",
   score: "Score",
@@ -142,6 +145,8 @@ kanaPage: {
   notRecorded: "Not recorded",
   noRecords: "No practice records yet",
   loadError: "Failed to load learning records. Please check the backend.",
+  emptyHint: "Complete a practice session to see your score and duration here.",
+startPractice: "Start Practice",
 },
     },
     
@@ -209,6 +214,8 @@ recordsPage: {
   notRecorded: "기록 없음",
   noRecords: "아직 연습 기록이 없습니다",
   loadError: "학습 기록을 불러오지 못했습니다. 백엔드를 확인해 주세요.",
+  emptyHint: "연습을 완료하면 점수와 연습 시간이 여기에 표시됩니다.",
+startPractice: "연습 시작",
 },
     },
 };
