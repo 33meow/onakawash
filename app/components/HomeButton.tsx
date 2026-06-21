@@ -2,7 +2,12 @@
 import Link from "next/link";
 import Image from "next/image";
 
-export default function HomeButton(){
+type HomeButtonProps = {
+  label: string;
+};
+export default function HomeButton(
+  {label,}:HomeButtonProps
+){
     return(
         <Link 
         style={{
@@ -15,8 +20,8 @@ export default function HomeButton(){
 }}
               href="/"
               className="intro-nav-item"
-              aria-label="回到主页面"
-              title="回到主页面">
+              aria-label="label"
+              title="label">
                 <Image 
                        src="/images/buttons/home.png"
                        alt=""
@@ -30,7 +35,7 @@ export default function HomeButton(){
                         height:"72px",
                         objectFit:"contain",
                        }}/>
-                       <span>回到主页面</span>
+                       <span>{label}</span>
               </Link>
     );
 }

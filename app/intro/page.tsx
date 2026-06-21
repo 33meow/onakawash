@@ -1,7 +1,32 @@
+"use client";
 import HomeButton from "../components/HomeButton";
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import LanguageSwitcher from "../components/LanguageSwitcher";
+import { messages, type Language } from "../messages";
+
+ 
+
+
+
+
 export default function IntroPage() {
+   const [language, setLanguage] = useState<Language>("zh");
+   useEffect(() => {
+  const savedLanguage = localStorage.getItem("language");
+
+  if (
+    savedLanguage === "zh" ||
+    savedLanguage === "en" ||
+    savedLanguage === "ko" ||
+    savedLanguage === "vi"
+  ) {
+    setLanguage(savedLanguage);
+  }
+}, []);
+const t = messages[language];
+
   return (
     <main
       style={{
@@ -17,6 +42,10 @@ export default function IntroPage() {
         alignItems: "stretch",
       }}
     >
+      <LanguageSwitcher
+  language={language}
+  setLanguage={setLanguage}
+/>
       
       <style>{`
         .intro-nav-image {
@@ -42,7 +71,7 @@ export default function IntroPage() {
     borderRight: "1px solid #ead8d0",
             }}>
               {/* 导航栏第一个入口：返回主页 */}
-            <HomeButton />
+            <HomeButton label={t.introPage.homeLabel} />
              {/* 导航入口 2：进入平假名页面 */}
             <Link
                 href="hiragana"
@@ -63,7 +92,7 @@ export default function IntroPage() {
                       width={72}
                       height={72}
                       />
-                      <span>看看平假名</span>
+                      <span>{t.introPage.hiraganaNav}</span>
                 </Link>
 
          
@@ -89,7 +118,7 @@ export default function IntroPage() {
     height={72}
   />
 
-  <span>看看片假名</span>
+  <span>{t.introPage.katakanaNav}</span>
 </Link>
 {/* 导航入口 4：尚未开放的汉字功能 */}
 <button
@@ -115,7 +144,7 @@ export default function IntroPage() {
     height={72}
   />
 
-  <span>汉字稍后开放</span>
+  <span>{t.introPage.kanjiComingSoon}</span>
 </button>
             </nav>
       <div
@@ -156,7 +185,7 @@ export default function IntroPage() {
                   color: "#3b241c",
                 }}
               >
-                日语文字，其实是在分工工作
+                 {t.introPage.title}
               </h1>
 
               <p
@@ -167,8 +196,7 @@ export default function IntroPage() {
                   margin: "0",
                 }}
               >
-                日语看起来像同时用了三套文字，但它们不是在制造混乱。
-                平假名、片假名和汉字会在同一个句子里各自负责不同任务。
+               {t.introPage.description}
               </p>
             </div>
 
@@ -205,7 +233,7 @@ export default function IntroPage() {
                   fontWeight: "800",
                 }}
               >
-                来看这个例子
+                {t.introPage.exampleLabel}
               </p>
               <p
                 style={{
@@ -226,7 +254,7 @@ export default function IntroPage() {
                   fontWeight: "700",
                 }}
               >
-                我喝咖啡。
+               {t.introPage.sentenceTranslation}
               </p>
             </div>
 
@@ -252,7 +280,7 @@ export default function IntroPage() {
                     fontWeight: "800",
                   }}
                 >
-                  平假名
+                  {t.introPage.hiraganaTitle}
                 </p>
                 <p
                   style={{
@@ -271,8 +299,7 @@ export default function IntroPage() {
                     lineHeight: "1.6",
                   }}
                 >
-                  负责发音和语法
-它是日语学习的起点。助词、词尾变化、很多基础单词都会用平假名出现。
+                  {t.introPage.hiraganaDescription}
                 </p>
               </article>
 
@@ -291,7 +318,7 @@ export default function IntroPage() {
                     fontWeight: "800",
                   }}
                 >
-                  片假名
+                  {t.introPage.katakanaTitle}
                 </p>
                 <p
                   style={{
@@ -309,8 +336,7 @@ export default function IntroPage() {
                     color: "#6f3b2e",
                     lineHeight: "1.6",
                   }}
-                >负责外来词和特殊声音
-咖啡、电脑、外国人名、品牌名，经常会用片假名写。
+                >{t.introPage.katakanaDescription}
                 </p>
               </article>
 
@@ -329,7 +355,7 @@ export default function IntroPage() {
                     fontWeight: "800",
                   }}
                 >
-                  汉字
+                 {t.introPage.kanjiTitle}
                 </p>
                 <p
                   style={{
@@ -348,7 +374,7 @@ export default function IntroPage() {
                     lineHeight: "1.6",
                   }}
                 >
-                  负责表达核心意思，让你快速看出句子在说什么。
+                  {t.introPage.kanjiDescription}
                 </p>
               </article>
 
@@ -367,7 +393,7 @@ export default function IntroPage() {
                     fontWeight: "800",
                   }}
                 >
-                  罗马字
+                 {t.introPage.romajiTitle}
                 </p>
                 <p
                   style={{
@@ -386,7 +412,7 @@ export default function IntroPage() {
                     lineHeight: "1.6",
                   }}
                 >
-                  onakawash 使用 si / ti / tu 这类标注，帮助你对应假名表和输入习惯。
+                  {t.introPage.romajiDescription}
                 </p>
               </article>
             </div>

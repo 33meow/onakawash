@@ -32,6 +32,37 @@ nav: {
     katakana: "片假名",
     by: "Yvonne Buttercup 制作",
   },
+
+  introPage: {
+  homeLabel: "回到主页面",
+  hiraganaNav: "看看平假名",
+  katakanaNav: "看看片假名",
+  kanjiComingSoon: "汉字稍后开放",
+
+  title: "日语文字，其实是在分工工作",
+  description:
+    "日语看起来像同时用了三套文字，但它们不是在制造混乱。平假名、片假名和汉字会在同一个句子里各自负责不同任务。",
+
+  exampleLabel: "来看这个例子",
+  sentenceTranslation: "我喝咖啡。",
+
+  hiraganaTitle: "平假名",
+  hiraganaDescription:
+    "负责发音和语法。它是日语学习的起点。助词、词尾变化和很多基础单词都会用平假名出现。",
+
+  katakanaTitle: "片假名",
+  katakanaDescription:
+    "负责外来词和特殊声音。咖啡、电脑、外国人名和品牌名经常会用片假名书写。",
+
+  kanjiTitle: "汉字",
+  kanjiDescription:
+    "负责表达核心意思，让你快速看出句子在说什么。",
+
+  romajiTitle: "罗马字",
+  romajiDescription:
+    "ONAKAWASH 使用日本式罗马字，例如 si、ti、tu，帮助你对应假名和输入习惯。",
+},
+
   practice:{
 loading: "练习数据加载中...",
     loadError: "练习数据加载失败，请检查后端是否启动。",
@@ -81,6 +112,7 @@ recordsPage: {
   emptyHint: "完成一轮练习后，你的成绩和用时会出现在这里。",
 startPractice: "开始练习",
 },
+
     },
     en:{
          home: {
@@ -99,6 +131,35 @@ home:"Home",
 hiragana:"Hiragana",
 katakana:"Katakana",
 by:"By Yvonne Buttercup",},
+introPage: {
+  homeLabel: "Back Home",
+  hiraganaNav: "Explore Hiragana",
+  katakanaNav: "Explore Katakana",
+  kanjiComingSoon: "Kanji coming soon",
+
+  title: "Japanese writing works as a team",
+  description:
+    "Japanese may look like it uses three writing systems at once, but they are not creating chaos. Hiragana, Katakana, and Kanji each have a different job within the same sentence.",
+
+  exampleLabel: "Look at this example",
+  sentenceTranslation: "I drink coffee.",
+
+  hiraganaTitle: "Hiragana",
+  hiraganaDescription:
+    "It handles pronunciation and grammar. It is the starting point for learning Japanese, appearing in particles, word endings, and many basic words.",
+
+  katakanaTitle: "Katakana",
+  katakanaDescription:
+    "It handles loanwords and distinctive sounds. Coffee, computers, foreign names, and brand names are often written in Katakana.",
+
+  kanjiTitle: "Kanji",
+  kanjiDescription:
+    "It carries the core meaning, helping you quickly understand what a sentence is about.",
+
+  romajiTitle: "Romaji",
+  romajiDescription:
+    "ONAKAWASH uses Nihon-shiki romanization, such as si, ti, and tu, to help you connect romaji with kana and Japanese input patterns.",
+},
 practice: {
   loading: "Loading practice...",
   loadError: "Failed to load practice data. Please check whether the backend is running.",
@@ -168,6 +229,35 @@ hiragana:"히라가나",
 katakana:"가타카나",
 by:"Yvonne Buttercup 제작",
    },
+   introPage: {
+  homeLabel: "홈으로 돌아가기",
+  hiraganaNav: "히라가나 살펴보기",
+  katakanaNav: "가타카나 살펴보기",
+  kanjiComingSoon: "한자 추후 공개",
+
+  title: "일본어 문자는 서로 역할을 나누어 일해요",
+  description:
+    "일본어는 세 가지 문자 체계를 동시에 사용해서 복잡해 보이지만, 무질서하게 섞인 것은 아닙니다. 히라가나, 가타카나, 한자는 한 문장 안에서 서로 다른 역할을 맡습니다.",
+
+  exampleLabel: "이 예문을 살펴보세요",
+  sentenceTranslation: "저는 커피를 마십니다.",
+
+  hiraganaTitle: "히라가나",
+  hiraganaDescription:
+    "발음과 문법을 담당합니다. 일본어 학습의 출발점이며, 조사와 어미 변화, 많은 기초 단어에 사용됩니다.",
+
+  katakanaTitle: "가타카나",
+  katakanaDescription:
+    "외래어와 특별한 소리를 담당합니다. 커피, 컴퓨터, 외국인 이름, 브랜드명은 가타카나로 자주 씁니다.",
+
+  kanjiTitle: "한자",
+  kanjiDescription:
+    "핵심 의미를 전달하여 문장이 무엇을 말하는지 빠르게 이해할 수 있게 합니다.",
+
+  romajiTitle: "로마자",
+  romajiDescription:
+    "ONAKAWASH는 si, ti, tu와 같은 일본식 로마자 표기법을 사용하여 로마자와 가나, 일본어 입력 방식의 대응을 돕습니다.",
+},
    practice: {
   loading: "연습 데이터를 불러오는 중...",
   loadError: "연습 데이터를 불러오지 못했습니다. 백엔드가 실행 중인지 확인해 주세요.",
@@ -237,6 +327,35 @@ nav: {
   hiragana: "Hiragana",
   katakana: "Katakana",
   by: "Được tạo bởi Yvonne Buttercup",
+},
+introPage: {
+  homeLabel: "Quay về trang chủ",
+  hiraganaNav: "Khám phá Hiragana",
+  katakanaNav: "Khám phá Katakana",
+  kanjiComingSoon: "Nội dung Kanji sắp ra mắt",
+
+  title: "Các hệ chữ tiếng Nhật phối hợp với nhau",
+  description:
+    "Tiếng Nhật có thể trông phức tạp vì sử dụng đồng thời ba hệ chữ, nhưng chúng không được trộn lẫn một cách hỗn loạn. Hiragana, Katakana và Kanji đảm nhận những vai trò khác nhau trong cùng một câu.",
+
+  exampleLabel: "Hãy xem ví dụ này",
+  sentenceTranslation: "Tôi uống cà phê.",
+
+  hiraganaTitle: "Hiragana",
+  hiraganaDescription:
+    "Hiragana đảm nhiệm cách phát âm và ngữ pháp. Đây là điểm khởi đầu khi học tiếng Nhật, được dùng trong trợ từ, biến đổi đuôi từ và nhiều từ cơ bản.",
+
+  katakanaTitle: "Katakana",
+  katakanaDescription:
+    "Katakana được dùng cho từ vay mượn và những âm đặc biệt. Cà phê, máy tính, tên người nước ngoài và tên thương hiệu thường được viết bằng Katakana.",
+
+  kanjiTitle: "Kanji",
+  kanjiDescription:
+    "Kanji truyền tải ý nghĩa cốt lõi, giúp bạn nhanh chóng hiểu câu đang nói về điều gì.",
+
+  romajiTitle: "Romaji",
+  romajiDescription:
+    "ONAKAWASH sử dụng hệ La-tinh hóa Nihon-shiki, chẳng hạn như si, ti và tu, giúp bạn liên hệ romaji với kana và cách nhập tiếng Nhật.",
 },
 practice: {
   loading: "Đang tải dữ liệu luyện tập...",
