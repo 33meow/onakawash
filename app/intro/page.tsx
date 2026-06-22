@@ -3,9 +3,8 @@ import HomeButton from "../components/HomeButton";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import LanguageSwitcher from "../components/LanguageSwitcher";
 import { messages, type Language } from "../messages";
-
+import LanguageMenu from "../components/LanguageMenu";
  
 
 
@@ -42,10 +41,7 @@ const t = messages[language];
         alignItems: "stretch",
       }}
     >
-      <LanguageSwitcher
-  language={language}
-  setLanguage={setLanguage}
-/>
+     
       
       <style>{`
         .intro-nav-image {
@@ -135,6 +131,7 @@ const t = messages[language];
     font: "inherit",
     fontWeight: "700",
     opacity: "0.6",
+    textAlign: "left",
   }}
 >
   <Image
@@ -144,8 +141,15 @@ const t = messages[language];
     height={72}
   />
 
-  <span>{t.introPage.kanjiComingSoon}</span>
+  <span  style={{
+    flex: "1",
+    textAlign: "left",
+    lineHeight: "1.4",
+  }}>{t.introPage.kanjiComingSoon}</span>
 </button>
+
+<LanguageMenu language={language}
+setLanguage={setLanguage}/>
             </nav>
       <div
         style={{

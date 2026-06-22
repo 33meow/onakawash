@@ -34,6 +34,7 @@ nav: {
   },
 
   introPage: {
+    language: "语言",
   homeLabel: "回到主页面",
   hiraganaNav: "看看平假名",
   katakanaNav: "看看片假名",
@@ -132,6 +133,7 @@ hiragana:"Hiragana",
 katakana:"Katakana",
 by:"By Yvonne Buttercup",},
 introPage: {
+  language: "Language",
   homeLabel: "Back Home",
   hiraganaNav: "Explore Hiragana",
   katakanaNav: "Explore Katakana",
@@ -230,6 +232,7 @@ katakana:"가타카나",
 by:"Yvonne Buttercup 제작",
    },
    introPage: {
+    language: "언어",
   homeLabel: "홈으로 돌아가기",
   hiraganaNav: "히라가나 살펴보기",
   katakanaNav: "가타카나 살펴보기",
@@ -329,6 +332,7 @@ nav: {
   by: "Được tạo bởi Yvonne Buttercup",
 },
 introPage: {
+  language: "Ngôn ngữ",
   homeLabel: "Quay về trang chủ",
   hiraganaNav: "Khám phá Hiragana",
   katakanaNav: "Khám phá Katakana",
