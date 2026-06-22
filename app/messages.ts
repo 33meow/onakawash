@@ -311,7 +311,7 @@ startPractice: "연습 시작",
 
         vi:{
         home: {
-  title: "ONAKAWASH",
+  title: "ONAKAWASH(Bụng Bự Đi Tắm)",
   entryHint: "Nhấn vào miếng bọt biển để vào ONAKAWASH!!",
   description:
     "Một trang web học tiếng Nhật, nơi bạn kiếm xu, mua bọt biển và rửa bụng cho chú cún.",
