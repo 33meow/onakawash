@@ -29,41 +29,27 @@ function handleLanguageChange(nextLanguage: Language) {
          style={{ position: "relative",}}>
              <button
         type="button"
-        className="intro-nav-item"
+        className="side-nav-item"
         aria-expanded={isOpen}
        onClick={toggleMenu}
-        style={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          gap: "9px",
-          padding: "0",
-          border: "none",
-          background: "transparent",
-          color: "#4a2b22",
-          font: "inherit",
-          fontWeight: "700",
-          cursor: "pointer",
-           textAlign: "left",
-        }}
       >
         <Image
           src="/images/buttons/language.png"
           alt=""
           width={72}
           height={72}
-          className="intro-nav-image"
+          className="side-nav-image"
         />
 
         <span  style={{
     flex: "1",
     textAlign: "left",
     lineHeight: "1.4",
-  }}>{t.introPage.language}</span>
+  }}>{t.nav.language}</span>
       </button>
       {isOpen && (
   <section
-    aria-label={t.introPage.language}
+    aria-label={t.nav.language}
     style={{
       position: "absolute",
       top: "0",
@@ -85,7 +71,7 @@ function handleLanguageChange(nextLanguage: Language) {
         fontWeight: "800",
       }}
     >
-      {t.introPage.language}
+      {t.nav.language}
     </p>
     <button
   type="button"

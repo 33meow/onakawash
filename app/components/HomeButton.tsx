@@ -9,26 +9,19 @@ export default function HomeButton(
   {label,}:HomeButtonProps
 ){
     return(
-        <Link 
-        style={{
-  display: "flex",
-  alignItems: "center",
-  gap: "8px",
-  color: "#4a2b22",
-  textDecoration: "none",
-  fontWeight: "700",
-}}
-              href="/"
-              className="intro-nav-item"
-              aria-label="label"
-              title="label">
+       <Link
+  href="/"
+  className="side-nav-item"
+  aria-label={label}
+  title={label}
+>
                 <Image 
                        src="/images/buttons/home.png"
                        alt=""
                        width={72}
                        height={72}
                        priority
-                       className="intro-nav-image"
+                       className="side-nav-image"
                        style={{
                         display:"block",
                         width:"72px",

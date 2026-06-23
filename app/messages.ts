@@ -31,14 +31,14 @@ nav: {
     hiragana: "平假名",
     katakana: "片假名",
     by: "Yvonne Buttercup 制作",
+    practice: "练习",
+    intro: "介绍",
+    language: "语言", 
+    kanjiComingSoon: "汉字稍后开放",
   },
 
   introPage: {
-    language: "语言",
-  homeLabel: "回到主页面",
-  hiraganaNav: "看看平假名",
-  katakanaNav: "看看片假名",
-  kanjiComingSoon: "汉字稍后开放",
+    
 
   title: "日语文字，其实是在分工工作",
   description:
@@ -95,8 +95,7 @@ loading: "练习数据加载中...",
   detailModeLabel: "详情模式",
   clickHint: "点击任意假名来听发音。",
   detailHint:"点击任意假名打开详情页。",
-  hiraganaOnly: "仅平假名",
-  katakanaOnly: "仅片假名",
+ 
   switchToHiragana: "平假名",
   switchToKatakana: "片假名",
 },
@@ -133,13 +132,14 @@ settings:"Settings",
 home:"Home",
 hiragana:"Hiragana",
 katakana:"Katakana",
-by:"By Yvonne Buttercup",},
+by:"By Yvonne Buttercup",
+practice: "Practice",
+intro: "Intro",
+language: "Language",
+kanjiComingSoon: "Kanji coming soon",},
+
 introPage: {
-  language: "Language",
-  homeLabel: "Back Home",
-  hiraganaNav: "Explore Hiragana",
-  katakanaNav: "Explore Katakana",
-  kanjiComingSoon: "Kanji coming soon",
+ 
 
   title: "Japanese writing works as a team",
   description:
@@ -196,8 +196,7 @@ kanaPage: {
   detailModeLabel: "detail mode",
   clickHint: "Click any kana to hear the sound.",
   detailHint:"Click any kana to open its detail page.",
-  hiraganaOnly: "Hiragana only",
-  katakanaOnly: "Katakana only",
+ 
   switchToHiragana: "Hiragana",
   switchToKatakana: "Katakana",
 },
@@ -235,13 +234,13 @@ home:"홈",
 hiragana:"히라가나",
 katakana:"가타카나",
 by:"Yvonne Buttercup 제작",
+practice: "연습",
+intro: "소개",
+language: "언어",
+kanjiComingSoon: "한자 추후 공개",
    },
    introPage: {
-    language: "언어",
-  homeLabel: "홈으로 돌아가기",
-  hiraganaNav: "히라가나 살펴보기",
-  katakanaNav: "가타카나 살펴보기",
-  kanjiComingSoon: "한자 추후 공개",
+   
 
   title: "일본어 문자는 서로 역할을 나누어 일해요",
   description:
@@ -298,8 +297,7 @@ kanaPage: {
   detailModeLabel: "상세 모드",
   clickHint: "아무 가나를 클릭해서 발음을 들어 보세요.",
   detailHint:"아무 가나를 클릭해서 상세 페이지를 열어 보세요.",
-  hiraganaOnly: "히라가나만",
-  katakanaOnly: "가타카나만",
+ 
   switchToHiragana: "히라가나",
   switchToKatakana: "가타카나",
 },
@@ -338,13 +336,13 @@ nav: {
   hiragana: "Hiragana",
   katakana: "Katakana",
   by: "Được tạo bởi Yvonne Buttercup",
+  practice: "Luyện tập",
+intro: "Giới thiệu",
+language: "Ngôn ngữ",
+kanjiComingSoon: "Nội dung Kanji sắp ra mắt",
 },
 introPage: {
-  language: "Ngôn ngữ",
-  homeLabel: "Quay về trang chủ",
-  hiraganaNav: "Khám phá Hiragana",
-  katakanaNav: "Khám phá Katakana",
-  kanjiComingSoon: "Nội dung Kanji sắp ra mắt",
+  
 
   title: "Các hệ chữ tiếng Nhật phối hợp với nhau",
   description:
@@ -402,8 +400,7 @@ kanaPage: {
   detailModeLabel: "chế độ chi tiết",
   clickHint: "Nhấn vào một ký tự kana để nghe phát âm.",
   detailHint: "Nhấn vào một ký tự kana để mở trang chi tiết.",
-  hiraganaOnly: "Chỉ Hiragana",
-  katakanaOnly: "Chỉ Katakana",
+
   switchToHiragana: "Hiragana",
   switchToKatakana: "Katakana",
 },

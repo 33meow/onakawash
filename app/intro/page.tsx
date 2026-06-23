@@ -21,6 +21,8 @@ export default function IntroPage() {
     savedLanguage === "ko" ||
     savedLanguage === "vi"
   ) {
+    // localStorage 只能在浏览器中读取，因此页面加载后再恢复语言。
+// eslint-disable-next-line react-hooks/set-state-in-effect
     setLanguage(savedLanguage);
   }
 }, []);
@@ -44,18 +46,6 @@ const t = messages[language];
     >
      
       
-      <style>{`
-        .intro-nav-image {
-          transform-origin: center;
-          transition: transform 180ms ease;
-        }
-
-        .intro-nav-item:hover .intro-nav-image,
-        .intro-nav-link:focus-visible .intro-nav-image {
-          transform: scale(1.08);
-        }
-      `}</style>
-
         {/* 左侧导航栏：下一步会放入主页按钮和三个学习入口 */}
         <nav 
             aria-label="介绍页导航"
@@ -68,28 +58,20 @@ const t = messages[language];
     borderRight: "1px solid #ead8d0",
             }}>
               {/* 导航栏第一个入口：返回主页 */}
-            <HomeButton label={t.introPage.homeLabel} />
+            <HomeButton label={t.nav.home} />
              {/* 导航入口 2：进入平假名页面 */}
             <Link
                 href="hiragana"
-                className="intro-nav-item"
-                style={{
-                  display:"flex",
-                  alignItems:"center",
-                  gap:"8px",
-                  color:"#4a2b22",
-                  textDecoration:"none",
-                  fontWeight:"700",
-                  
-                }}>
+                className="side-nav-item"
+               >
                   <Image
-                  className="intro-nav-image"
+                  className="side-nav-image"
                       src="/images/buttons/hiragana.png"
                       alt=""
                       width={72}
                       height={72}
                       />
-                      <span>{t.introPage.hiraganaNav}</span>
+                      <span>{t.nav.hiragana}</span>
                 </Link>
 
          
@@ -97,25 +79,18 @@ const t = messages[language];
             {/* 导航入口 3：进入片假名页面 */}
 <Link
   href="/katakana"
-  className="intro-nav-item"
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    color: "#4a2b22",
-    textDecoration: "none",
-    fontWeight: "700",
-  }}
+  className="side-nav-item"
+ 
 >
   <Image
-  className="intro-nav-image"
+  className="side-nav-image"
     src="/images/buttons/katakana.png"
     alt=""
     width={72}
     height={72}
   />
 
-  <span>{t.introPage.katakanaNav}</span>
+  <span>{t.nav.katakana}</span>
 </Link>
 {/* 导航入口 4：尚未开放的汉字功能 */}
 <button
@@ -147,7 +122,7 @@ const t = messages[language];
     flex: "1",
     textAlign: "left",
     lineHeight: "1.4",
-  }}>{t.introPage.kanjiComingSoon}</span>
+  }}>{t.nav.kanjiComingSoon}</span>
 </button>
 {/* 导航入口 5：尚未开放的设置 */}
 <button

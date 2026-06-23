@@ -1,28 +1,14 @@
-// 这一行必须有
-// 因为这个页面用了点击事件 onClick 和 Audio 播放音频
-// 这些都需要在浏览器端运行
 "use client";
 
-import {messages, type Language} from "../messages";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
-// useRouter 用来在函数里控制跳转。
-// 这里用于：详情模式下，点击假名后跳到 /hiragana/a 这种详情页。
-import { useRouter } from "next/navigation";
+import HomeButton from "../components/HomeButton";
+import LanguageMenu from "../components/LanguageMenu";
+import { messages, type Language } from "../messages";
 
-// useState 是 React 用来记录页面状态的工具
-// 这里用来记录“用户刚刚点了哪个假名”
-// 这里我们用 useRef 保存“当前正在播放的 audio”。
-//import { useRef, useState } from "react";
-
-// 导入 Hiragana 数据。
-//import { hiraganaSections, type HiraganaItem } from "@/data/hiraganaData";
-
-//把数据来源从前端的data变成后端得KanaService
-import {useEffect,useMemo, useRef, useState} from "react";
-
-//然后你原来函数里的 HiraganaItem 全部改成 KanaItem。
-type KanaItem ={
+type KanaItem = {
     id:string;
     kana:string;
     romaji:string;
@@ -39,21 +25,26 @@ type KanaItem ={
 
 
 
-// Mode 是我们自己定义的类型。
-// 它表示当前页面模式只能是这两个值之一：
-// "sound" = 声音模式
-// "detail" = 详情模式
-type Mode = "sound" | "detail";
+
 
 export default function HiraganaPage(){
-     // router.push("/xxx") 可以让页面跳到某个地址。
-     const router = useRouter();
-     // mode 记录当前模式。
-  // 默认是 "sound"，也就是用户一进来先是声音模式。
-  const [mode, setMode] = useState<Mode>("sound");
-  // selectedId 记录刚刚被用户点过的假名。
-  // 这个不是必须功能，但可以用来给被点过的假名加一点高亮。
   const [selectedId, setSelectedId] = useState<string | null>(null);
+      const [language, setLanguage] = useState<Language>("zh");
+   useEffect(() => {
+  const savedLanguage = localStorage.getItem("language");
+
+  if (
+    savedLanguage === "zh" ||
+    savedLanguage === "en" ||
+    savedLanguage === "ko" ||
+    savedLanguage === "vi"
+  ) {
+    // localStorage 只能在浏览器中读取，因此页面加载后再恢复语言。
+// eslint-disable-next-line react-hooks/set-state-in-effect
+    setLanguage(savedLanguage);
+  }
+}, []);
+const t = messages[language];
 
 
 // sections 用来保存从后端拿到的 Hiragana 数据。
@@ -69,21 +60,8 @@ const [sections, setSections] = useState<KanaSection[]>([]);
 // HTMLAudioElement 是浏览器里的音频对象类型。
 const currentAudioRef = useRef<HTMLAudioElement | null>(null);
 
-const [language, setLanguage] = useState<Language>("zh");
-const t = useMemo(() => messages[language], [language]);
-useEffect(() => {
-  const savedLanguage = localStorage.getItem("language");
 
-  if (
-    savedLanguage === "zh" ||
-    savedLanguage === "en" ||
-    savedLanguage === "ko" ||
-    savedLanguage ==="vi"
-  ) {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setLanguage(savedLanguage);
-  }
-}, []);
+
 //页面第一次打开后，自动做一次里面的事情。
 //去后端拿数据
 //拿到了就塞进 sections
@@ -113,8 +91,7 @@ useEffect(() => {
    // playAudio 是播放音频的函数。
   // 参数 item 就是用户点击的那个假名。
   function playAudio(item: KanaItem){
-    // 记录用户点了哪个假名。
-    setSelectedId(item.id);
+  setSelectedId(item.id);
 
     // 如果这个假名还没有 audioSrc，就先提醒一下。
     // 现在只有 あいうえお 有录音的话，其他假名就会走这里。
@@ -145,27 +122,15 @@ audio.play().catch(() => {
   alert("音频播放失败。请检查 audio 文件路径");
 });
   }
-  // handleKanaClick 是点击假名时执行的总函数。
-  // 它会根据当前 mode 决定行为。
+  // 用户点击任意假名时，统一播放对应音频。
   function handleKanaClick(item: KanaItem){
-     // 如果当前是声音模式：
-    // 点假名只播放声音，不跳转。
-    if (mode === "sound"){
-        playAudio(item);
-        return;
-    }
-    // 如果当前是详情模式：
-    // 点假名跳转到详情页。
-    // 例如 あ 的 id 是 a，所以跳到 /hiragana/a。
-    if (mode === "detail"){
-        router.push(`/hiragana/${item.id}`);
-    }
+    playAudio(item);
   }
   return(
     <main
      style={{
         minHeight:"100vh",
-        background:"linear-gradient(180deg, #fff7fb 0%, #f7fbff 100%)",
+      background: "#f6f2e8",
         fontFamily:"Arial, sans-serif",
      }}>
         {/* 
@@ -182,167 +147,92 @@ audio.play().catch(() => {
           注意：
           - 改变模式：用 button
           - 跳转页面：用 Link
-        */}<aside style={{
-            width:"180px",
-            //左边高度等于整个屏幕
-            height:"100vh",
-            //滚动时贴住，不跟着右边跑
-            position:"sticky",
-            //固定在距离顶部 0 的位置。
-            top:0,
-            //左边不要被右边挤窄。
-            flexShrink:0,
-            //左边内容太多时，左边自己能滚动。
-            overflowY:"auto",
-            padding:"28px 18px",
-            backgroundColor:"rgba(255,255,255,0.78)",
-            borderRight:"1px solid rgba(243,182,208,0.7)",
-            boxShadow:"8px 0 24px rgba(100, 60, 120, 0.06)",
-        }}>
-                {/* 左侧栏标题 */}
-                <p style={{
-                    fontSize:"14px",
-                    color:"#b83280",
-                    fontWeight:"800",
-                    margin:"0 0 18px",
-                }}>{t.kanaPage.modeTitle}</p>
-                  {/* 
-            声音模式按钮。
-            它不是跳转页面，所以用 button。
-          */}
-          <button type="button"
-          onClick={()=>setMode("sound")}
-          style={{
-            width:"100%",
-            padding:"12px 14px",
-            borderRadius:"16px",
-            border:
-             mode === "sound"
-             ?"2px solid #d85b9f"
-             :"1px solid #ead6e4",
-             backgroundColor:mode === "sound"?"#fff0f6":"white",
-             color:"#7a2e5d",
-             fontWeight:"800",
-             cursor:"pointer",
-             marginBottom:"12px",
-             textAlign:"left",
+        */}<nav
+  aria-label={t.nav.hiragana}
+  style={{
+    width: "240px",
+    height: "100vh",
+    position: "sticky",
+    top: 0,
+    flexShrink: 0,
+   overflow: "visible",
+zIndex: 20,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "stretch",
+    gap: "16px",
+    padding: "16px 12px",
+    boxSizing: "border-box",
+    backgroundColor: "#f6f2e8",
+    borderRight: "1px solid #ead8d0",
+  }}
+>
+   {/* hiragana第一个入口：返回主页 */}
+              <HomeButton label={t.nav.home} />
 
-          }}>🔊 {t.kanaPage.soundMode}</button>
-          
-          {/* 
-            详情模式按钮。
-            它也不是直接跳转页面。
-            它只是把当前模式改成 detail。
-            真正跳转发生在用户点击某个假名的时候。
-          */}
-          <button
-            type="button"
-            onClick={() => setMode("detail")}
-            style={{
-              width: "100%",
-              padding: "12px 14px",
-              borderRadius: "16px",
-              border:
-                mode === "detail"
-                  ? "2px solid #8b5cf6"
-                  : "1px solid #ead6e4",
-              backgroundColor: mode === "detail" ? "#f4eef6" : "white",
-              color: "#5b3aa0",
-              fontWeight: "800",
-              cursor: "pointer",
-              marginBottom: "12px",
-              textAlign: "left",
-            }}
-          >
-            📖 {t.kanaPage.detailMode}
-          </button>
+              {/* hiragana入口 2：进入练习页面 */}
+<Link
+  href="/practice/hiragana"
+  className="side-nav-item"
+>
+  <Image
+  className="side-nav-image"
+    src="/images/buttons/practice.png"
+    alt=""
+    width={72}
+    height={72}
+  />
 
-          <Link href="/practice/hiragana"
-          style={{
-              display: "block",
-              padding: "12px 14px",
-              borderRadius: "16px",
-              border: "1px solid #dce7f8",
-              backgroundColor: "white",
-              color: "#174a7c",
-              fontWeight: "800",
-              textDecoration: "none",
-              marginBottom: "12px",
-            }}>
-  📝 {t.kanaPage.practice}
+  <span>{t.nav.practice}</span>
 </Link>
+
+              {/* hiragana入口 3：进入片假名页面 */}
+<Link
+  href="/katakana"
+  className="side-nav-item"
+ 
+>
+  <Image
+  className="side-nav-image"
+    src="/images/buttons/katakana.png"
+    alt=""
+    width={72}
+    height={72}
+  />
+
+  <span>{t.nav.katakana}</span>
+</Link>
+
+ 
+
+ {/* hiragana入口 4：intro*/}
+ <Link
+  href="/intro"
+  className="side-nav-item"
+  
+>
+  <Image
+  className="side-nav-image"
+    src="/images/buttons/intro.png"
+    alt=""
+    width={72}
+    height={72}
+  />
+
+  <span>{t.nav.intro}</span>
+</Link>
+
+        
           
-  {/* 
-            Katakana 入口。
-            这是页面跳转，所以用 Link。
-            现在 /katakana 还没做，先可以跳过去，之后再补页面。
-            如果你不想现在出现 404，也可以先把 href 改成 "#"。
-          */}
-          <Link
-            href="/katakana"
-            style={{
-              display: "block",
-              padding: "12px 14px",
-              borderRadius: "16px",
-              border: "1px solid #dce7f8",
-              backgroundColor: "white",
-              color: "#174a7c",
-              fontWeight: "800",
-              textDecoration: "none",
-              marginBottom: "12px",
-            }}
-          >
-            ア {t.kanaPage.switchToKatakana}
-          </Link>
-             {/* 跳到 intro 页面 */}
-          <Link
-            href="/intro"
-            style={{
-              display: "block",
-              padding: "12px 14px",
-              borderRadius: "16px",
-              border: "1px solid #ead6e4",
-              backgroundColor: "white",
-              color: "#7a2e5d",
-              fontWeight: "800",
-              textDecoration: "none",
-              marginBottom: "12px",
-            }}
-          >
-            🗺️ {t.kanaPage.intro}
-          </Link>
-  {/* 跳回首页 */}
-          <Link
-            href="/"
-            style={{
-              display: "block",
-              padding: "12px 14px",
-              borderRadius: "16px",
-              border: "1px solid #ead6e4",
-              backgroundColor: "white",
-              color: "#7a2e5d",
-              fontWeight: "800",
-              textDecoration: "none",
-            }}
-          >
-            🏠 {t.kanaPage.home}
-          </Link>
-           {/* 
-            当前模式提示。
-            只是给你调试和用户提示用。
-          */}
-          <p
-            style={{
-              marginTop: "24px",
-              fontSize: "13px",
-              color: "#9a8fa0",
-              lineHeight: "1.5",
-            }}
-          >
-           {t.kanaPage.currentMode}:{" "}
-{mode === "sound" ? t.kanaPage.soundModeLabel : t.kanaPage.detailModeLabel}
-          </p>
-        </aside>
+          {/* hiragana入口 5：切换语言 */}
+          <LanguageMenu language={language}
+          setLanguage={setLanguage}/>
+      
+ 
+            
+
+        
+       </nav>
           {/* 
           右侧主内容区域。
           这里只显示 Hiragana 假名总览。
@@ -360,20 +250,7 @@ audio.play().catch(() => {
     margin:"0 auto 28px",
     textAlign:"center",
 }}>
-     <p
-              style={{
-                display: "inline-block",
-                padding: "8px 14px",
-                borderRadius: "999px",
-                backgroundColor: "#fff0f6",
-                color: "#b83280",
-                fontWeight: "800",
-                fontSize: "14px",
-                margin: "0 0 14px",
-              }}
-            >
-             {t.kanaPage.hiraganaOnly}
-            </p>
+    
             <h1
               style={{
                 fontSize: "40px",
@@ -389,7 +266,7 @@ audio.play().catch(() => {
                 margin: 0,
               }}
             >
-              {mode === "sound" ? t.kanaPage.clickHint : t.kanaPage.detailHint}
+              
             </p>
 </div>
   {/* 
@@ -459,6 +336,7 @@ audio.play().catch(() => {
 // 比如 や 行：や  空  ゆ  空  よ。
 // 这个空 div 不显示内容，但会占住 grid 的位置。
 if (item === null) {
+  
   return (
     <div
       key={`empty-${section.title}-${index}`}
@@ -469,8 +347,7 @@ if (item === null) {
   );
 }
 
-          // 判断这个假名是不是刚刚被点过。
-          const isSelected = selectedId === item.id;
+         const isSelected = selectedId === item.id; 
 
           return (
             <button
@@ -478,18 +355,18 @@ if (item === null) {
               type="button"
               onClick={() => handleKanaClick(item)}
               style={{
-                minHeight: "110px",
-                borderRadius: "26px",
-                border: isSelected
-                  ? "2px solid #d85b9f"
-                  : "1px solid transparent",
-                backgroundColor: isSelected
-                  ? "#fff0f6"
-                  : "rgba(255,255,255,0.65)",
-                boxShadow: isSelected
-                  ? "0 12px 24px rgba(216, 91, 159, 0.18)"
-                  : "0 8px 18px rgba(80, 60, 90, 0.06)",
-                cursor: "pointer",
+              minHeight: "110px",
+  borderRadius: "26px",
+  border: isSelected
+    ? "2px solid #c9975b"
+    : "1px solid transparent",
+  backgroundColor: isSelected
+    ? "#f3dfb3"
+    : "rgba(255, 255, 255, 0.65)",
+  boxShadow: isSelected
+    ? "0 12px 24px rgba(139, 94, 52, 0.18)"
+    : "0 8px 18px rgba(80, 60, 40, 0.06)",
+  cursor: "pointer",
               }}
             >
               {/* 

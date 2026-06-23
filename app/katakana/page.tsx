@@ -127,24 +127,13 @@ audio.play().catch(() => {
   // handleKanaClick 是点击假名时执行的总函数。
   // 它会根据当前 mode 决定行为。
   function handleKanaClick(item: KanaItem) {
-     // 如果当前是声音模式：
-    // 点假名只播放声音，不跳转。
-    if (mode === "sound"){
-        playAudio(item);
-        return;
-    }
-    // 如果当前是详情模式：
-    // 点假名跳转到详情页。
-    // 例如 あ 的 id 是 a，所以跳到 /hiragana/a。
-    if (mode === "detail"){
-        router.push(`/katakana/${item.id}`);
-    }
+     playAudio(item);
   }
   return(
     <main
      style={{
         minHeight:"100vh",
-        background:"linear-gradient(180deg, #fff7fb 0%, #f7fbff 100%)",
+       background: "#f6f2e8",
         fontFamily:"Arial, sans-serif",
      }}>
         {/* 
@@ -161,46 +150,26 @@ audio.play().catch(() => {
           注意：
           - 改变模式：用 button
           - 跳转页面：用 Link
-        */}<aside style={{
-            width:"180px",
-            height:"100vh",
-            position:"sticky",
-            top:0,
-            flexShrink:"auto",
-            padding:"28px 18px",
-            backgroundColor:"rgba(255,255,255,0.78)",
-            borderRight:"1px solid rgba(243,182,208,0.7)",
-            boxShadow:"8px 0 24px rgba(100, 60, 120, 0.06)",
-        }}>
-                {/* 左侧栏标题 */}
-                <p style={{
-                    fontSize:"14px",
-                    color:"#b83280",
-                    fontWeight:"800",
-                    margin:"0 0 18px",
-                }}>{t.kanaPage.modeTitle}</p>
-                  {/* 
-            声音模式按钮。
-            它不是跳转页面，所以用 button。
-          */}
-          <button type="button"
-          onClick={()=>setMode("sound")}
-          style={{
-            width:"100%",
-            padding:"12px 14px",
-            borderRadius:"16px",
-            border:
-             mode === "sound"
-             ?"2px solid #d85b9f"
-             :"1px solid #ead6e4",
-             backgroundColor:mode === "sound"?"#fff0f6":"white",
-             color:"#7a2e5d",
-             fontWeight:"800",
-             cursor:"pointer",
-             marginBottom:"12px",
-             textAlign:"left",
-
-          }}>🔊 {t.kanaPage.soundMode}</button>
+        */}<nav
+  aria-label={t.nav.hiragana}
+  style={{
+    width: "240px",
+    height: "100vh",
+    position: "sticky",
+    top: 0,
+    flexShrink: 0,
+    overflowY: "auto",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "stretch",
+    gap: "16px",
+    padding: "16px 12px",
+    boxSizing: "border-box",
+    backgroundColor: "#f6f2e8",
+    borderRight: "1px solid #ead8d0",
+  }}
+>
+               
           
           {/* 
             详情模式按钮。
@@ -313,7 +282,7 @@ audio.play().catch(() => {
           >
             {t.kanaPage.currentMode}:{" "} {mode === "sound" ? t.kanaPage.soundModeLabel : t.kanaPage.detailModeLabel}
           </p>
-        </aside>
+        </nav>
           {/* 
           右侧主内容区域。
           这里只显示 Hiragana 假名总览。
@@ -331,20 +300,7 @@ audio.play().catch(() => {
     margin:"0 auto 28px",
     textAlign:"center",
 }}>
-     <p
-              style={{
-                display: "inline-block",
-                padding: "8px 14px",
-                borderRadius: "999px",
-                backgroundColor: "#fff0f6",
-                color: "#b83280",
-                fontWeight: "800",
-                fontSize: "14px",
-                margin: "0 0 14px",
-              }}
-            >
-              {t.kanaPage.katakanaOnly}
-            </p>
+   
             <h1
               style={{
                 fontSize: "40px",

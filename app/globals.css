@@ -24,3 +24,29 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+.side-nav-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: none;
+  box-sizing: border-box;
+  background: transparent;
+  color: #4a2b22;
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.side-nav-image {
+  transform-origin: center;
+  transition: transform 180ms ease;
+}
+
+.side-nav-item:hover .side-nav-image,
+.side-nav-item:focus-visible .side-nav-image {
+  transform: scale(1.08);
+}
