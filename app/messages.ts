@@ -62,6 +62,8 @@ nav: {
   romajiTitle: "罗马字",
   romajiDescription:
     "ONAKAWASH 使用日本式罗马字，例如 si、ti、tu，帮助你对应假名和输入习惯。",
+    productSlogan: "没有焦虑，没有压力，没有竞争，只有学习。",
+currentVersion: "当前版本",
 },
 
   practice:{
@@ -161,6 +163,9 @@ introPage: {
   romajiTitle: "Romaji",
   romajiDescription:
     "ONAKAWASH uses Nihon-shiki romanization, such as si, ti, and tu, to help you connect romaji with kana and Japanese input patterns.",
+    productSlogan:
+  "No stress. No pressure. No competition. Just learning.",
+currentVersion: "Current version",
 },
 practice: {
   loading: "Loading practice...",
@@ -260,6 +265,9 @@ by:"Yvonne Buttercup 제작",
   romajiTitle: "로마자",
   romajiDescription:
     "ONAKAWASH는 si, ti, tu와 같은 일본식 로마자 표기법을 사용하여 로마자와 가나, 일본어 입력 방식의 대응을 돕습니다.",
+    productSlogan:
+  "스트레스도, 부담도, 경쟁도 없이. 오직 배움만.",
+currentVersion: "현재 버전",
 },
    practice: {
   loading: "연습 데이터를 불러오는 중...",
@@ -360,6 +368,9 @@ introPage: {
   romajiTitle: "Romaji",
   romajiDescription:
     "ONAKAWASH sử dụng hệ La-tinh hóa Nihon-shiki, chẳng hạn như si, ti và tu, giúp bạn liên hệ romaji với kana và cách nhập tiếng Nhật.",
+    productSlogan:
+  "Không căng thẳng. Không áp lực. Không cạnh tranh. Chỉ cần học.",
+currentVersion: "Phiên bản hiện tại",
 },
 practice: {
   loading: "Đang tải dữ liệu luyện tập...",
