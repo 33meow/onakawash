@@ -132,6 +132,7 @@ const t = messages[language];
     fontWeight: "700",
     opacity: "0.6",
     textAlign: "left",
+      cursor: "not-allowed",
   }}
 >
   <Image
@@ -146,6 +147,43 @@ const t = messages[language];
     textAlign: "left",
     lineHeight: "1.4",
   }}>{t.introPage.kanjiComingSoon}</span>
+</button>
+
+<button
+  type="button"
+  disabled
+  style={{
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    padding: "0",
+    border: "none",
+    background: "transparent",
+    color: "#8f817b",
+    font: "inherit",
+    fontWeight: "700",
+    opacity: "0.6",
+    cursor: "not-allowed",
+    textAlign: "left",
+  }}
+>
+  <Image
+    src="/images/buttons/settings.png"
+    alt=""
+    width={72}
+    height={72}
+  />
+
+  <span
+    style={{
+      flex: "1",
+      textAlign: "left",
+      lineHeight: "1.4",
+    }}
+  >
+    {t.nav.settings}
+  </span>
 </button>
 
 <LanguageMenu language={language}
