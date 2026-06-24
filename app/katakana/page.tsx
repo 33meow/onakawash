@@ -4,17 +4,15 @@
 "use client";
 
 import Link from "next/link";
-
-// useRouter 用来在函数里控制跳转。
-// 这里用于：详情模式下，点击假名后跳到 /hiragana/a 这种详情页。
-import { useRouter } from "next/navigation";
+import Image from "next/image";
+import HomeButton from "../components/HomeButton";
+import LanguageMenu from "../components/LanguageMenu";
 
 // useState 是 React 用来记录页面状态的工具
 // 这里用来记录“用户刚刚点了哪个假名”
-import { useEffect,useMemo,useRef, useState } from "react";
+import { useEffect,useRef, useState } from "react";
 import { messages, type Language } from "../messages";
-// 导入 Hiragana 数据。
-//import { katakanaSections, type KatakanaItem } from "@/data/katakanaData";
+
 
 type KanaItem = {
   id: string; 
@@ -30,27 +28,19 @@ type KanaSection = {
 };
 
 
-// Mode 是我们自己定义的类型。
-// 它表示当前页面模式只能是这两个值之一：
-// "sound" = 声音模式
-// "detail" = 详情模式
-type Mode = "sound" | "detail";
+
 
 export default function KatakanaPage(){
-     // router.push("/xxx") 可以让页面跳到某个地址。
-     const router = useRouter();
-     // mode 记录当前模式。
-  // 默认是 "sound"，也就是用户一进来先是声音模式。
-  const [mode, setMode] = useState<Mode>("sound");
+   
+     
+  
 const [language, setLanguage] = useState<Language>("zh");
-const t = useMemo(() => messages[language], [language]);
+
   // selectedId 记录刚刚被用户点过的假名。
   // 这个不是必须功能，但可以用来给被点过的假名加一点高亮。
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  //sections：页面当前拥有的 Katakana 分组数据。
-  //setSections：用来更新 sections。
-    const [sections, setSections]=useState<KanaSection[]>([]);
-  const currentAudioRef = useRef<HTMLAudioElement | null>(null);
+  
+ 
   useEffect(() => {
   const savedLanguage = localStorage.getItem("language");
 
@@ -64,6 +54,11 @@ const t = useMemo(() => messages[language], [language]);
     setLanguage(savedLanguage);
   }
 }, []);
+const t = messages[language];
+//sections：页面当前拥有的 Katakana 分组数据。
+  //setSections：用来更新 sections。
+    const [sections, setSections]=useState<KanaSection[]>([]);
+     const currentAudioRef = useRef<HTMLAudioElement | null>(null);
   //useEffect(..., [])：页面第一次显示时运行一次。
   useEffect(() => {
     async function fetchKatakanaSections() {
@@ -151,14 +146,15 @@ audio.play().catch(() => {
           - 改变模式：用 button
           - 跳转页面：用 Link
         */}<nav
-  aria-label={t.nav.hiragana}
+  aria-label={t.nav.katakana}
   style={{
     width: "240px",
     height: "100vh",
     position: "sticky",
     top: 0,
     flexShrink: 0,
-    overflowY: "auto",
+  overflow: "visible",
+zIndex: 20,
     display: "flex",
     flexDirection: "column",
     alignItems: "stretch",
@@ -169,119 +165,66 @@ audio.play().catch(() => {
     borderRight: "1px solid #ead8d0",
   }}
 >
-               
+           {/* katakana第一个入口：返回主页 */}
+                        <HomeButton label={t.nav.home} />     
           
-          {/* 
-            详情模式按钮。
-            它也不是直接跳转页面。
-            它只是把当前模式改成 detail。
-            真正跳转发生在用户点击某个假名的时候。
-          */}
-          <button
-            type="button"
-            onClick={() => setMode("detail")}
-            style={{
-              width: "100%",
-              padding: "12px 14px",
-              borderRadius: "16px",
-              border:
-                mode === "detail"
-                  ? "2px solid #8b5cf6"
-                  : "1px solid #ead6e4",
-              backgroundColor: mode === "detail" ? "#f4eef6" : "white",
-              color: "#5b3aa0",
-              fontWeight: "800",
-              cursor: "pointer",
-              marginBottom: "12px",
-              textAlign: "left",
-            }}
-          >
-            📖 {t.kanaPage.detailMode}
-          </button>
+           {/* katakana入口 2：进入练习页面 */}
+<Link
+  href="/practice/katakana"
+  className="side-nav-item"
+>
+  <Image
+  className="side-nav-image"
+    src="/images/buttons/practice.png"
+    alt=""
+    width={72}
+    height={72}
+  />
 
-          <Link href="/practice/katakana"
-          style={{
-              display: "block",
-              padding: "12px 14px",
-              borderRadius: "16px",
-              border: "1px solid #dce7f8",
-              backgroundColor: "white",
-              color: "#174a7c",
-              fontWeight: "800",
-              textDecoration: "none",
-              marginBottom: "12px",
-            }}>
-  📝 {t.kanaPage.practice}
+  <span>{t.nav.practice}</span>
 </Link>
-  {/* 
-            Katakana 入口。
-            这是页面跳转，所以用 Link。
-            现在 /katakana 还没做，先可以跳过去，之后再补页面。
-            如果你不想现在出现 404，也可以先把 href 改成 "#"。
-          */}
-          <Link
-            href="/hiragana"
-            style={{
-              display: "block",
-              padding: "12px 14px",
-              borderRadius: "16px",
-              border: "1px solid #dce7f8",
-              backgroundColor: "white",
-              color: "#174a7c",
-              fontWeight: "800",
-              textDecoration: "none",
-              marginBottom: "12px",
-            }}
-          >
-            あ {t.kanaPage.switchToHiragana}
-          </Link>
-             {/* 跳到 intro 页面 */}
-          <Link
-            href="/intro"
-            style={{
-              display: "block",
-              padding: "12px 14px",
-              borderRadius: "16px",
-              border: "1px solid #ead6e4",
-              backgroundColor: "white",
-              color: "#7a2e5d",
-              fontWeight: "800",
-              textDecoration: "none",
-              marginBottom: "12px",
-            }}
-          >
-            🗺️ {t.kanaPage.intro}
-          </Link>
-  {/* 跳回首页 */}
-          <Link
-            href="/"
-            style={{
-              display: "block",
-              padding: "12px 14px",
-              borderRadius: "16px",
-              border: "1px solid #ead6e4",
-              backgroundColor: "white",
-              color: "#7a2e5d",
-              fontWeight: "800",
-              textDecoration: "none",
-            }}
-          >
-            🏠 {t.kanaPage.home}
-          </Link>
-           {/* 
-            当前模式提示。
-            只是给你调试和用户提示用。
-          */}
-          <p
-            style={{
-              marginTop: "24px",
-              fontSize: "13px",
-              color: "#9a8fa0",
-              lineHeight: "1.5",
-            }}
-          >
-            {t.kanaPage.currentMode}:{" "} {mode === "sound" ? t.kanaPage.soundModeLabel : t.kanaPage.detailModeLabel}
-          </p>
+ {/* katakana入口 3：进入平假名页面 */}
+<Link
+  href="/hiragana"
+  className="side-nav-item"
+ 
+>
+  <Image
+  className="side-nav-image"
+    src="/images/buttons/hiragana.png"
+    alt=""
+    width={72}
+    height={72}
+  />
+
+  <span>{t.nav.hiragana}</span>
+</Link>
+
+ {/* katakana入口 4：intro*/}
+ <Link
+  href="/intro"
+  className="side-nav-item"
+  
+>
+  <Image
+  className="side-nav-image"
+    src="/images/buttons/intro.png"
+    alt=""
+    width={72}
+    height={72}
+  />
+
+  <span>{t.nav.intro}</span>
+</Link>
+  
+          {/* katakana入口 5：切换语言 */}
+          <LanguageMenu language={language}
+          setLanguage={setLanguage}/>
+      
+ 
+            
+
+      
         </nav>
           {/* 
           右侧主内容区域。
@@ -310,14 +253,7 @@ audio.play().catch(() => {
             >
               片仮名
             </h1>
-             <p
-              style={{
-                color: "#7a6f7d",
-                margin: 0,
-              }}
-            >
-              {mode === "sound" ? t.kanaPage.clickHint : t.kanaPage.detailHint}
-            </p>
+            
 </div>
   {/* 
             五十音表外层。
@@ -407,14 +343,14 @@ if (item === null) {
                 minHeight: "110px",
                 borderRadius: "26px",
                 border: isSelected
-                  ? "2px solid #d85b9f"
+                  ? "2px solid #c9975b"
                   : "1px solid transparent",
                 backgroundColor: isSelected
-                  ? "#fff0f6"
+                  ? "#f3dfb3"
                   : "rgba(255,255,255,0.65)",
                 boxShadow: isSelected
-                  ? "0 12px 24px rgba(216, 91, 159, 0.18)"
-                  : "0 8px 18px rgba(80, 60, 90, 0.06)",
+                  ? "0 12px 24px rgba(139, 94, 52, 0.18)"
+                  : "0 8px 18px rgba(80, 60, 40, 0.06)",
                 cursor: "pointer",
               }}
             >
