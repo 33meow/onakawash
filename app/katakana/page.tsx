@@ -3,10 +3,6 @@
 // 这些都需要在浏览器端运行
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
-import HomeButton from "../components/HomeButton";
-import LanguageMenu from "../components/LanguageMenu";
 import SideNav from "../components/SideNav";
 // useState 是 React 用来记录页面状态的工具
 // 这里用来记录“用户刚刚点了哪个假名”
@@ -130,16 +126,15 @@ audio.play().catch(() => {
         minHeight:"100vh",
        background: "#f6f2e8",
         fontFamily:"Arial, sans-serif",
+        display: "grid",
+    gridTemplateColumns: "240px minmax(0, 1fr)",
      }}>
       <SideNav currentPage="katakana" language={language}  setLanguage={setLanguage} />
         {/* 
         这个 div 是整个页面的布局容器。
         display: flex 让左侧工具栏和右侧五十音表并排。
       */}
-      <div style={{
-        display:"flex",
-        minHeight:"100vh",
-      }}>
+      
          {/* 
           左侧功能栏。
           这里放 5 个按钮/链接。
@@ -153,7 +148,6 @@ audio.play().catch(() => {
         */}
         <section 
         style={{
-            flex:1,
             padding:"36px 28px",
             overflowX:"auto",
             overflowY:"auto",
@@ -312,7 +306,7 @@ if (item === null) {
 </div>
           
         </section>
-      </div>
+    
      </main>
   );
 }

@@ -1,11 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import SideNav from "../components/SideNav";
-import HomeButton from "../components/HomeButton";
-import LanguageMenu from "../components/LanguageMenu";
 import { messages, type Language } from "../messages";
 
 type KanaItem = {
@@ -132,16 +128,15 @@ audio.play().catch(() => {
         minHeight:"100vh",
       background: "#f6f2e8",
         fontFamily:"Arial, sans-serif",
+         display: "grid",
+    gridTemplateColumns: "240px minmax(0, 1fr)",
      }}>
       <SideNav currentPage="hiragana" language={language}  setLanguage={setLanguage} />
         {/* 
         这个 div 是整个页面的布局容器。
         display: flex 让左侧工具栏和右侧五十音表并排。
       */}
-      <div style={{
-        display:"flex",
-        minHeight:"100vh",
-      }}>
+     
          {/* 
           左侧功能栏。
           这里放 5 个按钮/链接。
@@ -155,7 +150,6 @@ audio.play().catch(() => {
         */}
         <section 
         style={{
-            flex:1,
             padding:"36px 28px",
             overflowX:"auto",
             overflowY:"auto",
@@ -315,7 +309,7 @@ if (item === null) {
 </div>
           
         </section>
-      </div>
+     
      </main>
   );
 }

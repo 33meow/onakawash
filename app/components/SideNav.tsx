@@ -43,6 +43,9 @@ export default function SideNav(props:SideNavProps){
                 gap: "16px",
                 padding: "16px 12px",
                 borderRight: "1px solid #ead8d0",
+                width: "240px",
+minWidth: "240px",
+flexShrink: 0,
             }}>
 
 
