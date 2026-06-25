@@ -1,28 +1,30 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { messages, type Language } from "../messages";
 
 type LanguageMenuProps = {
     language:Language;
      setLanguage: (language: Language) => void;
+      isOpen: boolean;
+  onToggle: () => void;
 };
 
 export default function LanguageMenu({
   language,
   setLanguage,
+    isOpen,
+  onToggle,
 }: LanguageMenuProps) {
-    const [isOpen, setIsOpen] = useState(false);
+   
       const t = messages[language];
 function toggleMenu() {
-    //第一次时候isOpen 是 false
-  setIsOpen(!isOpen);
+    
 }
 function handleLanguageChange(nextLanguage: Language) {
   localStorage.setItem("language", nextLanguage);
   setLanguage(nextLanguage);
-  setIsOpen(false);
+ onToggle();
 }
     return(
         <div
@@ -31,7 +33,7 @@ function handleLanguageChange(nextLanguage: Language) {
         type="button"
         className="side-nav-item"
         aria-expanded={isOpen}
-       onClick={toggleMenu}
+       onClick={onToggle}
       >
         <Image
           src="/images/buttons/language.png"

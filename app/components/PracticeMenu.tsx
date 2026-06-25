@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react";
 import Link from "next/link";
 
 
@@ -8,21 +7,18 @@ type PracticeMenuProps = {
     label:string;
      hiraganaLabel: string;
   katakanaLabel: string;
+    isOpen: boolean;
+  onToggle: () => void;
    
 };
 
 export default function PracticeMenu(props: PracticeMenuProps){
-    const [isOpen ,setIsOpen] = useState(false);
- 
-    function toggleMenu(){
-        setIsOpen(!isOpen);
-    }
-
+   
     return(
          <div style={{ position: "relative" }}>
      <button
   type="button"
-  onClick={toggleMenu}
+  onClick={props.onToggle}
   className="side-nav-item"
   
 > <img
@@ -40,7 +36,7 @@ export default function PracticeMenu(props: PracticeMenuProps){
 <span>{props.label}</span>
       </button>
 
-    {isOpen && (
+    {props.isOpen && (
   <div  style={{
     position: "absolute",
     left: "100%",

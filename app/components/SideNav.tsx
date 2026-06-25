@@ -6,6 +6,7 @@ import Image from "next/image";
 import PracticeMenu from "./PracticeMenu";
 import LanguageMenu from "./LanguageMenu";
 import {messages, type Language} from "../messages";
+import { useState } from "react";
 
 type SideNavProps = { 
    currentPage : string;
@@ -15,6 +16,14 @@ type SideNavProps = {
 
 export default function SideNav(props:SideNavProps){
  
+    type OpenMenu = "practice"| "language"| null;
+
+    const[openMenu,setOpenMenu] = useState<OpenMenu>(null);
+    
+    function toggleMenu(menu:"practice"|"language"){
+        setOpenMenu(openMenu === menu? null : menu);
+    }
+
     const t = messages[props.language];
 
     function isActive(page: string){
@@ -113,6 +122,8 @@ backgroundColor: "#f6f2e8",
   label={t.nav.practice}
   hiraganaLabel={t.nav.hiraganaPractice}
   katakanaLabel={t.nav.katakanaPractice}
+  isOpen={openMenu === "practice"}
+    onToggle={()=>toggleMenu("practice")}
 />
 {/* 入口 6：尚未开放的汉字功能 */}
 <button
@@ -189,7 +200,10 @@ backgroundColor: "#f6f2e8",
 
 {/* 入口 8：切换语言 */}
 <LanguageMenu language={props.language}
-setLanguage={props.setLanguage}/>
+setLanguage={props.setLanguage}
+ isOpen={openMenu === "language"}
+   onToggle={() => toggleMenu("language")}
+/>
         </nav>
     );
 }
