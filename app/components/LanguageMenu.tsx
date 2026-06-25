@@ -66,15 +66,7 @@ overflowY: "auto",
       boxShadow: "0 12px 28px rgba(74, 43, 34, 0.18)",
     }}
   >
-    <p
-      style={{
-        margin: "0",
-        color: "#4a2b22",
-        fontWeight: "800",
-      }}
-    >
-      {t.nav.language}
-    </p>
+    
     <button
   type="button"
   aria-pressed={language === "zh"}
