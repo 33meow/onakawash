@@ -25,6 +25,8 @@ export default function SideNav(props:SideNavProps){
         <nav
             aria-label="侧边导航"
             style={{
+                overflow: "visible",
+zIndex: 100,
                 height: "calc(100vh - 32px)",
 position: "sticky",
 top: "16px",
