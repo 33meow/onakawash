@@ -4,6 +4,8 @@
 // en = 英文
 // ko = 韩文
 
+import HiraganaPracticePage from "./practice/hiragana/page";
+
 
 
 // Language 是我们自己定义的类型
@@ -35,6 +37,8 @@ nav: {
     intro: "介绍",
     language: "语言", 
     kanjiComingSoon: "汉字稍后开放",
+    hiraganaPractice:"平假名练习",
+    katakanaPractice:"片假名练习",
   },
 
   introPage: {
@@ -136,7 +140,10 @@ by:"By Yvonne Buttercup",
 practice: "Practice",
 intro: "Intro",
 language: "Language",
-kanjiComingSoon: "Kanji coming soon",},
+kanjiComingSoon: "Kanji coming soon",
+  hiraganaPractice:"Hiragana Practice",
+    katakanaPractice:"Katakana Practice",
+},
 
 introPage: {
  
@@ -238,6 +245,8 @@ practice: "연습",
 intro: "소개",
 language: "언어",
 kanjiComingSoon: "한자 추후 공개",
+  hiraganaPractice:"히라가나 연습",
+    katakanaPractice:"가타카나 연습",
    },
    introPage: {
    
@@ -340,6 +349,8 @@ nav: {
 intro: "Giới thiệu",
 language: "Ngôn ngữ",
 kanjiComingSoon: "Nội dung Kanji sắp ra mắt",
+  hiraganaPractice:"Luyện tập Hiragana",
+    katakanaPractice:"Luyện tập Katakana",
 },
 introPage: {
   

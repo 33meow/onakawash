@@ -1,0 +1,108 @@
+"use client"
+
+import { useState } from "react";
+import Link from "next/link";
+import { messages, type Language } from "../messages";
+
+type PracticeMenuProps = {
+    label:string;
+     hiraganaLabel: string;
+  katakanaLabel: string;
+};
+
+export default function PracticeMenu({label}:PracticeMenuProps){
+    const [isOpen ,setIsOpen] = useState(false);
+
+    function toggleMenu(){
+        setIsOpen(!isOpen);
+    }
+
+    return(
+         <div style={{ position: "relative" }}>
+     <button
+  type="button"
+  onClick={toggleMenu}
+  className="side-nav-item"
+  
+> <img
+  src="/images/buttons/practice.png"
+  alt=""
+  className="side-nav-image"
+  style={{
+    width: "76px",
+    height: "76px",
+    objectFit: "contain",
+      marginLeft: "6px",
+    marginRight: "6px",
+  }}
+/>
+<span>{label}</span>
+      </button>
+
+    {isOpen && (
+  <div  style={{
+    position: "absolute",
+    left: "100%",
+    top: "0",
+    minWidth: "260px",
+    padding: "16px",
+    backgroundColor: "#fffaf0",
+    border: "1px solid #eadfce",
+    borderRadius: "24px",
+    boxShadow: "0 18px 40px rgba(59, 36, 28, 0.16)",
+    zIndex: 50,
+  }}>
+    <Link href="/practice/hiragana"
+   
+     style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+    padding: "10px 12px",
+    borderRadius: "16px",
+    color: "#3b241c",
+    textDecoration: "none",
+    fontWeight: 700,
+  }}>
+      <img
+        src="/images/buttons/hiragana.png"
+        alt=""
+        style={{
+          width: "56px",
+          height: "56px",
+          objectFit: "contain",
+        }}
+      />
+      <span>Hiragana Practice</span>
+    </Link>
+
+    <Link
+  href="/practice/katakana"
+ 
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+    padding: "10px 12px",
+    borderRadius: "16px",
+    color: "#3b241c",
+    textDecoration: "none",
+    fontWeight: 700,
+  }}
+>
+      <img
+        src="/images/buttons/katakana.png"
+        alt=""
+        style={{
+          width: "56px",
+          height: "56px",
+          objectFit: "contain",
+        }}
+      />
+      <span>Katakana Practice</span>
+    </Link>
+  </div>
+)}
+    </div>
+    );
+}

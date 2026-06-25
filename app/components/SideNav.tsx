@@ -4,11 +4,14 @@ import HomeButton from "./HomeButton";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import PracticeMenu from "./PracticeMenu";
 import LanguageMenu from "./LanguageMenu";
 import {messages, type Language} from "../messages";
 
 type SideNavProps = { 
    currentPage : string;
+   language:Language;
+    setLanguage: (language: Language) => void;
 };
 
 export default function SideNav(props:SideNavProps){
@@ -24,12 +27,13 @@ export default function SideNav(props:SideNavProps){
     )
  setLanguage(savedLanguage);
 })
-    const t = messages[language];
+    const t = messages[props.language];
 
     function isActive(page: string){
         return props.currentPage === page;
     }
     return(
+        
         <nav
             aria-label="侧边导航"
             style={{
@@ -107,8 +111,13 @@ export default function SideNav(props:SideNavProps){
                 <span>{t.nav.katakana}</span>
                     </Link>
 
-
-{/* 入口 5：尚未开放的汉字功能 */}
+{/* 入口 5：进入练习 */}
+<PracticeMenu
+  label={t.nav.practice}
+  hiraganaLabel={t.nav.hiraganaPractice}
+  katakanaLabel={t.nav.katakanaPractice}
+/>
+{/* 入口 6：尚未开放的汉字功能 */}
 <button
   type="button"
   disabled
@@ -142,7 +151,7 @@ export default function SideNav(props:SideNavProps){
 </button>
 
 
-{/* 入口 6：尚未开放的设置 */}
+{/* 入口 7：尚未开放的设置 */}
 <button
   type="button"
   disabled
@@ -181,7 +190,7 @@ export default function SideNav(props:SideNavProps){
 </button>
 
 
-{/* 入口 7：切换语言 */}
+{/* 入口 8：切换语言 */}
 <LanguageMenu language={language}
 setLanguage={setLanguage}/>
         </nav>

@@ -45,7 +45,7 @@ const t = messages[language];
         alignItems: "stretch",
       }}
     >
-     <SideNav currentPage="intro" />
+     <SideNav currentPage="intro" language={language}   setLanguage={setLanguage}/>
       
         {/* 左侧导航栏：下一步会放入主页按钮和三个学习入口 */}
         <nav 
