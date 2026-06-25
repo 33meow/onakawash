@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
+import SideNav from "../components/SideNav";
 import HomeButton from "../components/HomeButton";
 import LanguageMenu from "../components/LanguageMenu";
 import { messages, type Language } from "../messages";
@@ -133,6 +133,7 @@ audio.play().catch(() => {
       background: "#f6f2e8",
         fontFamily:"Arial, sans-serif",
      }}>
+      <SideNav currentPage="hiragana" />
         {/* 
         这个 div 是整个页面的布局容器。
         display: flex 让左侧工具栏和右侧五十音表并排。

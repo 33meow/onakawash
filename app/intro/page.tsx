@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { messages, type Language } from "../messages";
 import LanguageMenu from "../components/LanguageMenu";
- 
+import SideNav from "../components/SideNav";
 
 
 
@@ -29,6 +29,7 @@ export default function IntroPage() {
 const t = messages[language];
 
   return (
+    
     <main
       style={{
         minHeight: "100vh",
@@ -44,18 +45,18 @@ const t = messages[language];
         alignItems: "stretch",
       }}
     >
-     
+     <SideNav currentPage="intro" />
       
         {/* 左侧导航栏：下一步会放入主页按钮和三个学习入口 */}
         <nav 
             aria-label="介绍页导航"
             style={{
                 display: "flex",
-    flexDirection: "column",
-    alignItems: "stretch",
-    gap: "16px",
-    padding: "16px 12px",
-    borderRight: "1px solid #ead8d0",
+                flexDirection: "column",
+                alignItems: "stretch",
+                gap: "16px",
+                padding: "16px 12px",
+                borderRight: "1px solid #ead8d0",
             }}>
               {/* 导航栏第一个入口：返回主页 */}
             <HomeButton label={t.nav.home} />
