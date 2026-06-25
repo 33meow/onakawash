@@ -52,7 +52,9 @@ function handleLanguageChange(nextLanguage: Language) {
     aria-label={t.nav.language}
     style={{
       position: "absolute",
-      top: "0",
+      bottom: "0",
+      maxHeight: "calc(100vh - 32px)",
+overflowY: "auto",
       left: "calc(100% + 12px)",
       zIndex: "100",
       width: "260px",
