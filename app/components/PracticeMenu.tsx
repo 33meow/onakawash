@@ -15,7 +15,9 @@ type PracticeMenuProps = {
 export default function PracticeMenu(props: PracticeMenuProps){
    
     return(
-         <div style={{ position: "relative" }}>
+         <div style={{ position: "relative" ,
+            width: "100%"
+         }}>
      <button
   type="button"
   onClick={props.onToggle}
@@ -36,19 +38,23 @@ export default function PracticeMenu(props: PracticeMenuProps){
 <span>{props.label}</span>
       </button>
 
-    {props.isOpen && (
-  <div  style={{
-    position: "absolute",
-    left: "100%",
-    top: "0",
-    minWidth: "260px",
-    padding: "16px",
-    backgroundColor: "#fffaf0",
-    border: "1px solid #eadfce",
-    borderRadius: "24px",
-    boxShadow: "0 18px 40px rgba(59, 36, 28, 0.16)",
-    zIndex: 50,
-  }}>
+   {props.isOpen && (
+  <section
+    aria-label={props.label}
+    style={{
+      position: "absolute",
+      top: "0",
+      left: "calc(100% + 12px)",
+      zIndex: 200,
+      width: "260px",
+      padding: "16px",
+      boxSizing: "border-box",
+      backgroundColor: "#fffaf5",
+      border: "1px solid #ead8d0",
+      borderRadius: "8px",
+      boxShadow: "0 12px 28px rgba(74, 43, 34, 0.18)",
+    }}
+  >
     <Link href="/practice/hiragana"
    
      style={{
@@ -82,7 +88,7 @@ export default function PracticeMenu(props: PracticeMenuProps){
       
       <span>{props.katakanaLabel}</span>
     </Link>
-  </div>
+  </section>
 )}
     </div>
     );
