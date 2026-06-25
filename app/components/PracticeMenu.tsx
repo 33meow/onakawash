@@ -2,17 +2,18 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { messages, type Language } from "../messages";
+
 
 type PracticeMenuProps = {
     label:string;
      hiraganaLabel: string;
   katakanaLabel: string;
+   
 };
 
-export default function PracticeMenu({label}:PracticeMenuProps){
+export default function PracticeMenu(props: PracticeMenuProps){
     const [isOpen ,setIsOpen] = useState(false);
-
+ 
     function toggleMenu(){
         setIsOpen(!isOpen);
     }
@@ -33,10 +34,10 @@ export default function PracticeMenu({label}:PracticeMenuProps){
     height: "76px",
     objectFit: "contain",
       marginLeft: "6px",
-    marginRight: "6px",
+    marginRight: "0px",
   }}
 />
-<span>{label}</span>
+<span>{props.label}</span>
       </button>
 
     {isOpen && (
@@ -64,16 +65,8 @@ export default function PracticeMenu({label}:PracticeMenuProps){
     textDecoration: "none",
     fontWeight: 700,
   }}>
-      <img
-        src="/images/buttons/hiragana.png"
-        alt=""
-        style={{
-          width: "56px",
-          height: "56px",
-          objectFit: "contain",
-        }}
-      />
-      <span>Hiragana Practice</span>
+      
+      <span>{props.hiraganaLabel}</span>
     </Link>
 
     <Link
@@ -90,16 +83,8 @@ export default function PracticeMenu({label}:PracticeMenuProps){
     fontWeight: 700,
   }}
 >
-      <img
-        src="/images/buttons/katakana.png"
-        alt=""
-        style={{
-          width: "56px",
-          height: "56px",
-          objectFit: "contain",
-        }}
-      />
-      <span>Katakana Practice</span>
+      
+      <span>{props.katakanaLabel}</span>
     </Link>
   </div>
 )}
