@@ -1,7 +1,6 @@
 "use client";
 
 import HomeButton from "./HomeButton";
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import PracticeMenu from "./PracticeMenu";
@@ -15,18 +14,7 @@ type SideNavProps = {
 };
 
 export default function SideNav(props:SideNavProps){
-   const [language, setLanguage] = useState<Language>("zh");
-   useEffect(()=>{
-    const savedLanguage = localStorage.getItem("language");
-
-    if(
-        savedLanguage === "zh" ||
-    savedLanguage === "en" ||
-    savedLanguage === "ko" ||
-    savedLanguage === "vi"
-    )
- setLanguage(savedLanguage);
-})
+ 
     const t = messages[props.language];
 
     function isActive(page: string){
@@ -43,9 +31,7 @@ export default function SideNav(props:SideNavProps){
                 gap: "16px",
                 padding: "16px 12px",
                 borderRight: "1px solid #ead8d0",
-                width: "240px",
-minWidth: "240px",
-flexShrink: 0,
+                
             }}>
 
 
@@ -194,8 +180,8 @@ flexShrink: 0,
 
 
 {/* 入口 8：切换语言 */}
-<LanguageMenu language={language}
-setLanguage={setLanguage}/>
+<LanguageMenu language={props.language}
+setLanguage={props.setLanguage}/>
         </nav>
     );
 }
