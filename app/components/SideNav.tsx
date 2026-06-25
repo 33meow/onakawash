@@ -25,6 +25,12 @@ export default function SideNav(props:SideNavProps){
         <nav
             aria-label="侧边导航"
             style={{
+                height: "calc(100vh - 32px)",
+position: "sticky",
+top: "16px",
+alignSelf: "start",
+boxSizing: "border-box",
+backgroundColor: "#f6f2e8",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "stretch",

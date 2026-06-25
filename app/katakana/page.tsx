@@ -123,11 +123,15 @@ audio.play().catch(() => {
   return(
     <main
      style={{
-        minHeight:"100vh",
-       background: "#f6f2e8",
-        fontFamily:"Arial, sans-serif",
-        display: "grid",
+       minHeight: "100vh",
+    padding: "16px 20px",
+    backgroundColor: "#f6f2e8",
+    fontFamily: "Arial, sans-serif",
+    color: "#3b241c",
+    display: "grid",
     gridTemplateColumns: "240px minmax(0, 1fr)",
+    gap: "24px",
+    alignItems: "stretch",
      }}>
       <SideNav currentPage="katakana" language={language}  setLanguage={setLanguage} />
         {/* 
