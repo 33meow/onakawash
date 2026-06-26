@@ -4,6 +4,7 @@ import { useEffect,useState } from "react";
 import Link from "next/link";
 import {messages,type Language } from "../messages";
 import LanguageSwitcher from "../components/LanguageSwitcher";
+import { run } from "node:test";
 
 //前端先告诉typeScript，后端返回的一条记录大概长什么样
 type PracticeSession = {
@@ -20,6 +21,56 @@ type PracticeSession = {
     durationSeconds:number;
     createdAt:string;
 }
+
+function getTotalSessions(sessions: PracticeSession[]){
+  return sessions.length;
+}
+
+function getAverageAccuracy (sessions: PracticeSession[]){
+  if (sessions.length === 0){
+    return 0;
+  }
+  const totalAccuracy = sessions.reduce ((sum,session)=>{
+    return sum + session.accuracy;
+  },0);
+  return Math.round(totalAccuracy/sessions.length)
+}
+
+function getTotalDurationSeconds(sessions: PracticeSession[]){
+  //reduce是把数组里的某个字段一个一个累加。
+return sessions.reduce((sum, session)=>{
+  return sum+session.durationSeconds;
+},0)
+}
+
+function formatDuration(seconds:number){
+   const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+
+  if(minutes === 0 ){
+    return `${remainingSeconds}sec`;
+  }
+  if (remainingSeconds === 0) {
+    return `${minutes} min`;
+  }
+
+  return `${minutes} min ${remainingSeconds} sec`;
+
+}
+
+function getLatestSession(sessions :PracticeSession[]){
+  if (sessions.length === 0){
+    return null;
+  }
+  return[...sessions].sort((a,b)=>{
+    const timeA = new Date(a.finishedAt??a.createdAt).getTime();
+    const timeB = new Date(b.finishedAt ?? b.createdAt).getTime();
+
+    return timeB -timeA;
+
+  })[0];
+}
+
 
 //react component
 //在 Next.js 里，app/learning-records/page.tsx 里面必须导出一个默认组件
@@ -42,6 +93,11 @@ export default function LearningRecordsPage(){
 //一开始 records 是空数组 []
 //数组records是空数组并且每一项都是PracticeSession类型
 const [records, setRecords] = useState<PracticeSession[]>([]);
+const totalSessions = getTotalSessions(records);
+const averageAccuracy = getAverageAccuracy(records);
+const totalDurationSeconds = getTotalDurationSeconds(records);
+const totalDurationText = formatDuration(totalDurationSeconds);
+const latestSession = getLatestSession(records);
 //显示“保存成功”或“保存失败”。
 const [statusMessage, setStatusMessage] = useState("");
 useEffect(() => {
@@ -103,6 +159,15 @@ return(<main
     margin: "0 auto",
   }}
 >
+
+  <p>Total Sessions:{totalSessions}</p>
+  <p>Average Accuracy:{averageAccuracy}%</p>
+<p>Total Duration: {totalDurationText}</p>
+<p>
+  Latest Practice:{" "}
+  {latestSession ? new Date(latestSession.finishedAt ?? latestSession.createdAt).toLocaleString() : "No records yet"}
+</p>
+
   <Link
   href="/"
   style={{
