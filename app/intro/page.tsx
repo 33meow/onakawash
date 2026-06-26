@@ -1,10 +1,6 @@
 "use client";
-import HomeButton from "../components/HomeButton";
-import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { messages, type Language } from "../messages";
-import LanguageMenu from "../components/LanguageMenu";
 import SideNav from "../components/SideNav";
 
 
