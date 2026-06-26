@@ -4,7 +4,6 @@ import { useEffect,useState } from "react";
 import Link from "next/link";
 import {messages,type Language } from "../messages";
 import LanguageSwitcher from "../components/LanguageSwitcher";
-import { run } from "node:test";
 
 //前端先告诉typeScript，后端返回的一条记录大概长什么样
 type PracticeSession = {
@@ -31,7 +30,7 @@ function getAverageAccuracy (sessions: PracticeSession[]){
     return 0;
   }
   const totalAccuracy = sessions.reduce ((sum,session)=>{
-    return sum + session.accuracy;
+    return sum + getSafeAccuracy(session);
   },0);
   return Math.round(totalAccuracy/sessions.length)
 }
@@ -71,6 +70,70 @@ function getLatestSession(sessions :PracticeSession[]){
   })[0];
 }
 
+function getRecentSessions(sessions: PracticeSession[], count: number) {
+  return [...sessions]
+    .sort((a, b) => {
+      const timeA = new Date(a.finishedAt ?? a.createdAt).getTime();
+      const timeB = new Date(b.finishedAt ?? b.createdAt).getTime();
+
+      return timeB - timeA;
+    })
+    .slice(0, count);
+}
+
+function getAccuracyTrendData(sessions: PracticeSession[], count: number) {
+  return getRecentSessions(sessions, count)
+    .reverse()
+    .map((session, index) => {
+      return {
+        label: `#${index + 1}`,
+        accuracy: getSafeAccuracy(session),
+        practiceType: session.practiceType,
+        date: session.finishedAt ?? session.createdAt,
+      };
+    });
+}
+
+function getPracticeTypeStats(sessions: PracticeSession[]) {
+  const hiraganaSessions = sessions.filter((session) => {
+    return session.practiceType === "HIRAGANA";
+  });
+
+  const katakanaSessions = sessions.filter((session) => {
+    return session.practiceType === "KATAKANA";
+  });
+
+  return {
+    hiragana: {
+      count: hiraganaSessions.length,
+      averageAccuracy: getAverageAccuracy(hiraganaSessions),
+    },
+    katakana: {
+      count: katakanaSessions.length,
+      averageAccuracy: getAverageAccuracy(katakanaSessions),
+    },
+  };
+}
+
+function formatDate(date: string | null) {
+  if (!date) {
+    return "No date";
+  }
+
+  return new Date(date).toLocaleString();
+}
+
+function getSafeAccuracy(session: PracticeSession) {
+  if (session.accuracy !== null && session.accuracy !== undefined) {
+    return session.accuracy;
+  }
+
+  if (session.totalQuestions === 0) {
+    return 0;
+  }
+
+  return Math.round((session.score / session.totalQuestions) * 100);
+}
 
 //react component
 //在 Next.js 里，app/learning-records/page.tsx 里面必须导出一个默认组件
@@ -93,11 +156,21 @@ export default function LearningRecordsPage(){
 //一开始 records 是空数组 []
 //数组records是空数组并且每一项都是PracticeSession类型
 const [records, setRecords] = useState<PracticeSession[]>([]);
+//section1
 const totalSessions = getTotalSessions(records);
 const averageAccuracy = getAverageAccuracy(records);
 const totalDurationSeconds = getTotalDurationSeconds(records);
 const totalDurationText = formatDuration(totalDurationSeconds);
 const latestSession = getLatestSession(records);
+
+//section4
+const recentSessions = getRecentSessions(records, 5);
+
+//section2
+const accuracyTrendData = getAccuracyTrendData(records, 5);
+
+//section3
+const practiceTypeStats = getPracticeTypeStats(records);
 //显示“保存成功”或“保存失败”。
 const [statusMessage, setStatusMessage] = useState("");
 useEffect(() => {
@@ -160,13 +233,6 @@ return(<main
   }}
 >
 
-  <p>Total Sessions:{totalSessions}</p>
-  <p>Average Accuracy:{averageAccuracy}%</p>
-<p>Total Duration: {totalDurationText}</p>
-<p>
-  Latest Practice:{" "}
-  {latestSession ? new Date(latestSession.finishedAt ?? latestSession.createdAt).toLocaleString() : "No records yet"}
-</p>
 
   <Link
   href="/"
@@ -185,6 +251,27 @@ return(<main
 >
   ← {t.recordsPage.backHome}
 </Link>
+  <p>Total Sessions:{totalSessions}</p>
+  <p>Average Accuracy:{averageAccuracy}%</p>
+<p>Total Duration: {totalDurationText}</p>
+<p>
+  Latest Practice:{" "}
+  {latestSession ? new Date(latestSession.finishedAt ?? latestSession.createdAt).toLocaleString() : "No records yet"}
+</p>
+
+<p>Recent Sessions: {recentSessions.length}</p>
+
+<p>Trend Points: {accuracyTrendData.length}</p>
+
+<p>Hiragana Sessions: {practiceTypeStats.hiragana.count}</p>
+<p>Katakana Sessions: {practiceTypeStats.katakana.count}</p>
+
+<p>
+  Latest Practice:{" "}
+  {latestSession
+    ? formatDate(latestSession.finishedAt ?? latestSession.createdAt)
+    : "No records yet"}
+</p>
  <h1>{t.recordsPage.title}</h1>
 
      {records.length === 0?(
