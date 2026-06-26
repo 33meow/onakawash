@@ -18,9 +18,7 @@ export default function LanguageMenu({
 }: LanguageMenuProps) {
    
       const t = messages[language];
-function toggleMenu() {
-    
-}
+
 function handleLanguageChange(nextLanguage: Language) {
   localStorage.setItem("language", nextLanguage);
   setLanguage(nextLanguage);
