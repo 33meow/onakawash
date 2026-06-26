@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import SideNav from "../components/SideNav";
-import { messages, type Language } from "../messages";
+import { type Language } from "../messages";
 
 type KanaItem = {
     id:string;
@@ -40,7 +40,7 @@ export default function HiraganaPage(){
     setLanguage(savedLanguage);
   }
 }, []);
-const t = messages[language];
+
 
 
 // sections 用来保存从后端拿到的 Hiragana 数据。

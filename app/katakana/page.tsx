@@ -7,7 +7,7 @@ import SideNav from "../components/SideNav";
 // useState 是 React 用来记录页面状态的工具
 // 这里用来记录“用户刚刚点了哪个假名”
 import { useEffect,useRef, useState } from "react";
-import { messages, type Language } from "../messages";
+import {  type Language } from "../messages";
 
 
 type KanaItem = {
@@ -50,7 +50,7 @@ const [language, setLanguage] = useState<Language>("zh");
     setLanguage(savedLanguage);
   }
 }, []);
-const t = messages[language];
+
 //sections：页面当前拥有的 Katakana 分组数据。
   //setSections：用来更新 sections。
     const [sections, setSections]=useState<KanaSection[]>([]);
