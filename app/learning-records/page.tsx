@@ -3,7 +3,6 @@
 import { useEffect,useState } from "react";
 import Link from "next/link";
 import {messages,type Language } from "../messages";
-import LanguageSwitcher from "../components/LanguageSwitcher";
 
 //前端先告诉typeScript，后端返回的一条记录大概长什么样
 type PracticeSession = {
@@ -141,14 +140,7 @@ export default function LearningRecordsPage(){
   const [language, setLanguage] = useState<Language>("zh");
   
   const t = messages[language];
-  const locale =
-  language === "en"
-    ? "en-US"
-    : language === "ko"
-      ? "ko-KR"
-      :language ==="vi"
-      ?"vi-VN"
-      :"zh-CN";
+ 
 //保存后端查回来的历史记录列表
 //普通变量页面刷新后不会记住状态，但 useState 会让 React 记住
 //records：当前的练习记录列表
@@ -163,6 +155,27 @@ const totalDurationSeconds = getTotalDurationSeconds(records);
 const totalDurationText = formatDuration(totalDurationSeconds);
 const latestSession = getLatestSession(records);
 
+const overviewCards = [
+  {
+    label: "Total Sessions",
+    value: totalSessions,
+  },
+  {
+    label: "Average Accuracy",
+    value: `${averageAccuracy}%`,
+  },
+  {
+    label: "Total Duration",
+    value: totalDurationText,
+  },
+  {
+    label: "Latest Practice",
+    value: latestSession
+      ? formatDate(latestSession.finishedAt ?? latestSession.createdAt)
+      : "No practice yet",
+  },
+];
+
 //section4
 const recentSessions = getRecentSessions(records, 5);
 
@@ -171,8 +184,7 @@ const accuracyTrendData = getAccuracyTrendData(records, 5);
 
 //section3
 const practiceTypeStats = getPracticeTypeStats(records);
-//显示“保存成功”或“保存失败”。
-const [statusMessage, setStatusMessage] = useState("");
+
 useEffect(() => {
   const savedLanguage = localStorage.getItem("language");
 
@@ -203,7 +215,7 @@ async function fetchPracticeSessions(){
         setRecords(data);
     }catch(error){
         console.error(error);
-        setStatusMessage("Failed to load practice sessions.")
+      
     }
 }
 //页面第一次打开后，自动执行 fetchPracticeSessions()
@@ -222,10 +234,8 @@ return(<main
       fontFamily: "Arial, sans-serif",
     }}
   >
-  <LanguageSwitcher
-  language={language}
-  setLanguage={setLanguage}
-/><div
+     
+ <div
   style={{
     width: "100%",
     maxWidth: "1000px",
@@ -251,176 +261,269 @@ return(<main
 >
   ← {t.recordsPage.backHome}
 </Link>
-  <p>Total Sessions:{totalSessions}</p>
-  <p>Average Accuracy:{averageAccuracy}%</p>
-<p>Total Duration: {totalDurationText}</p>
-<p>
-  Latest Practice:{" "}
-  {latestSession ? new Date(latestSession.finishedAt ?? latestSession.createdAt).toLocaleString() : "No records yet"}
-</p>
-
-<p>Recent Sessions: {recentSessions.length}</p>
-
-<p>Trend Points: {accuracyTrendData.length}</p>
-
-<p>Hiragana Sessions: {practiceTypeStats.hiragana.count}</p>
-<p>Katakana Sessions: {practiceTypeStats.katakana.count}</p>
-
-<p>
-  Latest Practice:{" "}
-  {latestSession
-    ? formatDate(latestSession.finishedAt ?? latestSession.createdAt)
-    : "No records yet"}
-</p>
- <h1>{t.recordsPage.title}</h1>
-
-     {records.length === 0?(
-      <section 
-      style={{
-        padding:"48px 24px",
-        textAlign:"center",
-        borderTop:"1px solid #ead8d0",
-        borderBottom:"1px solid #ead8d0",
-      }}>
-        <h2 style={{margin:"0 0 12px"}}>
-          {t.recordsPage.noRecords}
-        </h2>
-        <p 
-            style={{
-              margin:"0 0 24px",
-              color:"#6f5a53",
-              lineHeight:"1.7",
-            }}>
-              {t.recordsPage.emptyHint}
-            </p>
-
-            <Link 
-            href="/hiragana"
-            style={{
-              display:"inline-flex",
-              alignItems:"center",
-              justifyContent:"center",
-              minHeight:"44px",
-              padding:"0 24px",
-              borderRadius:"999px",
-              backgroundColor:"#4a2b22",
-              color:"#fff6f8",
-              textDecoration:"none",
-              fontWeight:"700",
-
-            }}>{t.recordsPage.startPractice}</Link>
-      </section>
-     ):(
-       <ul
+<header
   style={{
-    listStyle: "none",
-    padding: "0",
-    margin: "0",
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-    gap: "18px",
+    marginBottom: "28px",
   }}
 >
-  {records.map((record) => (
-  <li
-  key={record.id}
-  style={{
-    padding: "22px",
-    borderRadius: "8px",
-    backgroundColor: "#fffaf8",
-    border: "none",
-    boxShadow: "0 8px 20px rgba(74, 43, 34, 0.08)",
-  }}
->
- <p
-  style={{
-    margin: "0 0 18px",
-    color: "#4a2b22",
-    fontSize: "18px",
-    fontWeight: "800",
-  }}
->
-    {record.practiceType} / {record.practiceMode}
+  <p
+    style={{
+      margin: "0 0 8px",
+      color: "#7a5a4d",
+      fontWeight: 700,
+    }}
+  >
+    V0.4 Progress Analysis
   </p>
 
- <div
+  <h1
+    style={{
+      margin: "0",
+      color: "#3b241c",
+      fontSize: "40px",
+      lineHeight: "1.1",
+    }}
+  >
+    Progress Dashboard
+  </h1>
+
+  <p
+    style={{
+      margin: "12px 0 0",
+      color: "#7a5a4d",
+      fontSize: "18px",
+      lineHeight: "1.6",
+    }}
+  >
+    Turn your practice records into learning feedback.
+  </p>
+</header>
+<h1>Progress Dashboard</h1>
+  {/* Section 1 */}
+  <section
   style={{
     display: "grid",
-    gridTemplateColumns: "1fr 1fr",
+    gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
     gap: "16px",
-    padding: "16px 0",
-    marginBottom: "16px",
-    borderTop: "1px solid #ead8d0",
-    borderBottom: "1px solid #ead8d0",
+    marginBottom: "28px",
   }}
 >
-  <div>
-    <span
+  {overviewCards.map((card) => (
+    <article
+      key={card.label}
       style={{
-        display: "block",
-        marginBottom: "6px",
-        color: "#7b665f",
-        fontSize: "14px",
+        padding: "18px",
+        borderRadius: "16px",
+        backgroundColor: "#fffaf5",
+        border: "1px solid #ead8d0",
+        boxShadow: "0 10px 24px rgba(74, 43, 34, 0.08)",
       }}
     >
-      {t.recordsPage.score}
-    </span>
+      <p
+        style={{
+          margin: "0 0 8px",
+          color: "#7a5a4d",
+          fontSize: "14px",
+          fontWeight: 700,
+        }}
+      >
+        {card.label}
+      </p>
 
-    <strong style={{ fontSize: "24px" }}>
-      {record.score} / {record.totalQuestions}
-    </strong>
-  </div>
-
-  <div>
-    <span
-      style={{
-        display: "block",
-        marginBottom: "6px",
-        color: "#7b665f",
-        fontSize: "14px",
-      }}
-    >
-      {t.recordsPage.accuracy}
-    </span>
-
-    <strong style={{ fontSize: "24px" }}>
-      {record.accuracy}%
-    </strong>
-  </div>
-</div>
-
-<div
-  style={{
-    color: "#6f5a53",
-    fontSize: "14px",
-    lineHeight: "1.6",
-  }}
->
-  <p style={{ margin: "6px 0" }}>
-    {t.recordsPage.startedAt}：
-    {record.startedAt
-      ? new Date(record.startedAt).toLocaleString(locale)
-      : t.recordsPage.notRecorded}
-  </p>
-
-  <p style={{ margin: "6px 0" }}>
-    {t.recordsPage.finishedAt}：
-    {record.finishedAt
-      ? new Date(record.finishedAt).toLocaleString(locale)
-      : t.recordsPage.notRecorded}
-  </p>
-
-  <p style={{ margin: "6px 0" }}>{t.recordsPage.duration}：{record.durationSeconds} {t.recordsPage.seconds}</p>
-
-  </div>
-</li>
+      <strong
+        style={{
+          color: "#3b241c",
+          fontSize: "24px",
+          lineHeight: "1.2",
+        }}
+      >
+        {card.value}
+      </strong>
+    </article>
   ))}
-</ul>
-     )}
-     
+</section>
 
-      {statusMessage && <p>{statusMessage}</p>}
-      </div>
+ {/* Section 2 */}
+<section
+  style={{
+    marginTop: "28px",
+  }}
+>
+  <h2
+    style={{
+      margin: "0 0 16px",
+      color: "#3b241c",
+      fontSize: "24px",
+    }}
+  >
+    Accuracy Trend
+  </h2>
+
+  {accuracyTrendData.length === 0 ? (
+    <p>No trend data yet.</p>
+  ) : (
+    <div
+      style={{
+        display: "grid",
+        gap: "10px",
+      }}
+    >
+      {accuracyTrendData.map((point) => (
+        <div
+          key={`${point.label}-${point.date}`}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "56px 1fr 52px",
+            alignItems: "center",
+            gap: "12px",
+          }}
+        >
+          <span>{point.label}</span>
+
+          <div
+            style={{
+              height: "12px",
+              borderRadius: "999px",
+              backgroundColor: "#ead8d0",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                width: `${point.accuracy}%`,
+                height: "100%",
+                borderRadius: "999px",
+                backgroundColor: "#c9975b",
+              }}
+            />
+          </div>
+
+          <strong>{point.accuracy}%</strong>
+        </div>
+      ))}
+    </div>
+  )}
+</section>
+ {/* Section 3 */}
+<section
+  style={{
+    marginTop: "28px",
+  }}
+>
+  <h2
+    style={{
+      margin: "0 0 16px",
+      color: "#3b241c",
+      fontSize: "24px",
+    }}
+  >
+    Practice Type Comparison
+  </h2>
+
+  <div
+    style={{
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+      gap: "16px",
+    }}
+  >
+    <article
+      style={{
+        padding: "18px",
+        borderRadius: "16px",
+        backgroundColor: "#fffaf5",
+        border: "1px solid #ead8d0",
+      }}
+    >
+      <h3
+        style={{
+          margin: "0 0 12px",
+          color: "#3b241c",
+        }}
+      >
+        Hiragana
+      </h3>
+
+      <p>Sessions: {practiceTypeStats.hiragana.count}</p>
+      <p>Average Accuracy: {practiceTypeStats.hiragana.averageAccuracy}%</p>
+    </article>
+
+    <article
+      style={{
+        padding: "18px",
+        borderRadius: "16px",
+        backgroundColor: "#fffaf5",
+        border: "1px solid #ead8d0",
+      }}
+    >
+      <h3
+        style={{
+          margin: "0 0 12px",
+          color: "#3b241c",
+        }}
+      >
+        Katakana
+      </h3>
+
+      <p>Sessions: {practiceTypeStats.katakana.count}</p>
+      <p>Average Accuracy: {practiceTypeStats.katakana.averageAccuracy}%</p>
+    </article>
+  </div>
+</section>
+ {/* Section 4 */}
+<section
+  style={{
+    marginTop: "28px",
+  }}
+>
+  <h2
+    style={{
+      margin: "0 0 16px",
+      color: "#3b241c",
+      fontSize: "24px",
+    }}
+  >
+    Recent Sessions
+  </h2>
+
+  {recentSessions.length === 0 ? (
+    <p>No practice records yet.</p>
+  ) : (
+    <div
+      style={{
+        display: "grid",
+        gap: "12px",
+      }}
+    >
+      {recentSessions.map((session) => (
+        <article
+          key={session.id}
+          style={{
+            padding: "16px",
+            borderRadius: "16px",
+            backgroundColor: "#fffaf5",
+            border: "1px solid #ead8d0",
+          }}
+        >
+          <strong>{session.practiceType}</strong>
+
+          <p>
+            Score: {session.score} / {session.totalQuestions}
+          </p>
+
+          <p>Accuracy: {getSafeAccuracy(session)}%</p>
+
+          <p>Duration: {formatDuration(session.durationSeconds)}</p>
+
+          <p>
+            Date: {formatDate(session.finishedAt ?? session.createdAt)}
+          </p>
+        </article>
+      ))}
+    </div>
+  )}
+</section>
+</div>
 </main>);
 }
 
