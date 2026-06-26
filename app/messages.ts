@@ -4,10 +4,6 @@
 // en = 英文
 // ko = 韩文
 
-import HiraganaPracticePage from "./practice/hiragana/page";
-
-
-
 // Language 是我们自己定义的类型
 // 它规定：语言只能是 "zh" / "en" / "ko" "vi"这4个
 export type Language = "zh" | "en" | "ko"|"vi";
