@@ -79,6 +79,7 @@ The current implementation records one `PracticeSession` per completed practice 
 Learning Records in V0.3 are therefore more than a simple history page. They are the data foundation for:
 
 * V0.4 Progress Analysis
+* V0.4.1 Kana Pronunciation Guide
 * V0.5 Adaptive Review
 * Future learning analytics features
 
@@ -92,9 +93,10 @@ The project has evolved in stages:
 v0.1 Kana Data Flow
 -> v0.2 Practice Mode
 -> v0.3 Learning Records
+-> v0.4 Progress Dashboard
 ```
 
-v0.1 focused on moving kana data out of frontend hardcoded arrays and into the Spring Boot backend. v0.2 added real practice interactions. v0.3 connects those interactions to a backend record system, so completed practice sessions can become structured learning data.
+v0.1 focused on moving kana data out of frontend hardcoded arrays and into the Spring Boot backend. v0.2 added real practice interactions. v0.3 connects those interactions to a backend record system, so completed practice sessions can become structured learning data. v0.4 turns those records into a Progress Dashboard with summary metrics, accuracy trends, practice type comparison, and recent session history.
 
 This evolution reflects the project's broader direction: building a personal Japanese learning platform that connects practical software engineering with research-informed thinking about learning records, progress analysis, and future adaptive review.
 
@@ -166,9 +168,9 @@ This project is still under development.
 
 Current focus:
 
-* Stabilizing v0.3 Learning Records
-* Testing Hiragana and Katakana practice save flows
-* Preparing for v0.4 Progress Analysis
+* V0.4 Progress Dashboard completed
+* Preparing for v0.4.1 Kana Pronunciation Guide
+* Planning pronunciation support based on user feedback
 * Continuing interface improvements with original illustrations
 
 ## Roadmap
@@ -194,9 +196,17 @@ Current focus:
   - Add a Learning Records page for viewing saved practice session history
   - Use research-informed design thinking to prepare data for future analysis
 
-- [ ] v0.4 — Progress Analysis
-  - Show accuracy trends, weak kana, and practice history
-  - Build analysis features on top of V0.3 Learning Records
+- [x] v0.4 — Progress Analysis
+  - Build a Progress Dashboard on top of V0.3 `PracticeSession` records
+  - Show overview metrics including total sessions, average accuracy, total duration, and latest practice
+  - Add a recent accuracy trend chart
+  - Compare Hiragana and Katakana practice session counts
+  - Display recent session history with score, accuracy, duration, and date
+
+- [ ] v0.4.1 — Kana Pronunciation Guide
+  - Improve the Hiragana and Katakana pages based on user feedback
+  - Show mouth-shape images, romaji, pronunciation tips, and stroke hints when a kana is selected
+  - Help beginners understand not only what a kana sounds like, but also how to pronounce it
 
 - [ ] v0.5 — Adaptive Review
   - Use learning record data to support more personalized review flows
