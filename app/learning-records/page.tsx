@@ -181,6 +181,34 @@ const recentSessions = getRecentSessions(records, 5);
 
 //section2
 const accuracyTrendData = getAccuracyTrendData(records, 5);
+//section2 line chart
+const chartWidth = 520;
+const chartHeight = 180;
+const chartPadding = 28;
+
+const trendPoints = accuracyTrendData.map((point, index) => {
+  const usableWidth = chartWidth - chartPadding * 2;
+  const usableHeight = chartHeight - chartPadding * 2;
+
+  const x =
+    accuracyTrendData.length === 1
+      ? chartWidth / 2
+      : chartPadding + (usableWidth / (accuracyTrendData.length - 1)) * index;
+
+  const y =
+    chartPadding + usableHeight - (point.accuracy / 100) * usableHeight;
+
+  return {
+    ...point,
+    x,
+    y,
+  };
+});
+
+const trendPolylinePoints = trendPoints
+  .map((point) => `${point.x},${point.y}`)
+  .join(" ");
+
 
 //section3
 const practiceTypeStats = getPracticeTypeStats(records);
@@ -376,51 +404,88 @@ return(<main
 >
  {t.progressDashboard.accuracyTrendDescription}
 </p>
-  {accuracyTrendData.length === 0 ? (
-    <p>{t.progressDashboard.noTrendData}</p>
-  ) : (
-    <div
+
+ {accuracyTrendData.length === 0 ? (
+  <p>{t.progressDashboard.noTrendData}</p>
+) : (
+  <div
+    style={{
+      overflowX: "auto",
+    }}
+  >
+    <svg
+      viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+      role="img"
+      aria-label={t.progressDashboard.accuracyTrend}
       style={{
-        display: "grid",
-        gap: "10px",
+        width: "100%",
+        minWidth: "360px",
+        height: "200px",
+        display: "block",
       }}
     >
-      {accuracyTrendData.map((point) => (
-        <div
-          key={`${point.label}-${point.date}`}
-          style={{
-              display: "grid",
-  gridTemplateColumns: "64px minmax(0, 1fr) 56px",
-  alignItems: "center",
-  gap: "12px",
-          }}
-        >
-          <span>{point.label}</span>
+      <line
+        x1={chartPadding}
+        y1={chartHeight - chartPadding}
+        x2={chartWidth - chartPadding}
+        y2={chartHeight - chartPadding}
+        stroke="#ead8d0"
+        strokeWidth="2"
+      />
 
-          <div
-            style={{
-              //进度条宽窄
-              height: "14px",
-              borderRadius: "999px",
-              backgroundColor: "#ead8d0",
-              overflow: "hidden",
-            }}
+      <line
+        x1={chartPadding}
+        y1={chartPadding}
+        x2={chartPadding}
+        y2={chartHeight - chartPadding}
+        stroke="#ead8d0"
+        strokeWidth="2"
+      />
+
+      <polyline
+        points={trendPolylinePoints}
+        fill="none"
+        stroke="#b9854f"
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {trendPoints.map((point) => (
+        <g key={`${point.label}-${point.date}`}>
+          <circle
+            cx={point.x}
+            cy={point.y}
+            r="6"
+            fill="#3b241c"
+          />
+
+          <text
+            x={point.x}
+            y={chartHeight - 6}
+            textAnchor="middle"
+            fill="#7a5a4d"
+            fontSize="12"
+            fontWeight="700"
           >
-            <div
-              style={{
-                width: `${point.accuracy}%`,
-                height: "100%",
-                borderRadius: "999px",
-                backgroundColor: "#b9854f",
-              }}
-            />
-          </div>
+            {point.label}
+          </text>
 
-          <strong>{point.accuracy}%</strong>
-        </div>
+          <text
+            x={point.x}
+            y={point.y - 12}
+            textAnchor="middle"
+            fill="#3b241c"
+            fontSize="12"
+            fontWeight="700"
+          >
+            {point.accuracy}%
+          </text>
+        </g>
       ))}
-    </div>
-  )}
+    </svg>
+  </div>
+)}
 </section>
  {/* Section 3 */}
 <section
