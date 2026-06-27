@@ -19,7 +19,7 @@ export const messages = {
        entryHint: "点击海绵进入肚肚我洗！！",
       description: "我是一款学习日语可以获得金币购买海绵为小狗宝宝洗肚子",
       start: "世界上的肚肚太多了？不知道从哪开始？别焦虑，直接开始！",
-        learningRecords: "查看学习记录",
+        learningRecords: "查看学习进度",
     },
 
     progressDashboard: {
@@ -157,7 +157,7 @@ startPractice: "开始练习",
      entryHint: "Click the sponge to enter ONAKAWASH!!",
     description: "A Japanese learning website where you earn coins, buy sponges, and wash a puppy's belly.",
     start: "Too many bellies in the world? No idea where to start? Chill. Just start!",
-    learningRecords: "View Learning Records",
+    learningRecords: "View Progress Dashboard",
   },
 
   progressDashboard: {
@@ -292,7 +292,7 @@ startPractice: "Start Practice",
     entryHint: "스펀지를 눌러 배워시에 들어가요!!",
     description: "일본어를 배우고 코인을 얻어 스펀지를 산 다음 강아지 배를 씻겨 주는 웹사이트입니다.",
     start: "세상에 씻을 배가 너무 많다고요? 어디서 시작할지 모르겠다고요? 걱정 말고 바로 시작!",
-    learningRecords: "학습 기록 보기",
+learningRecords: "학습 진행 보기",
   },
    nav: {     
   languageName:"한국어",
@@ -428,7 +428,7 @@ startPractice: "연습 시작",
     "Một trang web học tiếng Nhật, nơi bạn kiếm xu, mua bọt biển và rửa bụng cho chú cún.",
   start:
     "Có quá nhiều chiếc bụng trên thế giới? Không biết bắt đầu từ đâu? Đừng lo, cứ bắt đầu thôi!",
-  learningRecords: "Xem lịch sử học tập",
+ learningRecords: "Xem tiến độ học tập",
 },
 nav: {
   languageName: "Tiếng Việt",
