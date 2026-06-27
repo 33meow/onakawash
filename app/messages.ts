@@ -21,6 +21,38 @@ export const messages = {
       start: "世界上的肚肚太多了？不知道从哪开始？别焦虑，直接开始！",
         learningRecords: "查看学习记录",
     },
+
+    progressDashboard: {
+  versionLabel: "V0.4 学习进度分析",
+  title: "学习进度面板",
+  subtitle: "把你的练习记录变成看得懂的学习反馈。",
+  backHome: "← 返回主页",
+
+  totalSessions: "总练习次数",
+  averageAccuracy: "平均正确率",
+  totalDuration: "累计练习时长",
+  latestPractice: "最近一次练习",
+  noPracticeYet: "还没有练习记录",
+
+  accuracyTrend: "正确率趋势",
+  accuracyTrendDescription: "最近几次练习的正确率，从较早到较新排列。",
+  noTrendData: "还没有足够的趋势数据。",
+
+  practiceTypeComparison: "练习类型对比",
+  practiceTypeDescription: "比较平假名和片假名的练习次数与平均正确率。",
+  hiragana: "平假名",
+  katakana: "片假名",
+  sessions: "练习次数",
+
+  recentSessions: "最近练习记录",
+  recentSessionsDescription: "按完成时间排序的最近练习。",
+  noRecordsYet: "完成一次练习后，这里会显示记录。",
+  score: "得分",
+  accuracy: "正确率",
+  duration: "用时",
+  date: "时间",
+},
+
 nav: {
     languageName: "中文",
     start: "进入",
@@ -36,6 +68,8 @@ nav: {
     hiraganaPractice:"平假名练习",
     katakanaPractice:"片假名练习",
   },
+
+
 
   introPage: {
     
@@ -125,6 +159,37 @@ startPractice: "开始练习",
     start: "Too many bellies in the world? No idea where to start? Chill. Just start!",
     learningRecords: "View Learning Records",
   },
+
+  progressDashboard: {
+  versionLabel: "V0.4 Progress Analysis",
+  title: "Progress Dashboard",
+  subtitle: "Turn your practice records into clear learning feedback.",
+  backHome: "← Back Home",
+
+  totalSessions: "Total Sessions",
+  averageAccuracy: "Average Accuracy",
+  totalDuration: "Total Duration",
+  latestPractice: "Latest Practice",
+  noPracticeYet: "No practice yet",
+
+  accuracyTrend: "Accuracy Trend",
+  accuracyTrendDescription: "Recent practice accuracy from oldest to newest.",
+  noTrendData: "No trend data yet.",
+
+  practiceTypeComparison: "Practice Type Comparison",
+  practiceTypeDescription: "Compare your Hiragana and Katakana practice activity and average accuracy.",
+  hiragana: "Hiragana",
+  katakana: "Katakana",
+  sessions: "Sessions",
+
+  recentSessions: "Recent Sessions",
+  recentSessionsDescription: "Your latest practice sessions, sorted by completion time.",
+  noRecordsYet: "Complete a practice session to see records here.",
+  score: "Score",
+  accuracy: "Accuracy",
+  duration: "Duration",
+  date: "Date",
+},
 
 nav :{languageName:"English",
 start:"Start",
@@ -244,6 +309,38 @@ kanjiComingSoon: "한자 추후 공개",
   hiraganaPractice:"히라가나 연습",
     katakanaPractice:"가타카나 연습",
    },
+
+progressDashboard: {
+  versionLabel: "V0.4 학습 진행 분석",
+  title: "학습 진행 대시보드",
+  subtitle: "연습 기록을 이해하기 쉬운 학습 피드백으로 보여줍니다.",
+  backHome: "← 홈으로 돌아가기",
+
+  totalSessions: "전체 연습 횟수",
+  averageAccuracy: "평균 정답률",
+  totalDuration: "누적 연습 시간",
+  latestPractice: "최근 연습",
+  noPracticeYet: "아직 연습 기록이 없습니다",
+
+  accuracyTrend: "정답률 추세",
+  accuracyTrendDescription: "최근 연습 정답률을 오래된 순서부터 최신 순서로 보여줍니다.",
+  noTrendData: "아직 추세 데이터가 없습니다.",
+
+  practiceTypeComparison: "연습 유형 비교",
+  practiceTypeDescription: "히라가나와 가타카나의 연습 횟수와 평균 정답률을 비교합니다.",
+  hiragana: "히라가나",
+  katakana: "가타카나",
+  sessions: "연습 횟수",
+
+  recentSessions: "최근 연습 기록",
+  recentSessionsDescription: "완료 시간 기준으로 정렬한 최근 연습 기록입니다.",
+  noRecordsYet: "연습을 완료하면 여기에 기록이 표시됩니다.",
+  score: "점수",
+  accuracy: "정답률",
+  duration: "소요 시간",
+  date: "날짜",
+},
+
    introPage: {
    
 
@@ -348,6 +445,38 @@ kanjiComingSoon: "Nội dung Kanji sắp ra mắt",
   hiraganaPractice:"Luyện tập Hiragana",
     katakanaPractice:"Luyện tập Katakana",
 },
+
+progressDashboard: {
+  versionLabel: "V0.4 Phân tích tiến độ học tập",
+  title: "Bảng tiến độ học tập",
+  subtitle: "Biến lịch sử luyện tập của bạn thành phản hồi học tập dễ hiểu.",
+  backHome: "← Về trang chủ",
+
+  totalSessions: "Tổng số lần luyện tập",
+  averageAccuracy: "Độ chính xác trung bình",
+  totalDuration: "Tổng thời gian luyện tập",
+  latestPractice: "Lần luyện tập gần nhất",
+  noPracticeYet: "Chưa có lịch sử luyện tập",
+
+  accuracyTrend: "Xu hướng độ chính xác",
+  accuracyTrendDescription: "Độ chính xác của các lần luyện tập gần đây, từ cũ đến mới.",
+  noTrendData: "Chưa có dữ liệu xu hướng.",
+
+  practiceTypeComparison: "So sánh loại luyện tập",
+  practiceTypeDescription: "So sánh số lần luyện tập và độ chính xác trung bình giữa Hiragana và Katakana.",
+  hiragana: "Hiragana",
+  katakana: "Katakana",
+  sessions: "Số lần luyện tập",
+
+  recentSessions: "Lịch sử luyện tập gần đây",
+  recentSessionsDescription: "Các lần luyện tập gần đây, sắp xếp theo thời gian hoàn thành.",
+  noRecordsYet: "Hoàn thành một lần luyện tập để xem lịch sử tại đây.",
+  score: "Điểm",
+  accuracy: "Độ chính xác",
+  duration: "Thời gian",
+  date: "Ngày",
+},
+
 introPage: {
   
 

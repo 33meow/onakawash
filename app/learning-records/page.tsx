@@ -157,22 +157,22 @@ const latestSession = getLatestSession(records);
 
 const overviewCards = [
   {
-    label: "Total Sessions",
+    label: t.progressDashboard.totalSessions,
     value: totalSessions,
   },
   {
-    label: "Average Accuracy",
+    label: t.progressDashboard.averageAccuracy,
     value: `${averageAccuracy}%`,
   },
   {
-    label: "Total Duration",
+    label: t.progressDashboard.totalDuration,
     value: totalDurationText,
   },
   {
-    label: "Latest Practice",
+    label:  t.progressDashboard.latestPractice,
     value: latestSession
       ? formatDate(latestSession.finishedAt ?? latestSession.createdAt)
-      : "No practice yet",
+      :t.progressDashboard.noPracticeYet,
   },
 ];
 
@@ -263,7 +263,7 @@ return(<main
     marginBottom: "24px",
   }}
 >
-  ← {t.recordsPage.backHome}
+   {t.progressDashboard.backHome}
 </Link>
   <p
     style={{
@@ -272,7 +272,7 @@ return(<main
       fontWeight: 700,
     }}
   >
-    V0.4 Progress Analysis
+    {t.progressDashboard.versionLabel}
   </p>
 
   <h1
@@ -283,7 +283,7 @@ return(<main
       lineHeight: "1.1",
     }}
   >
-    Progress Dashboard
+    {t.progressDashboard.title}
   </h1>
 
   <p
@@ -294,10 +294,10 @@ return(<main
       lineHeight: "1.6",
     }}
   >
-    Turn your practice records into learning feedback.
+   {t.progressDashboard.subtitle}
   </p>
 </header>
-<h1>Progress Dashboard</h1>
+
   {/* Section 1 */}
   <section
   style={{
@@ -365,7 +365,7 @@ return(<main
       fontSize: "24px",
     }}
   >
-    Accuracy Trend
+    {t.progressDashboard.accuracyTrend}
   </h2>
 <p
   style={{
@@ -374,10 +374,10 @@ return(<main
     lineHeight: "1.5",
   }}
 >
-  Recent practice accuracy from oldest to newest.
+ {t.progressDashboard.accuracyTrendDescription}
 </p>
   {accuracyTrendData.length === 0 ? (
-    <p>No trend data yet.</p>
+    <p>{t.progressDashboard.noTrendData}</p>
   ) : (
     <div
       style={{
@@ -440,7 +440,7 @@ return(<main
       fontSize: "24px",
     }}
   >
-    Practice Type Comparison
+{t.progressDashboard.practiceTypeComparison}
   </h2>
 <p
   style={{
@@ -449,7 +449,7 @@ return(<main
     lineHeight: "1.5",
   }}
 >
-  Compare your practice activity across Hiragana and Katakana.
+  {t.progressDashboard.practiceTypeDescription}
 </p>
   <div
     style={{
@@ -472,11 +472,11 @@ border: "1px solid #ead8d0",
           color: "#3b241c",
         }}
       >
-        Hiragana
+       {t.progressDashboard.hiragana}
       </h3>
 
-      <p>Sessions: {practiceTypeStats.hiragana.count}</p>
-      <p>Average Accuracy: {practiceTypeStats.hiragana.averageAccuracy}%</p>
+      <p>{t.progressDashboard.sessions}: {practiceTypeStats.hiragana.count}</p>
+      <p>{t.progressDashboard.averageAccuracy}: {practiceTypeStats.hiragana.averageAccuracy}%</p>
     </article>
 
     <article
@@ -493,11 +493,11 @@ border: "1px solid #ead8d0",
           color: "#3b241c",
         }}
       >
-        Katakana
+       {t.progressDashboard.katakana}
       </h3>
 
-      <p>Sessions: {practiceTypeStats.katakana.count}</p>
-      <p>Average Accuracy: {practiceTypeStats.katakana.averageAccuracy}%</p>
+      <p>{t.progressDashboard.sessions}: {practiceTypeStats.katakana.count}</p>
+      <p>{t.progressDashboard.averageAccuracy}: {practiceTypeStats.katakana.averageAccuracy}%</p>
     </article>
   </div>
 </section>
@@ -519,7 +519,7 @@ border: "1px solid #ead8d0",
       fontSize: "24px",
     }}
   >
-    Recent Sessions
+  {t.progressDashboard.recentSessions}
   </h2>
 <p
   style={{
@@ -528,10 +528,10 @@ border: "1px solid #ead8d0",
     lineHeight: "1.5",
   }}
 >
-  Your latest practice sessions, sorted by completion time.
+ {t.progressDashboard.recentSessionsDescription}
 </p>
   {recentSessions.length === 0 ? (
-    <p>No practice records yet.</p>
+    <p>{t.progressDashboard.noRecordsYet}</p>
   ) : (
     <div
       style={{
@@ -554,16 +554,16 @@ border: "1px solid #ead8d0",
           <strong>{session.practiceType}</strong>
 
           <p style={{ margin: 0 }}>
-            Score: {session.score} / {session.totalQuestions}
+           {t.progressDashboard.score}: {session.score} / {session.totalQuestions}
           </p>
 
-          <p style={{ margin: 0 }}>Accuracy: {getSafeAccuracy(session)}%</p>
+          <p style={{ margin: 0 }}>{t.progressDashboard.accuracy}: {getSafeAccuracy(session)}%</p>
 
-          <p  style={{ margin: 0 }}> Duration: {formatDuration(session.durationSeconds)}</p>
+          <p  style={{ margin: 0 }}>{t.progressDashboard.duration}: {formatDuration(session.durationSeconds)}</p>
          
 
           <p style={{ margin: 0 }}>
-            Date: {formatDate(session.finishedAt ?? session.createdAt)}
+           {t.progressDashboard.date}:{formatDate(session.finishedAt ?? session.createdAt)}
           </p>
         </article>
       ))}
