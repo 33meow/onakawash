@@ -234,17 +234,21 @@ return(<main
       fontFamily: "Arial, sans-serif",
     }}
   >
-     
+    
  <div
   style={{
     width: "100%",
-    maxWidth: "1000px",
+    maxWidth: "1120px",
     margin: "0 auto",
   }}
 >
-
-
-  <Link
+   
+<header
+  style={{
+    marginBottom: "28px",
+  }}
+>
+   <Link
   href="/"
   style={{
     display: "inline-flex",
@@ -261,11 +265,6 @@ return(<main
 >
   ← {t.recordsPage.backHome}
 </Link>
-<header
-  style={{
-    marginBottom: "28px",
-  }}
->
   <p
     style={{
       margin: "0 0 8px",
@@ -311,13 +310,17 @@ return(<main
   {overviewCards.map((card) => (
     <article
       key={card.label}
-      style={{
-        padding: "18px",
-        borderRadius: "16px",
-        backgroundColor: "#fffaf5",
-        border: "1px solid #ead8d0",
-        boxShadow: "0 10px 24px rgba(74, 43, 34, 0.08)",
-      }}
+     style={{
+  minHeight: "120px",
+  padding: "20px",
+  borderRadius: "18px",
+  backgroundColor: "#fffaf5",
+  border: "1px solid #ead8d0",
+  boxShadow: "0 10px 24px rgba(74, 43, 34, 0.08)",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+}}
     >
       <p
         style={{
@@ -335,6 +338,7 @@ return(<main
           color: "#3b241c",
           fontSize: "24px",
           lineHeight: "1.2",
+          wordBreak: "break-word",
         }}
       >
         {card.value}
@@ -347,6 +351,11 @@ return(<main
 <section
   style={{
     marginTop: "28px",
+    padding: "22px",
+    borderRadius: "18px",
+    backgroundColor: "#fffaf5",
+    border: "1px solid #ead8d0",
+    boxShadow: "0 10px 24px rgba(74, 43, 34, 0.08)",
   }}
 >
   <h2
@@ -358,7 +367,15 @@ return(<main
   >
     Accuracy Trend
   </h2>
-
+<p
+  style={{
+    margin: "0 0 18px",
+    color: "#7a5a4d",
+    lineHeight: "1.5",
+  }}
+>
+  Recent practice accuracy from oldest to newest.
+</p>
   {accuracyTrendData.length === 0 ? (
     <p>No trend data yet.</p>
   ) : (
@@ -372,17 +389,18 @@ return(<main
         <div
           key={`${point.label}-${point.date}`}
           style={{
-            display: "grid",
-            gridTemplateColumns: "56px 1fr 52px",
-            alignItems: "center",
-            gap: "12px",
+              display: "grid",
+  gridTemplateColumns: "64px minmax(0, 1fr) 56px",
+  alignItems: "center",
+  gap: "12px",
           }}
         >
           <span>{point.label}</span>
 
           <div
             style={{
-              height: "12px",
+              //进度条宽窄
+              height: "14px",
               borderRadius: "999px",
               backgroundColor: "#ead8d0",
               overflow: "hidden",
@@ -393,7 +411,7 @@ return(<main
                 width: `${point.accuracy}%`,
                 height: "100%",
                 borderRadius: "999px",
-                backgroundColor: "#c9975b",
+                backgroundColor: "#b9854f",
               }}
             />
           </div>
@@ -408,6 +426,11 @@ return(<main
 <section
   style={{
     marginTop: "28px",
+     padding: "22px",
+       borderRadius: "18px",
+        backgroundColor: "#fffaf5",
+        border: "1px solid #ead8d0",
+         boxShadow: "0 10px 24px rgba(74, 43, 34, 0.08)",
   }}
 >
   <h2
@@ -419,7 +442,15 @@ return(<main
   >
     Practice Type Comparison
   </h2>
-
+<p
+  style={{
+    margin: "0 0 18px",
+    color: "#7a5a4d",
+    lineHeight: "1.5",
+  }}
+>
+  Compare your practice activity across Hiragana and Katakana.
+</p>
   <div
     style={{
       display: "grid",
@@ -431,8 +462,8 @@ return(<main
       style={{
         padding: "18px",
         borderRadius: "16px",
-        backgroundColor: "#fffaf5",
-        border: "1px solid #ead8d0",
+       backgroundColor: "#f6f2e8",
+border: "1px solid #ead8d0",
       }}
     >
       <h3
@@ -452,8 +483,8 @@ return(<main
       style={{
         padding: "18px",
         borderRadius: "16px",
-        backgroundColor: "#fffaf5",
-        border: "1px solid #ead8d0",
+       backgroundColor: "#f6f2e8",
+border: "1px solid #ead8d0",
       }}
     >
       <h3
@@ -474,6 +505,11 @@ return(<main
 <section
   style={{
     marginTop: "28px",
+     padding: "22px",
+      borderRadius: "18px",
+        backgroundColor: "#fffaf5",
+         border: "1px solid #ead8d0",
+    boxShadow: "0 10px 24px rgba(74, 43, 34, 0.08)",
   }}
 >
   <h2
@@ -485,7 +521,15 @@ return(<main
   >
     Recent Sessions
   </h2>
-
+<p
+  style={{
+    margin: "0 0 18px",
+    color: "#7a5a4d",
+    lineHeight: "1.5",
+  }}
+>
+  Your latest practice sessions, sorted by completion time.
+</p>
   {recentSessions.length === 0 ? (
     <p>No practice records yet.</p>
   ) : (
@@ -500,22 +544,25 @@ return(<main
           key={session.id}
           style={{
             padding: "16px",
-            borderRadius: "16px",
-            backgroundColor: "#fffaf5",
+            borderRadius: "14px",
+              backgroundColor: "#f6f2e8",
             border: "1px solid #ead8d0",
+            display: "grid",
+              gap: "8px",
           }}
         >
           <strong>{session.practiceType}</strong>
 
-          <p>
+          <p style={{ margin: 0 }}>
             Score: {session.score} / {session.totalQuestions}
           </p>
 
-          <p>Accuracy: {getSafeAccuracy(session)}%</p>
+          <p style={{ margin: 0 }}>Accuracy: {getSafeAccuracy(session)}%</p>
 
-          <p>Duration: {formatDuration(session.durationSeconds)}</p>
+          <p  style={{ margin: 0 }}> Duration: {formatDuration(session.durationSeconds)}</p>
+         
 
-          <p>
+          <p style={{ margin: 0 }}>
             Date: {formatDate(session.finishedAt ?? session.createdAt)}
           </p>
         </article>
@@ -523,6 +570,7 @@ return(<main
     </div>
   )}
 </section>
+
 </div>
 </main>);
 }
