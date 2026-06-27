@@ -122,6 +122,35 @@ function formatDate(date: string | null) {
   return new Date(date).toLocaleString();
 }
 
+function parseUtcDate(date: string) {
+  const hasTimezone = date.endsWith("Z") || /[+-]\d{2}:\d{2}$/.test(date);
+  return new Date(hasTimezone ? date : `${date}Z`);
+}
+
+function formatSessionDate(session: PracticeSession, language: Language) {
+  const locale =
+    language === "en"
+      ? "en-US"
+      : language === "ko"
+        ? "ko-KR"
+        : language === "vi"
+          ? "vi-VN"
+          : "zh-CN";
+
+  const date = session.finishedAt
+    ? parseUtcDate(session.finishedAt)
+    : new Date(session.createdAt);
+
+  return date.toLocaleString(locale, {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+}
+
 function getSafeAccuracy(session: PracticeSession) {
   if (session.accuracy !== null && session.accuracy !== undefined) {
     return session.accuracy;
@@ -171,8 +200,8 @@ const overviewCards = [
   {
     label:  t.progressDashboard.latestPractice,
     value: latestSession
-      ? formatDate(latestSession.finishedAt ?? latestSession.createdAt)
-      :t.progressDashboard.noPracticeYet,
+  ? formatSessionDate(latestSession, language)
+  : t.progressDashboard.noPracticeYet,
   },
 ];
 
@@ -628,7 +657,7 @@ border: "1px solid #ead8d0",
          
 
           <p style={{ margin: 0 }}>
-           {t.progressDashboard.date}:{formatDate(session.finishedAt ?? session.createdAt)}
+           {t.progressDashboard.date}:{formatSessionDate(session, language)}
           </p>
         </article>
       ))}
