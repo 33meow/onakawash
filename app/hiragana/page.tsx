@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import SideNav from "../components/SideNav";
 import { type Language } from "../messages";
 import { pronunciationGuides } from "../data/pronunciationGuides";
+import PronunciationGuidePanel from "../components/PronunciationGuidePanel";
 
 type KanaItem = {
     id:string;
@@ -310,105 +311,12 @@ if (item === null) {
           
         </section>
 
-
-      <aside
-  style={{
-    position: "sticky",
-    top: "16px",
-    alignSelf: "start",
-    backgroundColor: "#f6f2e8",
-    borderLeft: "1px solid #eadfce",
-    padding: "26px 28px",
-  }}
->
-
-    {selectedKanaItem ? (
-      selectedGuide ? (
-        <>
-  <div style={{ textAlign: "center", marginBottom: "28px" }}>
-    <p
-      style={{
-        fontSize: "72px",
-        margin: "0",
-        lineHeight: "1",
-        color: "#2f2435",
-        fontWeight: "600",
-      }}
-    >
-      {selectedGuide.kana}
-    </p>
-
-    <p
-      style={{
-        margin: "12px 0 0",
-        color: "#6f5a4e",
-        fontSize: "16px",
-        lineHeight: "1.6",
-         fontWeight: "700",
-      }}
-    >
-      {selectedGuide.hepburnRomaji}
-    </p>
-  </div>
-
-  {selectedGuide.mouthImageSrc ? (
-    <img
-      src={selectedGuide.mouthImageSrc}
-      alt={`${selectedGuide.kana} mouth shape`}
-      style={{
-        display: "block",
-        width: "100%",
-        maxWidth: "220px",
-        margin: "0 auto 16px",
-        borderRadius: "12px",
-      }}
-    />
-  ) : null}
-
-  <p
-    style={{
-      fontSize: "16px",
-      lineHeight: "1.7",
-      color: "#4a2b22",
-      margin: "0 0 28px",
-    }}
-  >
-    {selectedGuide.pronunciationTip}
-  </p>
-
-  {selectedGuide.strokeHintImageSrc ? (
-    <img
-      src={selectedGuide.strokeHintImageSrc}
-      alt={`${selectedGuide.kana} stroke hint`}
-      style={{
-        display: "block",
-        width: "100%",
-        maxWidth: "220px",
-        margin: "0 auto 8px",
-        borderRadius: "12px",
-      }}
-    />
-  ) : null}
-
-  <p
-    style={{
-      fontSize: "13px",
-      lineHeight: "1.6",
-      color: "#8a7c72",
-      margin: "0",
-      textAlign: "center",
-    }}
-  >
-    {selectedGuide.strokeHint}
-  </p>
-</>
-        ) : (
-        <p>Guide not ready for this kana yet.</p>
-      )
-    ) : (
-      <p>Click a kana to see pronunciation tips.</p>
-    )}
-  </aside>
+{/*如果 selectedKanaItem 有值，就取它的 kana
+如果 selectedKanaItem 是 null，就不要继续取 kana，避免报错 */}
+   <PronunciationGuidePanel
+  selectedKana={selectedKanaItem?.kana ?? null}
+  selectedGuide={selectedGuide}
+/>
 
 
      
