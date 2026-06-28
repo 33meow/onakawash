@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import SideNav from "../components/SideNav";
 import { type Language } from "../messages";
+import { pronunciationGuides } from "../data/pronunciationGuides";
 
 type KanaItem = {
     id:string;
@@ -25,6 +26,7 @@ type KanaItem = {
 
 export default function HiraganaPage(){
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedKanaItem, setSelectedKanaItem] = useState<KanaItem | null>(null);
       const [language, setLanguage] = useState<Language>("zh");
    useEffect(() => {
   const savedLanguage = localStorage.getItem("language");
@@ -118,8 +120,14 @@ audio.play().catch(() => {
   alert("音频播放失败。请检查 audio 文件路径");
 });
   }
+
+const selectedGuide = selectedKanaItem
+  ? pronunciationGuides[selectedKanaItem.id] ?? null
+  : null;
+
   // 用户点击任意假名时，统一播放对应音频。
   function handleKanaClick(item: KanaItem){
+    setSelectedKanaItem(item);
     playAudio(item);
   }
   return(
@@ -131,27 +139,14 @@ audio.play().catch(() => {
     fontFamily: "Arial, sans-serif",
     color: "#3b241c",
     display: "grid",
-    gridTemplateColumns: "240px minmax(0, 1fr)",
+    gridTemplateColumns: "240px minmax(0, 1fr) 320px",
     gap: "24px",
     alignItems: "stretch",
      }}>
+
       <SideNav currentPage="hiragana" language={language}  setLanguage={setLanguage} />
-        {/* 
-        这个 div 是整个页面的布局容器。
-        display: flex 让左侧工具栏和右侧五十音表并排。
-      */}
-     
-         {/* 
-          左侧功能栏。
-          这里放 5 个按钮/链接。
-          注意：
-          - 改变模式：用 button
-          - 跳转页面：用 Link
-        */}
-          {/* 
-          右侧主内容区域。
-          这里只显示 Hiragana 假名总览。
-        */}
+       
+
         <section 
         style={{
             padding:"36px 28px",
@@ -232,9 +227,9 @@ audio.play().catch(() => {
         style={{
           display: "grid",
           gridTemplateColumns: section.title.includes("Combination")
-            ? "repeat(3, 180px)"
-            : "repeat(5, 180px)",
-          gap: "18px",
+            ? "repeat(3, 140px)"
+            : "repeat(5, 140px)",
+          gap: "14px",
           justifyContent: "center",
         }}
       >
@@ -262,7 +257,8 @@ if (item === null) {
               type="button"
               onClick={() => handleKanaClick(item)}
               style={{
-              minHeight: "110px",
+                //按钮高低
+              minHeight: "100px",
   borderRadius: "26px",
   border: isSelected
     ? "2px solid #c9975b"
@@ -313,6 +309,108 @@ if (item === null) {
 </div>
           
         </section>
+
+
+      <aside
+  style={{
+    position: "sticky",
+    top: "16px",
+    alignSelf: "start",
+    backgroundColor: "#f6f2e8",
+    borderLeft: "1px solid #eadfce",
+    padding: "26px 28px",
+  }}
+>
+
+    {selectedKanaItem ? (
+      selectedGuide ? (
+        <>
+  <div style={{ textAlign: "center", marginBottom: "28px" }}>
+    <p
+      style={{
+        fontSize: "72px",
+        margin: "0",
+        lineHeight: "1",
+        color: "#2f2435",
+        fontWeight: "600",
+      }}
+    >
+      {selectedGuide.kana}
+    </p>
+
+    <p
+      style={{
+        margin: "12px 0 0",
+        color: "#6f5a4e",
+        fontSize: "16px",
+        lineHeight: "1.6",
+         fontWeight: "700",
+      }}
+    >
+      {selectedGuide.hepburnRomaji}
+    </p>
+  </div>
+
+  {selectedGuide.mouthImageSrc ? (
+    <img
+      src={selectedGuide.mouthImageSrc}
+      alt={`${selectedGuide.kana} mouth shape`}
+      style={{
+        display: "block",
+        width: "100%",
+        maxWidth: "220px",
+        margin: "0 auto 16px",
+        borderRadius: "12px",
+      }}
+    />
+  ) : null}
+
+  <p
+    style={{
+      fontSize: "16px",
+      lineHeight: "1.7",
+      color: "#4a2b22",
+      margin: "0 0 28px",
+    }}
+  >
+    {selectedGuide.pronunciationTip}
+  </p>
+
+  {selectedGuide.strokeHintImageSrc ? (
+    <img
+      src={selectedGuide.strokeHintImageSrc}
+      alt={`${selectedGuide.kana} stroke hint`}
+      style={{
+        display: "block",
+        width: "100%",
+        maxWidth: "220px",
+        margin: "0 auto 8px",
+        borderRadius: "12px",
+      }}
+    />
+  ) : null}
+
+  <p
+    style={{
+      fontSize: "13px",
+      lineHeight: "1.6",
+      color: "#8a7c72",
+      margin: "0",
+      textAlign: "center",
+    }}
+  >
+    {selectedGuide.strokeHint}
+  </p>
+</>
+        ) : (
+        <p>Guide not ready for this kana yet.</p>
+      )
+    ) : (
+      <p>Click a kana to see pronunciation tips.</p>
+    )}
+  </aside>
+
+
      
      </main>
   );
