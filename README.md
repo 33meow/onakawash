@@ -24,7 +24,7 @@ The backend is maintained in a separate Spring Boot repository.
 ## Current Features
 
 * Custom visual design homepage
-* Chinese / English / Korean language switcher
+* Chinese / English / Korean / Vietnamese language switcher
 * Hiragana learning page
 * Katakana learning page
 * Click a kana to play audio
@@ -39,6 +39,9 @@ The backend is maintained in a separate Spring Boot repository.
 * Learning Records page for viewing saved practice session history
 * Practice session results saved to the Spring Boot backend
 * PracticeSession records with score, total questions, accuracy, session timing, and practice metadata
+* Progress Dashboard with summary metrics, accuracy trend, practice type comparison, and recent session history
+* Kana Pronunciation Guide prototype for Hiragana and Katakana learning pages
+* Initial pronunciation seed data for basic Hiragana vowels, including a full image-based guide for Hiragana `u`
 * Multilingual UI text for kana pages and practice pages
 
 ## Kana Data Flow
@@ -94,9 +97,10 @@ v0.1 Kana Data Flow
 -> v0.2 Practice Mode
 -> v0.3 Learning Records
 -> v0.4 Progress Dashboard
+-> v0.4.1 Kana Pronunciation Guide
 ```
 
-v0.1 focused on moving kana data out of frontend hardcoded arrays and into the Spring Boot backend. v0.2 added real practice interactions. v0.3 connects those interactions to a backend record system, so completed practice sessions can become structured learning data. v0.4 turns those records into a Progress Dashboard with summary metrics, accuracy trends, practice type comparison, and recent session history.
+v0.1 focused on moving kana data out of frontend hardcoded arrays and into the Spring Boot backend. v0.2 added real practice interactions. v0.3 connects those interactions to a backend record system, so completed practice sessions can become structured learning data. v0.4 turns those records into a Progress Dashboard with summary metrics, accuracy trends, practice type comparison, and recent session history. v0.4.1 adds a first pronunciation guide prototype, inspired by user feedback that audio alone may not be enough for beginners to understand how to pronounce kana.
 
 This evolution reflects the project's broader direction: building a personal Japanese learning platform that connects practical software engineering with research-informed thinking about learning records, progress analysis, and future adaptive review.
 
@@ -169,8 +173,8 @@ This project is still under development.
 Current focus:
 
 * V0.4 Progress Dashboard completed
-* Preparing for v0.4.1 Kana Pronunciation Guide
-* Planning pronunciation support based on user feedback
+* V0.4.1 Kana Pronunciation Guide prototype completed
+* Planning future pronunciation data storage and image expansion
 * Continuing interface improvements with original illustrations
 
 ## Roadmap
@@ -203,10 +207,14 @@ Current focus:
   - Compare Hiragana and Katakana practice session counts
   - Display recent session history with score, accuracy, duration, and date
 
-- [ ] v0.4.1 — Kana Pronunciation Guide
+- [x] v0.4.1 — Kana Pronunciation Guide
   - Improve the Hiragana and Katakana pages based on user feedback
   - Show mouth-shape images, romaji, pronunciation tips, and stroke hints when a kana is selected
   - Help beginners understand not only what a kana sounds like, but also how to pronounce it
+  - Add a reusable `PronunciationGuidePanel` component shared by Hiragana and Katakana pages
+  - Include seed data for basic Hiragana vowels
+  - Include a full image-based guide for Hiragana `u` as the first complete example
+  - Defer full pronunciation image/data expansion until the long-term data storage strategy is finalized
 
 - [ ] v0.5 — Adaptive Review
   - Use learning record data to support more personalized review flows
