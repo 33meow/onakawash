@@ -36,6 +36,24 @@ type Question = {
 
 };
 
+//这是前端临时准备保存的 AnswerRecord
+//还没正式送到后端数据库
+type AnswerRecordDraft = {
+  userId: number;
+  sessionKey: string;
+  practiceType: string;
+  practiceMode: string;
+
+  kanaItemId: string;
+  kana: string;
+  correctRomaji: string;
+  selectedRomaji: string;
+  isCorrect: boolean;
+
+  answeredAt: string;
+  responseTimeMs: number;
+};
+
 //常量：题目数量、选项数量。
 const QUESTION_COUNT = 10;
 const OPTION_COUNT = 4;
@@ -110,6 +128,12 @@ export default function HiraganaPracticePage() {
   const [score, setScore] = useState(0);
   //保存用户选择的答案，刚开始是null。答案是字符串ABCD
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  //answerRecords = 当前这轮练习已经产生的逐题答题记录
+  //setAnswerRecords = 更新这组记录的方法
+  
+  const [answerRecords, setAnswerRecords] = useState<AnswerRecordDraft[]>([]);
+  //questionStartedAt = 当前这道题开始显示的时间
+  const [questionStartedAt, setQuestionStartedAt] = useState<number | null>(null);
   //记录当前题答过没，默认是没有答，用户回答过后就变成true，防止用户重复答题。
   const [isAnswered, setIsAnswered] = useState(false);
   //保存是否正在加载题目，刚开始是true。刚开始打开需要去后端fetch数据，所以是true，等数据加载完了就变成false。
@@ -176,6 +200,9 @@ setFinishedAt(null);
 setSaveMessage("");
 setHasSavedSession(false);
 setIsSavingSession(false);
+
+setAnswerRecords([]);
+setQuestionStartedAt(Date.now());
       } catch (error) {
         console.error(error);
         setErrorMessage(t.practice.loadError);
@@ -198,6 +225,34 @@ setIsSavingSession(false);
     //从题目数组里拿出当前正在做的
     const currentQuestion = questions[currentIndex];
 
+//用户点击答案这一刻的时间，未来保存到 answeredAt 字段
+const answeredAt = new Date().toISOString();
+//用户用了多少毫秒答题
+const responseTimeMs = questionStartedAt
+  ? Date.now() - questionStartedAt
+  : 0;
+//用户选的 answer 是否等于正确 romaji
+const isCorrect = answer === currentQuestion.item.romaji;
+
+const answerRecord: AnswerRecordDraft = {
+  userId: 1,
+  sessionKey: startedAt ?? "unknown-session",
+  practiceType: "HIRAGANA",
+  practiceMode: "ROMAJI_CHOICE",
+
+ kanaItemId: currentQuestion.item.id,
+  kana: currentQuestion.item.kana,
+  correctRomaji: currentQuestion.item.romaji,
+  selectedRomaji: answer,
+  isCorrect,
+
+  answeredAt,
+  responseTimeMs,
+};
+console.log("currentQuestion.item", currentQuestion.item);
+setAnswerRecords((currentRecords) => [...currentRecords, answerRecord]);
+console.log("answerRecord", answerRecord);
+
     //记录用户选的那个答案
     setSelectedAnswer(answer);
     //反馈答对了打错了
@@ -205,7 +260,7 @@ setIsSavingSession(false);
 
     //判断答案对不对
     //typeScrip表示严格相等
-    if (answer === currentQuestion.item.romaji) {
+    if (isCorrect) {
         //设置分数（currentscore表示最新分数）
       setScore((currentScore) => currentScore + 1);
     }
@@ -239,6 +294,10 @@ setIsSavingSession(false);
     setScore(0);
     setSelectedAnswer(null);
     setIsAnswered(false);
+
+    setAnswerRecords([]);
+    setQuestionStartedAt(Date.now());
+    
     setStartedAt(new Date().toISOString());
 setFinishedAt(null);
 setSaveMessage("");
