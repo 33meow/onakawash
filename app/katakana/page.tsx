@@ -8,6 +8,8 @@ import SideNav from "../components/SideNav";
 // 这里用来记录“用户刚刚点了哪个假名”
 import { useEffect,useRef, useState } from "react";
 import {  type Language } from "../messages";
+import { pronunciationGuides } from "../data/pronunciationGuides";
+import PronunciationGuidePanel from "../components/PronunciationGuidePanel";
 
 
 type KanaItem = {
@@ -35,7 +37,7 @@ const [language, setLanguage] = useState<Language>("zh");
   // selectedId 记录刚刚被用户点过的假名。
   // 这个不是必须功能，但可以用来给被点过的假名加一点高亮。
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  
+  const [selectedKanaItem, setSelectedKanaItem] = useState<KanaItem | null>(null);
  
   useEffect(() => {
   const savedLanguage = localStorage.getItem("language");
@@ -115,10 +117,16 @@ audio.play().catch(() => {
   alert("音频播放失败。请检查 audio 文件路径");
 });
   }
+
+  const selectedGuide = selectedKanaItem
+  ? pronunciationGuides[selectedKanaItem.id] ?? null
+  : null;
   // handleKanaClick 是点击假名时执行的总函数。
   // 它会根据当前 mode 决定行为。
   function handleKanaClick(item: KanaItem) {
-     playAudio(item);
+    setSelectedKanaItem(item); 
+    playAudio(item);
+     
   }
   return(
     <main
@@ -129,7 +137,7 @@ audio.play().catch(() => {
     fontFamily: "Arial, sans-serif",
     color: "#3b241c",
     display: "grid",
-    gridTemplateColumns: "240px minmax(0, 1fr)",
+    gridTemplateColumns: "240px minmax(0, 1fr) 320px",
     gap: "24px",
     alignItems: "stretch",
      }}>
@@ -229,9 +237,9 @@ audio.play().catch(() => {
         style={{
           display: "grid",
           gridTemplateColumns: section.title.includes("Combination")
-          ? "repeat(3,180px)"
-          :"repeat(5,180px)",
-          gap: "18px",
+          ? "repeat(3,140px)"
+          :"repeat(5,140px)",
+          gap: "14px",
           justifyContent: "center",
         }}
       >
@@ -259,7 +267,7 @@ if (item === null) {
               type="button"
               onClick={() => handleKanaClick(item)}
               style={{
-                minHeight: "110px",
+                minHeight: "100px",
                 borderRadius: "26px",
                 border: isSelected
                   ? "2px solid #c9975b"
@@ -310,6 +318,10 @@ if (item === null) {
 </div>
           
         </section>
+     <PronunciationGuidePanel
+      selectedKana={selectedKanaItem?.kana ?? null}
+      selectedGuide={selectedGuide}
+    />
     
      </main>
   );
