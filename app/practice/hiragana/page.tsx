@@ -142,6 +142,9 @@ export default function HiraganaPracticePage() {
 //保存错误信息，刚开始是null。fetch失败时会显示错误信息。
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [startedAt, setStartedAt] = useState<string | null>(null);
+  //At the first render, the page has not loaded practice data yet, 
+  // so there is no session key. After data loads, we create one.
+  const [sessionKey, setSessionKey] = useState<string | null>(null);
 const [finishedAt, setFinishedAt] = useState<string | null>(null);
 const [isSavingSession, setIsSavingSession] = useState(false);
 const [saveMessage, setSaveMessage] = useState("");
@@ -194,8 +197,17 @@ const [hasSavedSession, setHasSavedSession] = useState(false);
         const items = flattenKanaSections(sections);
         const generatedQuestions = createQuestions(items);
 
-        setQuestions(generatedQuestions);
-        setStartedAt(new Date().toISOString());
+
+        //Example:newStartedAt = "2026-06-30T12:40:15.123Z"
+        //newSessionKey = "hiragana-session-2026-06-30T12-40-15-123Z"
+      const newStartedAt = new Date().toISOString();
+      //one stable ID for this practice round
+const newSessionKey = `hiragana-session-${newStartedAt.replace(/[:.]/g, "-")}`;
+
+setQuestions(generatedQuestions);
+setStartedAt(newStartedAt);
+setSessionKey(newSessionKey);
+
 setFinishedAt(null);
 setSaveMessage("");
 setHasSavedSession(false);
@@ -236,7 +248,9 @@ const isCorrect = answer === currentQuestion.item.romaji;
 
 const answerRecord: AnswerRecordDraft = {
   userId: 1,
-  sessionKey: startedAt ?? "unknown-session",
+  //If sessionKey has a value, use it.
+//If sessionKey is null, use "unknown-session".
+  sessionKey: sessionKey ?? "unknown-session",
   practiceType: "HIRAGANA",
   practiceMode: "ROMAJI_CHOICE",
 
@@ -249,9 +263,7 @@ const answerRecord: AnswerRecordDraft = {
   answeredAt,
   responseTimeMs,
 };
-console.log("currentQuestion.item", currentQuestion.item);
 setAnswerRecords((currentRecords) => [...currentRecords, answerRecord]);
-console.log("answerRecord", answerRecord);
 
     //记录用户选的那个答案
     setSelectedAnswer(answer);
@@ -316,7 +328,8 @@ setIsSavingSession(false);
 
     const endTime = finishedAt ?? new Date().toISOString();
     const startTime = startedAt ?? endTime;
-    const sessionKeyTime = endTime.replace(/[:.]/g, "-");
+    const currentSessionKey =
+  sessionKey ?? `hiragana-session-${startTime.replace(/[:.]/g, "-")}`;
     const durationSeconds = Math.max(
       0,
       Math.round(
@@ -326,7 +339,7 @@ setIsSavingSession(false);
 
     const practiceSession = {
       userId: 1,
-      sessionKey: `hiragana-session-${sessionKeyTime}`,
+      sessionKey: currentSessionKey,
       practiceType: "HIRAGANA",
       practiceMode: "ROMAJI_CHOICE",
       score,
@@ -350,6 +363,26 @@ setIsSavingSession(false);
     }
 
     await res.json();
+    //wait until all POST requests finish
+   const answerRecordResponses = await Promise.all(
+  answerRecords.map((answerRecord) =>
+    fetch("http://localhost:8080/answer-records", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...answerRecord,
+        sessionKey: currentSessionKey,
+      }),
+    })
+  )
+);
+
+if (answerRecordResponses.some((response) => !response.ok)) {
+  throw new Error("Failed to save answer records");
+}
+
     setFinishedAt(endTime);
     setHasSavedSession(true);
     setSaveMessage("Learning record saved.");
