@@ -32,8 +32,22 @@ type Question = {
     item: KanaItem;
     // 4 个选项，其中一个是正确答案（item.romaji），其他三个是随机的错误答案。
     options: string[]; 
+};
 
+type AnswerRecordDraft = {
+  userId: number;
+  sessionKey: string;
+  practiceType: string;
+  practiceMode: string;
 
+  kanaItemId: string;
+  kana: string;
+  correctRomaji: string;
+  selectedRomaji: string;
+  isCorrect: boolean;
+
+  answeredAt: string;
+  responseTimeMs: number;
 };
 
 //常量：题目数量、选项数量。
@@ -110,6 +124,9 @@ export default function HiraganaPracticePage() {
   const [score, setScore] = useState(0);
   //保存用户选择的答案，刚开始是null。答案是字符串ABCD
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [sessionKey, setSessionKey] = useState<string | null>(null);
+const [answerRecords, setAnswerRecords] = useState<AnswerRecordDraft[]>([]);
+const [questionStartedAt, setQuestionStartedAt] = useState<number | null>(null);
   //记录当前题答过没，默认是没有答，用户回答过后就变成true，防止用户重复答题。
   const [isAnswered, setIsAnswered] = useState(false);
   //保存是否正在加载题目，刚开始是true。刚开始打开需要去后端fetch数据，所以是true，等数据加载完了就变成false。
@@ -177,8 +194,14 @@ const [hasSavedSession, setHasSavedSession] = useState(false);
         const items = flattenKanaSections(sections);
         const generatedQuestions = createQuestions(items);
 
-        setQuestions(generatedQuestions);
-        setStartedAt(new Date().toISOString());
+       const newStartedAt = new Date().toISOString();
+const newSessionKey = `katakana-session-${newStartedAt.replace(/[:.]/g, "-")}`;
+
+setQuestions(generatedQuestions);
+setStartedAt(newStartedAt);
+setSessionKey(newSessionKey);
+setAnswerRecords([]);
+setQuestionStartedAt(Date.now());
 setFinishedAt(null);
 setSaveMessage("");
 setHasSavedSession(false);
@@ -205,6 +228,32 @@ setIsSavingSession(false);
     //从题目数组里拿出当前正在做的
     const currentQuestion = questions[currentIndex];
 
+    const answeredAt = new Date().toISOString();
+
+const responseTimeMs = questionStartedAt
+  ? Date.now() - questionStartedAt
+  : 0;
+
+const isCorrect = answer === currentQuestion.item.romaji;
+
+const answerRecord: AnswerRecordDraft = {
+  userId: 1,
+  sessionKey: sessionKey ?? "unknown-session",
+  practiceType: "KATAKANA",
+  practiceMode: "ROMAJI_CHOICE",
+
+  kanaItemId: currentQuestion.item.id,
+  kana: currentQuestion.item.kana,
+  correctRomaji: currentQuestion.item.romaji,
+  selectedRomaji: answer,
+  isCorrect,
+
+  answeredAt,
+  responseTimeMs,
+};
+
+setAnswerRecords((currentRecords) => [...currentRecords, answerRecord]);
+
     //记录用户选的那个答案
     setSelectedAnswer(answer);
     //反馈答对了打错了
@@ -212,10 +261,11 @@ setIsSavingSession(false);
 
     //判断答案对不对
     //typeScrip表示严格相等
-    if (answer === currentQuestion.item.romaji) {
-        //设置分数（currentscore表示最新分数）
-      setScore((currentScore) => currentScore + 1);
-    }
+   if (isCorrect) {
+  setScore((currentScore) => currentScore + 1);
+  
+}
+console.log("katakana answerRecord", answerRecord);
   }
 //负责进入下一题，此函数可以绑在下一题按钮
   function handleNextQuestion() {
@@ -225,6 +275,8 @@ setIsSavingSession(false);
     setIsAnswered(false);
     if (currentIndex + 1 >= questions.length) {
   setFinishedAt(new Date().toISOString());
+}else {
+  setQuestionStartedAt(Date.now());
 }
     //记录题号
     setCurrentIndex((index) => index + 1);
@@ -244,8 +296,14 @@ setIsSavingSession(false);
     setCurrentIndex(0);
     setScore(0);
     setSelectedAnswer(null);
+    const newStartedAt = new Date().toISOString();
+const newSessionKey = `katakana-session-${newStartedAt.replace(/[:.]/g, "-")}`;
+
+setStartedAt(newStartedAt);
+setSessionKey(newSessionKey);
+setAnswerRecords([]);
+setQuestionStartedAt(Date.now());
     setIsAnswered(false);
-    setStartedAt(new Date().toISOString());
 setFinishedAt(null);
 setSaveMessage("");
 setHasSavedSession(false);
@@ -269,8 +327,9 @@ setIsSavingSession(false);
 
     //？？表示如果左边有数据就用左边，如果左边null就用右边
     const endTime = finishedAt ?? new Date().toISOString();
-    const startTime = startedAt ?? endTime;
-    const sessionKeyTime = endTime.replace(/[:.]/g, "-");
+const startTime = startedAt ?? endTime;
+const currentSessionKey =
+  sessionKey ?? `katakana-session-${startTime.replace(/[:.]/g, "-")}`;
     const durationSeconds =
     //Math.max(0, ...)
      Math.max(
@@ -286,7 +345,7 @@ setIsSavingSession(false);
     //它就是要发给后端的 JSON 原料。
     const practiceSession = {
       userId: 1,
-      sessionKey: `katakana-session-${sessionKeyTime}`,
+      sessionKey: currentSessionKey,
       practiceType: "KATAKANA",
       practiceMode: "ROMAJI_CHOICE",
       //score: score,字段名和变量名一样，可以简写。
@@ -313,6 +372,26 @@ setIsSavingSession(false);
     }
 
     await res.json();
+    //wait until all answer-record POST requests finish
+    const answerRecordResponses = await Promise.all(
+      //create one POST request for each answer record
+  answerRecords.map((answerRecord) =>
+    fetch("http://localhost:8080/answer-records", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...answerRecord,
+        sessionKey: currentSessionKey,
+      }),
+    })
+  )
+);
+
+if (answerRecordResponses.some((response) => !response.ok)) {
+  throw new Error("Failed to save answer records");
+}
     setFinishedAt(endTime);
     setHasSavedSession(true);
     setSaveMessage("Learning record saved.");
