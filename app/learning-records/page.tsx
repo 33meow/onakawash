@@ -20,6 +20,25 @@ type PracticeSession = {
     createdAt:string;
 }
 
+//when frontend receives answer reords form backend, each answer record should have these fields.
+type AnswerRecord = {
+  id: number;
+  userId: number;
+  sessionKey: string;
+  practiceType: string;
+  practiceMode: string;
+
+  kanaItemId: string;
+  kana: string;
+  correctRomaji: string;
+  selectedRomaji: string;
+  isCorrect: boolean;
+
+  answeredAt: string;
+  responseTimeMs: number;
+  createdAt: string;
+};
+
 function getTotalSessions(sessions: PracticeSession[]){
   return sessions.length;
 }
@@ -163,6 +182,67 @@ function getSafeAccuracy(session: PracticeSession) {
   return Math.round((session.score / session.totalQuestions) * 100);
 }
 
+//This function turns many wrong answer records into a weak-kana summary.
+function getWeakKanaStats(answerRecords: AnswerRecord[]) {
+  //From all answer records, keep only wrong answers.
+  const wrongRecords = answerRecords.filter((record) => !record.isCorrect);
+
+  const statsMap = new Map<
+    string,
+    {
+      kanaItemId: string;
+      kana: string;
+      correctRomaji: string;
+      wrongCount: number;
+      totalResponseTimeMs: number;
+    }
+  >();
+
+  //Go through every wrong answer one by one.
+  wrongRecords.forEach((record) => {
+    //Have we already created a summary bucket for this kana?
+    const existing = statsMap.get(record.kanaItemId);
+
+    //If this kana already has a bucket:
+//increase wrong count by 1
+//add this response time
+    if (existing) {
+      existing.wrongCount += 1;
+      existing.totalResponseTimeMs += record.responseTimeMs;
+    } 
+    //If this kana appears as a wrong answer for the first time:
+//create a new bucket for it.
+    else {
+      statsMap.set(record.kanaItemId, {
+        kanaItemId: record.kanaItemId,
+        kana: record.kana,
+        correctRomaji: record.correctRomaji,
+        wrongCount: 1,
+        totalResponseTimeMs: record.responseTimeMs,
+      });
+    }
+  });
+
+  //get all summary objects from the Map
+return Array.from(statsMap.values())
+  .map((stat) => ({
+    ...stat,
+    averageResponseTimeMs: Math.round(
+      stat.totalResponseTimeMs / stat.wrongCount
+    ),
+  }))
+  //Put bigger wrongCount first.
+  .sort((a, b) => b.wrongCount - a.wrongCount);
+}
+
+function formatResponseTime(milliseconds: number) {
+  if (milliseconds < 1000) {
+    return `${milliseconds} ms`;
+  }
+
+  return `${(milliseconds / 1000).toFixed(1)} sec`;
+}
+
 //react component
 //在 Next.js 里，app/learning-records/page.tsx 里面必须导出一个默认组件
 export default function LearningRecordsPage(){
@@ -177,6 +257,8 @@ export default function LearningRecordsPage(){
 //一开始 records 是空数组 []
 //数组records是空数组并且每一项都是PracticeSession类型
 const [records, setRecords] = useState<PracticeSession[]>([]);
+const [practiceSessions, setPracticeSessions] = useState<PracticeSession[]>([]);
+const [answerRecords, setAnswerRecords] = useState<AnswerRecord[]>([]);
 //section1
 const totalSessions = getTotalSessions(records);
 const averageAccuracy = getAverageAccuracy(records);
@@ -242,6 +324,8 @@ const trendPolylinePoints = trendPoints
 //section3
 const practiceTypeStats = getPracticeTypeStats(records);
 
+const weakKanaStats = getWeakKanaStats(answerRecords);
+
 useEffect(() => {
   const savedLanguage = localStorage.getItem("language");
 
@@ -270,6 +354,15 @@ async function fetchPracticeSessions(){
 
         const data: PracticeSession[] = await res.json();
         setRecords(data);
+        const answerRecordRes = await fetch("http://localhost:8080/answer-records");
+
+if (!answerRecordRes.ok) {
+  throw new Error("Failed to fetch answer records");
+}
+
+const answerRecordData: AnswerRecord[] = await answerRecordRes.json();
+setAnswerRecords(answerRecordData);
+
     }catch(error){
         console.error(error);
       
@@ -291,7 +384,32 @@ return(<main
       fontFamily: "Arial, sans-serif",
     }}
   >
-    
+    {/*Weak Kana Records */}
+   <section>
+ <h2>Weak Kana Focus</h2>
+<p>
+  Kana that appeared most often in wrong answers, based on item-level answer records.
+</p>
+
+  {weakKanaStats.length === 0 ? (
+    <p>No weak kana yet.</p>
+  ) : (
+    <ul>
+     
+      {weakKanaStats.slice(0, 5).map((stat) => (
+        <li key={stat.kanaItemId}>
+  <strong>{stat.kanaItemId}</strong>
+  <br />
+  Correct answer: {stat.correctRomaji}
+  <br />
+  Wrong count: {stat.wrongCount}
+  <br />
+  Avg wrong response:{formatResponseTime(stat.averageResponseTimeMs)}
+</li>
+      ))}
+    </ul>
+  )}
+</section>
  <div
   style={{
     width: "100%",
