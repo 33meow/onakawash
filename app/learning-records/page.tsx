@@ -4,6 +4,8 @@ import { useEffect,useState } from "react";
 import Link from "next/link";
 import {messages,type Language } from "../messages";
 import KanaMasteryPanel from "../components/KanaMasteryPanel";
+import AdaptiveReviewPreviewPanel from "../components/AdaptiveReviewPreviewPanel";
+
 
 //前端先告诉typeScript，后端返回的一条记录大概长什么样
 type PracticeSession = {
@@ -359,6 +361,9 @@ return(<main
   </p>
 </header>
 <KanaMasteryPanel />
+
+<AdaptiveReviewPreviewPanel />
+
   {/* Section 1 */}
   <section
   style={{
