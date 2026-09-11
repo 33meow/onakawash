@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createReviewSession } from "../lib/adaptiveReviewApi";
 import styles from "./AdaptiveReviewPreviewPanel.module.css";
 
 type PreviewKana = {
@@ -58,6 +60,10 @@ function isPreviewData(value: unknown): value is PreviewData {
 }
 
 export default function AdaptiveReviewPreviewPanel() {
+    const router = useRouter();
+  const startLock = useRef(false);
+  const [isStarting, setIsStarting] = useState(false);
+  const [startError, setStartError] = useState<string | null>(null);
   const [state, setState] = useState<LoadState>({ status: "loading" });
   const [attempt, setAttempt] = useState(0);
 
@@ -112,6 +118,47 @@ export default function AdaptiveReviewPreviewPanel() {
   function retry() {
     setState({ status: "loading" });
     setAttempt((previous) => previous + 1);
+  }
+
+    async function startReview() {
+    // 只有预览显示有内容可练时，才允许创建。
+    if (
+      startLock.current ||
+      state.status !== "success" ||
+      state.data.previewStatus !== "ready"
+    ) {
+      return;
+    }
+
+    startLock.current = true;
+    setIsStarting(true);
+    setStartError(null);
+
+    try {
+      const result = await createReviewSession();
+
+      // 预览之后，后端的数据可能已经发生变化。
+      if (result.status === "unavailable") {
+        setStartError("目前没有可用的复习内容，已重新读取预览。");
+        startLock.current = false;
+        setIsStarting(false);
+        retry();
+        return;
+      }
+
+      // 用后端给出的练习编号，进入这一轮的答题页。
+      router.push(
+        `/practice/adaptive-review/${encodeURIComponent(result.sessionKey)}`
+      );
+
+      // 成功后保持按钮锁定，等待页面跳转。
+    } catch {
+      setStartError(
+        "未能确认复习是否创建成功，请检查后端连接。再次点击会尝试创建新的一轮。"
+      );
+      startLock.current = false;
+      setIsStarting(false);
+    }
   }
 
   return (
@@ -220,6 +267,24 @@ export default function AdaptiveReviewPreviewPanel() {
             </>
           )}
 
+
+                  {state.data.previewStatus === "ready" && (
+            <button
+              className={styles.button}
+              type="button"
+              onClick={startReview}
+              disabled={isStarting}
+              aria-busy={isStarting}
+            >
+              {isStarting ? "正在创建复习……" : "开始复习"}
+            </button>
+          )}
+
+          {startError && (
+            <p className={styles.notice} role="alert">
+              {startError}
+            </p>
+          )}
           <p className={styles.footnote}>
             这里展示的是当前内容可用情况，尚未创建复习。
             预计题数不代表本轮一定覆盖全部薄弱假名，
