@@ -159,6 +159,7 @@ export default function AdaptiveReviewSessionPanel({
           (currentIndex >= state.session.questions.length ? (
             <section className={styles.card}>
               <h2>本轮复习已完成</h2>
+              <CoverageResults session={state.session} />
               <p>
                 已保存 {state.session.questions.length} 道题的答题记录。
               </p>
@@ -388,3 +389,94 @@ function choose(option: string, clickedAt: number) {
     </section>
   );
 }
+function CoverageResults({ session }: { session: ReviewSession }) {
+  if (!session.coverageAvailable) {
+    return (
+      <section
+        className={styles.coverage}
+        aria-labelledby="coverage-heading"
+      >
+        <h3 id="coverage-heading">本轮复习覆盖情况</h3>
+        <p>
+          本轮覆盖信息不可用。这是一条未保存覆盖信息的旧练习记录，
+          不影响已经保存的答题结果。
+        </p>
+      </section>
+    );
+  }
+
+  const groups = [
+    {
+      status: "covered",
+      title: "本轮练到的薄弱假名",
+      description: "本轮完成的词汇题包含这些薄弱假名。",
+      empty: "本轮没有覆盖到薄弱假名。",
+    },
+    {
+      status: "deferred",
+      title: "有内容，但本轮未安排",
+      description:
+        "这些假名有相关词汇，但受本轮最多 10 题限制，没有安排进来。",
+      empty: "没有因题数限制而未安排的薄弱假名。",
+    },
+    {
+      status: "no_content",
+      title: "创建本轮时暂无相关内容",
+      description: "创建这轮复习时，词库尚未提供对应的词汇练习。",
+      empty: "创建本轮时，所有薄弱假名都有相关词汇内容。",
+    },
+  ] as const;
+
+  return (
+    <section
+      className={styles.coverage}
+      aria-labelledby="coverage-heading"
+    >
+      <h3 id="coverage-heading">本轮复习覆盖情况</h3>
+      <p className={styles.note}>
+        以下是本轮创建时确定、并随练习保存的结果，
+        与开始前预览的可用内容范围可能不同。
+      </p>
+
+      {groups.map((group) => {
+        const items = session.coverage.filter(
+          (item) => item.status === group.status
+        );
+
+        return (
+          <div className={styles.coverageGroup} key={group.status}>
+            <h4>
+              {group.title}
+              <span className={styles.coverageCount}>
+                {items.length} 个
+              </span>
+            </h4>
+
+            {items.length > 0 ? (
+              <>
+                <p>{group.description}</p>
+                <ul className={styles.coverageList}>
+                  {items.map((item) => (
+                    <li key={item.kanaItemId}>
+                      <span lang="ja">{item.kana}</span>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <p>{group.empty}</p>
+            )}
+          </div>
+        );
+      })}
+
+      <p className={styles.coverageNotice}>
+        “练到”不等于“已经掌握”。无论答对还是答错，
+        这里记录的都是本轮练习范围，不会根据词汇答案修改假名薄弱分数。
+        本轮未安排的内容，也不保证下一轮一定出现。
+      </p>
+    </section>
+  );
+}
+
+

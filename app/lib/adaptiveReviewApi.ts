@@ -16,11 +16,18 @@ export type ReviewQuestion = {
   answer?: SavedReviewAnswer;
 };
 
-// 一整轮复习的详情。
+export type CoverageKana = {
+  kanaItemId: string;
+  kana: string;
+  status: "covered" | "deferred" | "no_content";
+};
+
 export type ReviewSession = {
   sessionKey: string;
   actualQuestionCount: number;
   questions: ReviewQuestion[];
+  coverageAvailable: boolean;
+  coverage: CoverageKana[];
 };
 
 // 前端提交的答案：不包含正确答案或对错判断。
@@ -89,13 +96,27 @@ function isQuestion(value: unknown): value is ReviewQuestion {
   );
 }
 
+function isCoverageKana(value: unknown): value is CoverageKana {
+  return (
+    isObject(value) &&
+    isText(value.kanaItemId) &&
+    isText(value.kana) &&
+    (value.status === "covered" ||
+      value.status === "deferred" ||
+      value.status === "no_content")
+  );
+}
+
 function isSession(value: unknown): value is ReviewSession {
   if (
     !isObject(value) ||
     !isText(value.sessionKey) ||
     !isPositiveInteger(value.actualQuestionCount) ||
     !Array.isArray(value.questions) ||
-    !value.questions.every(isQuestion)
+    !value.questions.every(isQuestion) ||
+    typeof value.coverageAvailable !== "boolean" ||
+    !Array.isArray(value.coverage) ||
+    !value.coverage.every(isCoverageKana)
   ) {
     return false;
   }
@@ -104,10 +125,12 @@ function isSession(value: unknown): value is ReviewSession {
     value.questions.length === value.actualQuestionCount &&
     value.questions.every(
       (question, index) => question.questionIndex === index + 1
-    )
+    ) &&
+    new Set(value.coverage.map((item) => item.kanaItemId)).size ===
+      value.coverage.length &&
+    (value.coverageAvailable || value.coverage.length === 0)
   );
 }
-
 // 统一发送请求：最多等待 10 秒，不自动重复提交。
 // POST 超时并不代表后端一定没有保存，后续由页面查询确认。
 async function requestJson(
