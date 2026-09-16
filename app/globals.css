@@ -51,3 +51,424 @@ body {
   transform: scale(1.08);
 }
 
+.kana-small-card {
+  width: 170px;
+  height: 220px;
+  flex: 0 0 170px;
+
+  position: relative;
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border: 2px solid #e5e5e5;
+  border-radius: 28px;
+
+  color: #3c3c3c;
+  font-size: 78px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  /* 重点：底部有一点“实体厚度” */
+  box-shadow:
+    0 5px 0 #d8d8d8,
+    0 10px 22px rgba(0, 0, 0, 0.08);
+
+  transform: translateY(0) scale(1);
+
+  transition:
+    transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+}
+
+.kana-small-card::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.38) 0%,
+      rgba(255, 255, 255, 0.08) 35%,
+      transparent 60%
+    );
+
+  opacity: 0.5;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .kana-small-card:hover {
+    transform: translateY(-7px) scale(1.04);
+
+    border-color: #d6d6d6;
+
+    box-shadow:
+      0 7px 0 #d2d2d2,
+      0 18px 30px rgba(0, 0, 0, 0.11);
+  }
+}
+
+.kana-small-card:active {
+  transform: translateY(4px) scale(0.985);
+
+  box-shadow:
+    0 1px 0 #d8d8d8,
+    0 4px 10px rgba(0, 0, 0, 0.07);
+
+  transition-duration: 80ms;
+}
+
+.kana-small-card.selected {
+  background: #ffffff;
+  border-color: #cfcfcf;
+
+  box-shadow:
+    0 6px 0 #cfcfcf,
+    0 15px 28px rgba(0, 0, 0, 0.10);
+}
+
+/* =========================
+   Kana small card
+   ========================= */
+
+.kana-small-card {
+  width: 170px;
+  height: 220px;
+  flex: 0 0 170px;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border: 2px solid #e5e5e5;
+  border-radius: 28px;
+
+  color: #3c3c3c;
+  font-size: 78px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  /* 实体卡片厚度 */
+  box-shadow:
+    0 5px 0 #d8d8d8,
+    0 10px 22px rgba(0, 0, 0, 0.08);
+
+  /*
+   * 注意：
+   * 这里不要写 transform。
+   * x / y / rotate / scale 全部交给 Motion。
+   */
+  transition:
+    box-shadow 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease;
+}
+
+
+/* Hover 时只调整材质，不控制位置 */
+@media (hover: hover) and (pointer: fine) {
+  .kana-small-card:hover {
+    border-color: #d6d6d6;
+
+    box-shadow:
+      0 7px 0 #d2d2d2,
+      0 18px 30px rgba(0, 0, 0, 0.11);
+  }
+}
+
+
+/* 按下时也不要写 transform */
+.kana-small-card:active {
+  box-shadow:
+    0 2px 0 #d8d8d8,
+    0 5px 12px rgba(0, 0, 0, 0.07);
+}
+
+
+/* 当前选择的卡 */
+.kana-small-card.selected {
+  background: #ffffff;
+  border-color: #cfcfcf;
+
+  box-shadow:
+    0 6px 0 #cfcfcf,
+    0 15px 28px rgba(0, 0, 0, 0.1);
+}
+
+
+/* 键盘操作时才显示 focus ring */
+.kana-small-card:focus {
+  outline: none;
+}
+
+.kana-small-card:focus-visible {
+  outline: 3px solid rgba(80, 120, 255, 0.35);
+  outline-offset: 4px;
+}
+
+
+/* =========================
+   Kana card deck
+   ========================= */
+
+.kana-card-deck {
+  position: relative;
+
+  width: min(100%, 1050px);
+  height: 285px;
+
+  margin: 0 auto 90px;
+}
+
+
+/*
+ * 所有卡都以牌堆中心作为同一个坐标原点。
+ * Motion 再负责把它们移动到不同位置。
+ */
+.kana-card-deck .kana-small-card {
+  position: absolute;
+
+  left: 50%;
+  top: 12px;
+
+  margin-left: -85px;
+
+  width: 170px;
+  height: 220px;
+
+  flex: none;
+}
+
+/* =========================
+   Large kana card
+   ========================= */
+
+.kana-flip-card-shell {
+  /* 最小保持现在的宽度 */
+  width: clamp(460px, 74vw, 954px);
+
+  /* 高度永远不变 */
+  height: 590px;
+
+  flex: 0 0 auto;
+
+ /* 让里面可以根据“卡自己的宽度”响应 */
+  container-type: inline-size;
+
+  /* 横向尺寸变化更柔和 */
+  transition:
+    width 520ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* =========================
+   Kana card content
+   ========================= */
+
+.kana-card-back-layout {
+  width: 100%;
+  height: 100%;
+
+  box-sizing: border-box;
+
+  padding: 42px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* 左边学习内容 */
+.kana-card-learning-panel {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 24px;
+}
+
+
+/* 罗马字 + 发音 */
+.kana-card-reading {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 14px;
+}
+
+
+.kana-card-romaji {
+  font-size: 38px;
+  font-weight: 600;
+
+  color: #3c3c3c;
+}
+
+
+/* 声音按钮 */
+.kana-audio-button {
+  min-height: 44px;
+
+  padding: 10px 18px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  border: 2px solid #e5e5e5;
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  color: #4b4b4b;
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 3px 0 #d8d8d8;
+
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+
+.kana-audio-button:active {
+  transform: translateY(2px);
+
+  box-shadow:
+    0 1px 0 #d8d8d8;
+}
+
+
+/* 笔顺区域 */
+.kana-card-stroke {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* 右边暂时空出来 */
+.kana-card-extra-panel {
+  display: none;
+}
+
+/*
+ * 大卡宽到一定程度以后，
+ * 自动切成左右两个区域。
+ */
+@container (min-width: 760px) {
+
+  .kana-card-back-layout {
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 1fr);
+
+    padding: 42px 50px;
+  }
+
+
+  .kana-card-learning-panel {
+    padding-right: 36px;
+
+    border-right:
+      1px solid #eeeeee;
+  }
+
+
+  .kana-card-extra-panel {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+  }
+}
+
+ruby {
+  ruby-position: over;
+}
+
+ruby rt {
+  font-size: 0.5em;
+  font-weight: 500;
+  color: #777777;
+}
+
+/* =========================
+   Vocabulary panel
+   ========================= */
+
+.kana-vocabulary-list {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  gap: 30px;
+
+  padding: 32px 40px;
+
+  box-sizing: border-box;
+}
+
+.kana-vocabulary-item {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  gap: 6px;
+}
+
+.kana-vocabulary-word {
+  font-size: 34px;
+  font-weight: 600;
+
+  line-height: 1.5;
+
+  color: #3c3c3c;
+}
+
+.kana-vocabulary-meaning {
+  font-size: 16px;
+  font-weight: 400;
+
+  color: #888888;
+}
+
+.kana-vocabulary-word ruby {
+  ruby-position: over;
+}
+
+.kana-vocabulary-word ruby rt {
+  font-size: 0.45em;
+  font-weight: 500;
+
+  color: #777777;
+}
