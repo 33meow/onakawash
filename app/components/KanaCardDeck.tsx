@@ -10,21 +10,31 @@ type KanaCardDeckProps = {
   onSelect: (card: KanaCardData) => void;
 };
 
-const widePositions = [
-  { x: -392, y: 0, rotate: 0, scale: 1 },
-  { x: -196, y: 0, rotate: 0, scale: 1 },
-  { x: 0, y: 0, rotate: 0, scale: 1 },
-  { x: 196, y: 0, rotate: 0, scale: 1 },
-  { x: 392, y: 0, rotate: 0, scale: 1 },
-];
+function getPositions(count: number, compact: boolean) {
+  const positions = Array.from({ length: count }, (_, index) => {
+    if (!compact) {
+      return { x: (index - (count - 1) / 2) * 196, y: 0, rotate: 0, scale: 1 };
+    }
+    const depth = Math.ceil(index / 2);
+    const side = index % 2 === 1 ? -1 : 1;
+    return {
+      x: depth === 0 ? 0 : side * (52 + (depth - 1) * 44),
+      y: depth === 0 ? 0 : 12 + (depth - 1) * 16,
+      rotate: side * depth * 5,
+      scale: depth === 0 ? 1 : 0.99 - (depth - 1) * 0.02,
+    };
+  });
+  if (!compact || count === 0) return positions;
 
-const fanPositions = [
-  { x: 0, y: 0, rotate: 0, scale: 1 },
-  { x: -52, y: 12, rotate: -5, scale: 0.99 },
-  { x: 52, y: 12, rotate: 5, scale: 0.99 },
-  { x: -96, y: 28, rotate: -10, scale: 0.97 },
-  { x: 96, y: 28, rotate: 10, scale: 0.97 },
-];
+  // Center the actual card bounds, including the asymmetric two-card fan.
+  const halfWidths = positions.map(({ rotate, scale }) => {
+    const angle = Math.abs(rotate) * Math.PI / 180;
+    return (170 * Math.cos(angle) + 220 * Math.sin(angle)) * scale / 2;
+  });
+  const left = Math.min(...positions.map((p, i) => p.x - halfWidths[i]));
+  const right = Math.max(...positions.map((p, i) => p.x + halfWidths[i]));
+  return positions.map((p) => ({ ...p, x: p.x - (left + right) / 2 }));
+}
 
 export default function KanaCardDeck({
   cards,
@@ -34,6 +44,14 @@ export default function KanaCardDeck({
   const [deck, setDeck] = useState(cards);
   
   const [isCompact, setIsCompact] = useState(false);
+  const [previousCards, setPreviousCards] = useState(cards);
+  const [previousCompact, setPreviousCompact] = useState(isCompact);
+
+  if (previousCards !== cards || previousCompact !== isCompact) {
+    setPreviousCards(cards);
+    setPreviousCompact(isCompact);
+    setDeck(cards);
+  }
 
   useEffect(() => {
     const media = window.matchMedia("(max-width: 1050px)");
@@ -51,10 +69,6 @@ export default function KanaCardDeck({
     };
   }, []);
 
-useEffect(() => {
-  setDeck(cards);
-}, [isCompact, cards]);
-
   function handleCardClick(card: KanaCardData, index: number) {
     // 牌堆状态只能点最前面
     if (isCompact && index !== 0) return;
@@ -70,17 +84,18 @@ useEffect(() => {
     }
   }
 const visibleCards = isCompact ? deck : cards;
+  const positions = getPositions(visibleCards.length, isCompact);
   return (
     <div className="kana-card-deck">
       {visibleCards.map((card, index) => {
-        const position = isCompact
-          ? fanPositions[index]
-          : widePositions[index];
+        const position = positions[index];
 
         return (
           <motion.button
             key={card.id}
             type="button"
+            tabIndex={isCompact && index !== 0 ? -1 : 0}
+            aria-pressed={selectedId === card.id}
             onClick={() => handleCardClick(card, index)}
             className={`kana-small-card ${
               selectedId === card.id ? "selected" : ""
