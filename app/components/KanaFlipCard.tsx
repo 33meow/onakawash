@@ -3,10 +3,16 @@
 import StrokeOrderPlayer from "./StrokeOrderPlayer";
 import KanaAudioButton from "./KanaAudioButton";
 import FuriganaText from "./FuriganaText";
+import PitchLine from "./PitchLine";
 
 export type VocabularyItem = {
   word: string;
+  reading: string;
   meaning: string;
+
+  // Tokyo pitch accent
+  accent?: number;
+
   imageSrc?: string;
 };
 
@@ -136,19 +142,29 @@ export default function KanaFlipCard({
             <section className="kana-card-extra-panel">
   <div className="kana-vocabulary-list">
     {data.vocabulary?.map((item) => (
-      <div
-        className="kana-vocabulary-item"
-        key={item.word}
-      >
-        <div className="kana-vocabulary-word">
-          <FuriganaText text={item.word} />
-        </div>
+  <div
+    className="kana-vocabulary-item"
+    key={item.word}
+  >
+    <div className="kana-vocabulary-word">
+      <FuriganaText text={item.word} />
+    </div>
 
-        <div className="kana-vocabulary-meaning">
-          {item.meaning}
-        </div>
-      </div>
-    ))}
+    {item.accent !== undefined && (
+      <PitchLine
+        reading={item.reading}
+        accent={item.accent}
+        showAccentNumber={true}
+        showContinuation={true}
+        className="kana-vocabulary-pitch"
+      />
+    )}
+
+    <div className="kana-vocabulary-meaning">
+      {item.meaning}
+    </div>
+  </div>
+))}
   </div>
 </section>
           </div>

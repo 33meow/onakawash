@@ -157,11 +157,26 @@ export const hiraganaRows: KanaRowData[] = [
         romaji: "ta",
         audioSrc: "/audio/ta.mp3",
         strokeSrc: "/strokes/hiragana/ta.svg",
-        vocabulary: [
-          { word: "たこ", meaning: "章鱼" },
-          { word: "たまご", meaning: "鸡蛋" },
-          { word: "たこ焼き", meaning: "章鱼烧" },
-        ],
+       vocabulary: [
+  {
+    word: "たこ",
+    reading: "たこ",
+    meaning: "章鱼",
+    accent: 1,
+  },
+  {
+    word: "たまご",
+    reading: "たまご",
+    meaning: "鸡蛋",
+    accent: 2,
+  },
+  {
+    word: "たこ焼き",
+    reading: "たこやき",
+    meaning: "章鱼烧",
+    accent: 0,
+  },
+],
       },
       {
         id: "chi",
