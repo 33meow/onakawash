@@ -24,26 +24,41 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+/* ==================================================
+   Side navigation
+   ================================================== */
+
 .side-nav-item {
   width: 100%;
+
   display: flex;
   align-items: center;
   gap: 8px;
+
   padding: 0;
   border: none;
+
   box-sizing: border-box;
+
   background: transparent;
   color: #4a2b22;
+
   font: inherit;
   font-weight: 700;
+
   text-align: left;
   text-decoration: none;
+
   cursor: pointer;
 }
 
 .side-nav-image {
   transform-origin: center;
-  transition: transform 180ms ease;
+
+  transition:
+    transform 180ms ease;
 }
 
 .side-nav-item:hover .side-nav-image,
@@ -51,12 +66,18 @@ body {
   transform: scale(1.08);
 }
 
+
+/* ==================================================
+   Kana small card
+   ================================================== */
+
 .kana-small-card {
   width: 170px;
   height: 220px;
   flex: 0 0 170px;
 
   position: relative;
+
   box-sizing: border-box;
 
   background: #ffffff;
@@ -65,22 +86,25 @@ body {
   border-radius: 28px;
 
   color: #3c3c3c;
+
   font-size: 78px;
   font-weight: 500;
 
   cursor: pointer;
 
-  /* 重点：底部有一点“实体厚度” */
+  /* 实体卡片厚度 */
   box-shadow:
     0 5px 0 #d8d8d8,
     0 10px 22px rgba(0, 0, 0, 0.08);
 
-  transform: translateY(0) scale(1);
-
+  /*
+    不在 CSS 中控制 transform。
+    卡牌 x / y / rotate / scale 交给 Motion。
+  */
   transition:
-    transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
     box-shadow 220ms ease,
-    border-color 220ms ease;
+    border-color 220ms ease,
+    background 220ms ease;
 }
 
 .kana-small-card::before {
@@ -90,6 +114,8 @@ body {
   inset: 0;
 
   pointer-events: none;
+
+  border-radius: inherit;
 
   background:
     linear-gradient(
@@ -104,8 +130,6 @@ body {
 
 @media (hover: hover) and (pointer: fine) {
   .kana-small-card:hover {
-    transform: translateY(-7px) scale(1.04);
-
     border-color: #d6d6d6;
 
     box-shadow:
@@ -115,17 +139,14 @@ body {
 }
 
 .kana-small-card:active {
-  transform: translateY(4px) scale(0.985);
-
   box-shadow:
-    0 1px 0 #d8d8d8,
-    0 4px 10px rgba(0, 0, 0, 0.07);
-
-  transition-duration: 80ms;
+    0 2px 0 #d8d8d8,
+    0 5px 12px rgba(0, 0, 0, 0.07);
 }
 
 .kana-small-card.selected {
   background: #ffffff;
+
   border-color: #cfcfcf;
 
   box-shadow:
@@ -133,77 +154,6 @@ body {
     0 15px 28px rgba(0, 0, 0, 0.10);
 }
 
-/* =========================
-   Kana small card
-   ========================= */
-
-.kana-small-card {
-  width: 170px;
-  height: 220px;
-  flex: 0 0 170px;
-
-  box-sizing: border-box;
-
-  background: #ffffff;
-
-  border: 2px solid #e5e5e5;
-  border-radius: 28px;
-
-  color: #3c3c3c;
-  font-size: 78px;
-  font-weight: 500;
-
-  cursor: pointer;
-
-  /* 实体卡片厚度 */
-  box-shadow:
-    0 5px 0 #d8d8d8,
-    0 10px 22px rgba(0, 0, 0, 0.08);
-
-  /*
-   * 注意：
-   * 这里不要写 transform。
-   * x / y / rotate / scale 全部交给 Motion。
-   */
-  transition:
-    box-shadow 220ms ease,
-    border-color 220ms ease,
-    background 220ms ease;
-}
-
-
-/* Hover 时只调整材质，不控制位置 */
-@media (hover: hover) and (pointer: fine) {
-  .kana-small-card:hover {
-    border-color: #d6d6d6;
-
-    box-shadow:
-      0 7px 0 #d2d2d2,
-      0 18px 30px rgba(0, 0, 0, 0.11);
-  }
-}
-
-
-/* 按下时也不要写 transform */
-.kana-small-card:active {
-  box-shadow:
-    0 2px 0 #d8d8d8,
-    0 5px 12px rgba(0, 0, 0, 0.07);
-}
-
-
-/* 当前选择的卡 */
-.kana-small-card.selected {
-  background: #ffffff;
-  border-color: #cfcfcf;
-
-  box-shadow:
-    0 6px 0 #cfcfcf,
-    0 15px 28px rgba(0, 0, 0, 0.1);
-}
-
-
-/* 键盘操作时才显示 focus ring */
 .kana-small-card:focus {
   outline: none;
 }
@@ -214,9 +164,9 @@ body {
 }
 
 
-/* =========================
+/* ==================================================
    Kana card deck
-   ========================= */
+   ================================================== */
 
 .kana-card-deck {
   position: relative;
@@ -227,11 +177,10 @@ body {
   margin: 0 auto 90px;
 }
 
-
 /*
- * 所有卡都以牌堆中心作为同一个坐标原点。
- * Motion 再负责把它们移动到不同位置。
- */
+  所有卡牌共用一个中心坐标。
+  Motion 再把每张牌移动到对应位置。
+*/
 .kana-card-deck .kana-small-card {
   position: absolute;
 
@@ -246,30 +195,33 @@ body {
   flex: none;
 }
 
-/* =========================
-   Large kana card
-   ========================= */
+
+/* ==================================================
+   Large kana flip card
+   ================================================== */
 
 .kana-flip-card-shell {
-  /* 最小保持现在的宽度 */
+  /*
+    最小 460px。
+    宽屏最多 954px。
+    只改变宽度，不改变高度。
+  */
   width: clamp(460px, 74vw, 954px);
-
-  /* 高度永远不变 */
   height: 590px;
 
   flex: 0 0 auto;
 
- /* 让里面可以根据“卡自己的宽度”响应 */
+  /* 允许内部使用 container query */
   container-type: inline-size;
 
-  /* 横向尺寸变化更柔和 */
   transition:
     width 520ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* =========================
-   Kana card content
-   ========================= */
+
+/* ==================================================
+   Large card content
+   ================================================== */
 
 .kana-card-back-layout {
   width: 100%;
@@ -287,7 +239,10 @@ body {
 }
 
 
-/* 左边学习内容 */
+/* ==================================================
+   Left learning panel
+   ================================================== */
+
 .kana-card-learning-panel {
   width: 100%;
   height: 100%;
@@ -302,7 +257,8 @@ body {
 }
 
 
-/* 罗马字 + 发音 */
+/* Romaji + pronunciation */
+
 .kana-card-reading {
   display: flex;
   flex-direction: column;
@@ -312,7 +268,6 @@ body {
   gap: 14px;
 }
 
-
 .kana-card-romaji {
   font-size: 38px;
   font-weight: 600;
@@ -321,7 +276,8 @@ body {
 }
 
 
-/* 声音按钮 */
+/* Audio button */
+
 .kana-audio-button {
   min-height: 44px;
 
@@ -329,14 +285,15 @@ body {
 
   display: flex;
   align-items: center;
+
   gap: 8px;
 
   border: 2px solid #e5e5e5;
   border-radius: 14px;
 
   background: #ffffff;
-
   color: #4b4b4b;
+
   font-size: 15px;
   font-weight: 600;
 
@@ -350,7 +307,6 @@ body {
     box-shadow 120ms ease;
 }
 
-
 .kana-audio-button:active {
   transform: translateY(2px);
 
@@ -359,7 +315,8 @@ body {
 }
 
 
-/* 笔顺区域 */
+/* Stroke order */
+
 .kana-card-stroke {
   display: flex;
 
@@ -368,17 +325,19 @@ body {
 }
 
 
-/* 右边暂时空出来 */
+/* ==================================================
+   Right panel
+   ================================================== */
+
 .kana-card-extra-panel {
   display: none;
 }
 
-/*
- * 大卡宽到一定程度以后，
- * 自动切成左右两个区域。
- */
-@container (min-width: 760px) {
 
+/*
+  大卡达到 760px 后切成左右两栏。
+*/
+@container (min-width: 760px) {
   .kana-card-back-layout {
     display: grid;
 
@@ -389,14 +348,12 @@ body {
     padding: 42px 50px;
   }
 
-
   .kana-card-learning-panel {
     padding-right: 36px;
 
     border-right:
       1px solid #eeeeee;
   }
-
 
   .kana-card-extra-panel {
     display: block;
@@ -406,6 +363,11 @@ body {
   }
 }
 
+
+/* ==================================================
+   Ruby / Furigana
+   ================================================== */
+
 ruby {
   ruby-position: over;
 }
@@ -413,53 +375,72 @@ ruby {
 ruby rt {
   font-size: 0.5em;
   font-weight: 500;
+
   color: #777777;
 }
 
-/* =========================
+
+/* ==================================================
    Vocabulary panel
-   ========================= */
+   ================================================== */
 
 .kana-vocabulary-list {
   width: 100%;
   height: 100%;
 
+  box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
+
   justify-content: center;
 
-  gap: 30px;
+  gap: 18px;
 
-  padding: 32px 40px;
-
-  box-sizing: border-box;
+  padding: 24px 26px;
 }
 
+
+/*
+  每个 vocabulary item 固定为三栏：
+
+  word | pitch accent | meaning
+*/
 .kana-vocabulary-item {
   width: 100%;
 
-  display: flex;
-  flex-direction: column;
+  display: grid;
 
-  align-items: flex-start;
+  /*
+    第一栏：原词
+    第二栏：PitchLine，拥有最多空间
+    第三栏：中文释义
+  */
+  grid-template-columns:
+    100px
+    minmax(150px, 1fr)
+    76px;
 
-  gap: 6px;
+  column-gap: 12px;
+
+  align-items: center;
 }
+
+
+/* ==================================================
+   Vocabulary column 1: original word
+   ================================================== */
 
 .kana-vocabulary-word {
-  font-size: 34px;
-  font-weight: 600;
+  min-width: 0;
 
-  line-height: 1.5;
-
-  color: #3c3c3c;
-}
-
-.kana-vocabulary-meaning {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 400;
+  line-height: 1.4;
 
-  color: #888888;
+  color: #333333;
+
+  text-align: left;
 }
 
 .kana-vocabulary-word ruby {
@@ -467,8 +448,78 @@ ruby rt {
 }
 
 .kana-vocabulary-word ruby rt {
-  font-size: 0.45em;
-  font-weight: 500;
+  font-size: 0.5em;
+  font-weight: 400;
 
-  color: #777777;
+  color: #666666;
+}
+
+
+/* ==================================================
+   Vocabulary column 2: pitch accent
+   ================================================== */
+
+.kana-vocabulary-pitch-cell {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+
+/*
+  PitchLine.module.css 会读取这些 CSS variables。
+
+  默认 PitchLine 仍然可以保持黑色。
+  只有 vocabulary 里的 PitchLine 变成黄色。
+*/
+.kana-vocabulary-pitch {
+  --pitch-color: #e3b94f;
+  --pitch-label-color: #3d3d3d;
+  --pitch-caption-color: #9a7c33;
+  --pitch-label-size: 15px;
+
+  width: fit-content;
+
+  margin: 0;
+}
+
+
+/* [0] / [1] / [2] */
+.kana-vocabulary-pitch figcaption {
+  margin: 0 0 -4px 0;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+
+/*
+  保持图足够大，让下方 kana 易读。
+*/
+.kana-vocabulary-pitch svg {
+  display: block;
+
+  width: auto;
+  height: 76px;
+}
+
+
+/* ==================================================
+   Vocabulary column 3: meaning
+   ================================================== */
+
+.kana-vocabulary-meaning {
+  justify-self: start;
+
+  min-width: 0;
+
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+
+  text-align: left;
+
+  color: #555555;
 }

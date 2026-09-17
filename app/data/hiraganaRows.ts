@@ -178,38 +178,118 @@ export const hiraganaRows: KanaRowData[] = [
   },
 ],
       },
-      {
-        id: "chi",
-        kana: "ち",
-        romaji: "chi",
-        audioSrc: "/audio/ti.mp3",
-        strokeSrc: "/strokes/hiragana/ti.svg",
-        vocabulary: [],
-      },
-      {
-        id: "tsu",
-        kana: "つ",
-        romaji: "tsu",
-        audioSrc: "/audio/tu.mp3",
-        strokeSrc: "/strokes/hiragana/tu.svg",
-        vocabulary: [],
-      },
-      {
-        id: "te",
-        kana: "て",
-        romaji: "te",
-        audioSrc: "/audio/te.mp3",
-        strokeSrc: "/strokes/hiragana/te.svg",
-        vocabulary: [],
-      },
-      {
-        id: "to",
-        kana: "と",
-        romaji: "to",
-        audioSrc: "/audio/to.mp3",
-        strokeSrc: "/strokes/hiragana/to.svg",
-        vocabulary: [],
-      },
+     {
+  id: "chi",
+  kana: "ち",
+  romaji: "chi",
+  audioSrc: "/audio/ti.mp3",
+  strokeSrc: "/strokes/hiragana/ti.svg",
+ // ち
+vocabulary: [
+  {
+    word: "地図",
+    reading: "ちず",
+    meaning: "地图",
+    accent: 1,
+  },
+  {
+    word: "地下鉄",
+    reading: "ちかてつ",
+    meaning: "地铁",
+    accent: 0,
+  },
+  {
+    word: "父",
+    reading: "ちち",
+    meaning: "父亲",
+    accent: 2,
+  },
+],
+},
+    {
+  id: "tsu",
+  kana: "つ",
+  romaji: "tsu",
+  audioSrc: "/audio/tu.mp3",
+  strokeSrc: "/strokes/hiragana/tu.svg",
+ // つ
+vocabulary: [
+  {
+    word: "月",
+    reading: "つき",
+    meaning: "月亮",
+    accent: 2,
+  },
+  {
+    word: "机",
+    reading: "つくえ",
+    meaning: "桌子",
+    accent: 0,
+  },
+  {
+    word: "爪",
+    reading: "つめ",
+    meaning: "指甲",
+    accent: 0,
+  },
+],
+},
+    {
+  id: "te",
+  kana: "て",
+  romaji: "te",
+  audioSrc: "/audio/te.mp3",
+  strokeSrc: "/strokes/hiragana/te.svg",
+ // て
+vocabulary: [
+  {
+    word: "鉄",
+    reading: "てつ",
+    meaning: "铁",
+    accent: 0,
+  },
+  {
+    word: "手紙",
+    reading: "てがみ",
+    meaning: "信",
+    accent: 0,
+  },
+  {
+    word: "天気",
+    reading: "てんき",
+    meaning: "天气",
+    accent: 1,
+  },
+],
+},
+     {
+  id: "to",
+  kana: "と",
+  romaji: "to",
+  audioSrc: "/audio/to.mp3",
+  strokeSrc: "/strokes/hiragana/to.svg",
+ // と
+vocabulary: [
+  {
+    word: "鳥",
+    reading: "とり",
+    meaning: "鸟",
+    accent: 0,
+  },
+  {
+    word: "時計",
+    reading: "とけい",
+    meaning: "钟 / 手表",
+    accent: 0,
+  },
+  {
+    word: "後",
+    reading: "あと",
+    meaning: "之后 / 后面",
+    accent: 1,
+  },
+],
+},
     ],
   },
   {

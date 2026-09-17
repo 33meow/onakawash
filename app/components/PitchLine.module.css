@@ -1,60 +1,103 @@
 .root {
   display: inline-flex;
   flex-direction: column;
+
+  align-items: flex-start;
+
   margin: 0;
 }
 
 .caption {
-  margin-bottom: 2px;
-  font-size: 0.8rem;
-  opacity: 0.65;
+  margin: 0 0 2px 0;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  color:
+    var(--pitch-caption-color, #666666);
 }
 
 .svg {
   display: block;
-  width: auto;
-  height: auto;
+
   overflow: visible;
 }
 
+
+/* ==========================================
+   Pitch line
+   ========================================== */
+
 .pitchLine {
   fill: none;
-  stroke: currentColor;
+
+  stroke:
+    var(--pitch-color, #222222);
+
   stroke-width: 2;
+
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
+
+/* ==========================================
+   Word mora points
+   ● ● ●
+   ========================================== */
+
 .pitchPoint {
-  fill: currentColor;
+  fill:
+    var(--pitch-color, #222222);
+
+  stroke:
+    var(--pitch-color, #222222);
+
+  stroke-width: 2;
 }
 
-.moraLabel,
-.particleLabel {
-  fill: currentColor;
-  font-size: 16px;
-  dominant-baseline: middle;
-}
 
-.particleLabel {
-  opacity: 0.65;
-}
-
-.particleDivider {
-  stroke: currentColor;
-  stroke-width: 1;
-  stroke-dasharray: 3 4;
-  opacity: 0.25;
-}
+/* ==========================================
+   Continuation
+   ========================================== */
 
 .continuationLine {
-  stroke: currentColor;
-  stroke-width: 1.5;
-  opacity: 0.4;
+  stroke:
+    var(--pitch-color, #222222);
+
+  stroke-width: 2;
+
+  stroke-linecap: round;
 }
 
+
+/*
+  最后一颗 continuation point：
+
+  ○
+
+  必须保持空心。
+*/
 .continuationPoint {
-  fill: white;
-  stroke: currentColor;
+  fill: #ffffff;
+
+  stroke:
+    var(--pitch-color, #222222);
+
   stroke-width: 2;
+}
+
+
+/* ==========================================
+   Mora labels
+   ========================================== */
+
+.moraLabel {
+  fill:
+    var(--pitch-label-color, #222222);
+
+  font-size:
+    var(--pitch-label-size, 16px);
+
+  font-weight: 500;
 }

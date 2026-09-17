@@ -142,14 +142,15 @@ export default function KanaFlipCard({
             <section className="kana-card-extra-panel">
   <div className="kana-vocabulary-list">
     {data.vocabulary?.map((item) => (
-  <div
-    className="kana-vocabulary-item"
-    key={item.word}
-  >
-    <div className="kana-vocabulary-word">
-      <FuriganaText text={item.word} />
-    </div>
+<div
+  className="kana-vocabulary-item"
+  key={item.word}
+>
+  <div className="kana-vocabulary-word">
+    <FuriganaText text={item.word} />
+  </div>
 
+  <div className="kana-vocabulary-pitch-cell">
     {item.accent !== undefined && (
       <PitchLine
         reading={item.reading}
@@ -159,11 +160,12 @@ export default function KanaFlipCard({
         className="kana-vocabulary-pitch"
       />
     )}
-
-    <div className="kana-vocabulary-meaning">
-      {item.meaning}
-    </div>
   </div>
+
+  <div className="kana-vocabulary-meaning">
+    {item.meaning}
+  </div>
+</div>
 ))}
   </div>
 </section>
